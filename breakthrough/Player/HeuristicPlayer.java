@@ -9,9 +9,11 @@ import breakthrough.gameState.GameState;
 import java.text.DecimalFormat;
 
 /**
+ * Simple heuristic player. Always plays a best move of its given heuristic.
+ * <p>
  * Created on 7/20/2014.
  */
-public abstract class HeuristicPlayer implements Player {
+public class HeuristicPlayer implements Player {
 
     private static final DecimalFormat F = new DecimalFormat("00");
     private final ValueFunction<GameState> heuristic;
