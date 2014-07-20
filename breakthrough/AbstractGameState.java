@@ -8,16 +8,15 @@ package breakthrough;
 abstract class AbstractGameState implements GameState {
 
     @Override
-    public boolean isLegal(Move move) {
+    public boolean isLegal(Move move, Color pawnColor) {
 
         // check that the initial position of the move is in bounds
         if (!(move.i >= 0 && move.i < size() && move.j >= 0 && move.j < size())) {
             throw new RuntimeException("Initial position out of bounds!");
         }
 
-        // make sure there is a pawn at the initial position, and get its color
-        final Color pawnColor = getColorAt(move.i, move.j);
-        if (pawnColor == Color.none) {
+        // make sure there is a pawn of the right color at the initial position
+        if (getColorAt(move.i, move.j) != pawnColor) {
             return false;
         }
 

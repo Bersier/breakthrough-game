@@ -28,12 +28,13 @@ public interface GameState {
      * @param move the move to be executed
      * @return the resulting board.
      */
-    GameState move(Move move);
+    GameState played(Move move);
 
     /**
-     * @return whether the given move is legal for some player, ignoring winning conditions
+     * @return whether the given move is legal for the player of the given color,
+     * ignoring winning conditions
      */
-    boolean isLegal(Move move);
+    boolean isLegal(Move move, Color pawnColor);
 
     /**
      * Assumes that the given board is the result of legal play.
