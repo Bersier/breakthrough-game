@@ -1,6 +1,10 @@
-package breakthrough;
+package breakthrough.player;
 
-interface Player2 {
+import breakthrough.Color;
+import breakthrough.gameState.GameState;
+import breakthrough.Move;
+
+public interface Player {
 
     /**
      * Tell this player that a new game has started with the given initial state.

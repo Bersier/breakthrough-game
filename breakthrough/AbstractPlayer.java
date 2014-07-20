@@ -2,9 +2,9 @@ package breakthrough;
 
 abstract class AbstractPlayer implements Player<Move>, ValueFunction<Board<Move>> {
 
-	final Intercessor cessor;
+	public final Intercessor cessor;
 	
-	AbstractPlayer(Intercessor cessor) {
+	public AbstractPlayer(Intercessor cessor) {
 		this.cessor = cessor;
 	}
 

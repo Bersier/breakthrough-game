@@ -1,4 +1,9 @@
-package breakthrough;
+package breakthrough.gameState;
+
+import breakthrough.Color;
+import breakthrough.Move;
+
+import java.util.List;
 
 /**
  * Instances of this interface represent states of a Breakthrough game in progress.
@@ -28,13 +33,23 @@ public interface GameState {
      * @param move the move to be executed
      * @return the resulting board.
      */
-    GameState played(Move move);
+    GameState after(Move move);
 
     /**
      * @return whether the given move is legal for the player of the given color,
      * ignoring winning conditions
      */
     boolean isLegal(Move move, Color pawnColor);
+
+    /**
+     * @return all legal moves for the given color, shuffled
+     */
+    List<Move> legalMoves(Color color);
+
+    /**
+     * @return all possible gameStates resulting from a legal move of the given color, shuffled
+     */
+    List<GameState> futures(Color color);
 
     /**
      * Assumes that the given board is the result of legal play.

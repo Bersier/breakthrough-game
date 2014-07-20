@@ -1,13 +1,13 @@
 package breakthrough;
 
-final class Max<T> {
+public final class Max<T> {
 
-	Max(T argmax, double value) {
+	public Max(T argmax, double value) {
 		this.argmax = argmax;
 		this.value = value;
 	}
 	
-	final T argmax;
-	final double value;
+	public final T argmax;
+	public final double value;
 	
 }

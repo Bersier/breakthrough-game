@@ -1,4 +1,11 @@
-package breakthrough;
+package breakthrough.gameState;
+
+import breakthrough.Color;
+import breakthrough.Move;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created on 7/20/2014.
@@ -46,6 +53,34 @@ abstract class AbstractGameState implements GameState {
 
         // if none of the previous conditions matches, then the move is legal
         return true;
+    }
+
+    @Override
+    public List<Move> legalMoves(Color color) {
+        final int size = size();
+        final List<Move> list = new ArrayList<Move>(size * size / 2);
+        for (int i = 0; i < size; i++) {
+            for (int j = color.inc; j < size - 1 + color.inc; j++) {
+                for (int dir = -1; dir <= 1; dir++) {
+                    final Move move = new Move(i, j, dir);
+                    if (isLegal(move, color)) {
+                        list.add(move);
+                    }
+                }
+            }
+        }
+        Collections.shuffle(list);
+        return list;
+    }
+
+    @Override
+    public List<GameState> futures(Color color) {
+        final List<Move> moves = legalMoves(color);
+        final List<GameState> states = new ArrayList<GameState>(moves.size());
+        for (Move move : moves) {
+            states.add(after(move));
+        }
+        return states;
     }
 
     @Override

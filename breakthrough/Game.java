@@ -1,5 +1,8 @@
 package breakthrough;
 
+import breakthrough.gameState.GameState;
+import breakthrough.player.Player;
+
 /**
  * Created on 7/20/2014.
  *
@@ -15,7 +18,7 @@ public class Game {
      * @param size the size of one side of the square board on which is to be played
      * @return who won
      */
-    public static Color play(Player2 white, Player2 black, int size) {
+    public static Color play(Player white, Player black, int size) {
         return play(white, black, newGameState(size), Color.white);
     }
 
@@ -28,7 +31,7 @@ public class Game {
      * @param turn the color of the player who is about to play
      * @return the winner's color
      */
-    private static Color play(Player2 active, Player2 passive, GameState current, Color turn) {
+    private static Color play(Player active, Player passive, GameState current, Color turn) {
         final Color previous = turn.opposite();
 
         // check whether there is a winner
@@ -45,7 +48,7 @@ public class Game {
         }
 
         // play the move
-        return play(passive, active, current.played(move), previous);
+        return play(passive, active, current.after(move), previous);
     }
 
     /**
