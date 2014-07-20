@@ -21,8 +21,8 @@ import java.text.DecimalFormat;
 final class NetPlayer extends AbstractPlayer {
 	
 	private final Evaluator<double[]> evaluator;
-	private final Map<Color, Board<BMove>> old =
-		new EnumMap<Color, Board<BMove>>(Color.class);
+	private final Map<Color, Board<Move>> old =
+		new EnumMap<Color, Board<Move>>(Color.class);
 	
 	NetPlayer(Intercessor cessor) {
 		super(cessor);
@@ -46,9 +46,9 @@ final class NetPlayer extends AbstractPlayer {
 		evaluator.learn(mirrorInput(color), value);
 	}
 	
-	public BMove play(Color color) {
-		final Max<BMove> max = cessor.problyBestMove(color, this);
-		final Board<BMove> board = cessor.board(max.argmax);
+	public Move play(Color color) {
+		final Max<Move> max = cessor.problyBestMove(color, this);
+		final Board<Move> board = cessor.board(max.argmax);
 		if(old.containsKey(color)) {
 			learn(color, max.value);
 		}
@@ -56,15 +56,15 @@ final class NetPlayer extends AbstractPlayer {
 		return max.argmax;
 	}
 	
-	public BMove printPlay(Color color) {
-		final Max<BMove> max = cessor.problyBestMove(color, this);
-		final Board<BMove> board = cessor.board(max.argmax);
+	public Move printPlay(Color color) {
+		final Max<Move> max = cessor.problyBestMove(color, this);
+		final Board<Move> board = cessor.board(max.argmax);
 		if(old.containsKey(color)) {
 			learn(color, max.value);
 		}
 		old.put(color, board);
 		DecimalFormat f = new DecimalFormat("00");
-		System.out.println("I'm "+f.format(max.value*100)+"% sure I'm gonna win!");
+		System.out.println("I'm "+f.format(max.value*100)+"% sure I'm wining.");
 		return max.argmax;
 	}
 	
@@ -83,7 +83,7 @@ final class NetPlayer extends AbstractPlayer {
 		return evaluator.toString();
 	}
 	
-	private double[] boardToInput(Color color, Board<BMove> board) {
+	private double[] boardToInput(Color color, Board<Move> board) {
 		final int sizeSquared = cessor.size*cessor.size;
 		final double[] input = new double[2*sizeSquared];
 		int k = (color == Color.white) ? sizeSquared-1 : 0;
@@ -104,7 +104,7 @@ final class NetPlayer extends AbstractPlayer {
 		return input;
 	}
 	
-	private double[] boardToMirrorInput(Color color, Board<BMove> board) {
+	private double[] boardToMirrorInput(Color color, Board<Move> board) {
 		final int sizeSquared = cessor.size*cessor.size;
 		final double[] input = new double[2*sizeSquared];
 		int k = (color == Color.white) ? sizeSquared-1 : 0;
@@ -125,12 +125,12 @@ final class NetPlayer extends AbstractPlayer {
 		return input;
 	}
 	
-	public double at(Board<BMove> board) {
+	public double at(Board<Move> board) {
 		final Color color = Intercessor.getColorOfLastPlayer(board);
 		return evaluator.evaluate(boardToInput(color, board));
 	}
 	
-	public double mirrorAt(Board<BMove> board) {
+	public double mirrorAt(Board<Move> board) {
 		final Color color = Intercessor.getColorOfLastPlayer(board);
 		return evaluator.evaluate(boardToMirrorInput(color, board));
 	}

@@ -2,7 +2,8 @@ package patterns;
 
 import breakthrough.Color;
 import breakthrough.Board;
-import breakthrough.BMove;
+import breakthrough.Move;
+
 import java.util.List;
 
 /*
@@ -17,7 +18,7 @@ import java.util.List;
 interface Pattern {
 	
 	// checks whether the given board contains this pattern
-	boolean match(Board<BMove> board);
+	boolean match(Board<Move> board);
 	
 	// returns white for attacker (iff N is odd), black for defender
 	Color getBeginner();

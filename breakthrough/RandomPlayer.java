@@ -6,7 +6,7 @@ final class RandomPlayer extends AbstractPlayer {
 		super(cessor);
 	}
 	
-	public double at(Board<BMove> board) {
+	public double at(Board<Move> board) {
 		return 0.0;
 	}
 }

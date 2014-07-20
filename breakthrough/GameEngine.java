@@ -85,11 +85,11 @@ public final class GameEngine<Move> {
 	}
 	
 	public static void main(String[] args) {
-		Board<BMove> board = new Breakthrough(4);
-		Intercessor cessor = new Intercessor((Board<BMove>)board);
-		Player<BMove> white = new DumbPlayer(cessor);
-		Player<BMove> black = new NetPlayer(cessor);
-		GameEngine<BMove> game = new GameEngine<BMove>(board, white, black);
+		Board<breakthrough.Move> board = new Breakthrough(4);
+		Intercessor cessor = new Intercessor((Board<breakthrough.Move>)board);
+		Player<breakthrough.Move> white = new DumbPlayer(cessor);
+		Player<breakthrough.Move> black = new NetPlayer(cessor);
+		GameEngine<breakthrough.Move> game = new GameEngine<breakthrough.Move>(board, white, black);
 		for(int i=1; true; i++) {
 			if(i%10000 == 0) {
 				System.out.println("whiteWins: "+game.whiteWins+" blackWins: "+game.blackWins);

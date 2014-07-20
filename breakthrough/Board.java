@@ -1,7 +1,7 @@
 package breakthrough;
 
 /**
- * Instances of this class represent a game in progress.
+ * Instances of this interface represent a game in progress.
  * <p>
  * Only legal moves should be allowed; that is, the board should make sure no player is cheating.
  * This class only works for two-player games that are played on a square grid,
@@ -49,7 +49,7 @@ public interface Board<Move> {
 
     /**
      * @param color the color of the pawn that are to be counted
-     * @return how many pawn of that color are on the board
+     * @return how many pawns of that color are on the board
      */
 	int count(Color color);
 

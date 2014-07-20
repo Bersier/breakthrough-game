@@ -1,10 +1,11 @@
 package patterns;
 
+import breakthrough.Board;
 import breakthrough.Color;
 import breakthrough.Intercessor;
+import breakthrough.Move;
 import breakthrough.ValueFunction;
-import breakthrough.Board;
-import breakthrough.BMove;
+
 import java.util.List;
 
 // starting and non-starting patterns have to be separated!
@@ -20,7 +21,7 @@ import java.util.List;
  * look at wins that can be done with n pawns instead of n turns?
  */
 
-final class Paluator implements ValueFunction<Board<BMove>> {
+final class Paluator implements ValueFunction<Board<Move>> {
 
 	private final List<OldTafa> tafas;
 	private final int size;
@@ -35,7 +36,7 @@ final class Paluator implements ValueFunction<Board<BMove>> {
 		this.tafas = tafas;
 	}
 	
-	boolean isWin(int N, Color color, Board<BMove> board) {
+	boolean isWin(int N, Color color, Board<Move> board) {
 		if(board.getSize() != size) {
 			throw new RuntimeException("size mismatch");
 		}
@@ -51,7 +52,7 @@ final class Paluator implements ValueFunction<Board<BMove>> {
 	}
 	
 	@Override
-	public double at(Board<BMove> board) {
+	public double at(Board<Move> board) {
 		// TODO
 		return 0.0;
 	}

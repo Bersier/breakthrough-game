@@ -1,6 +1,6 @@
 package breakthrough;
 
-abstract class AbstractPlayer implements Player<BMove>, ValueFunction<Board<BMove>> {
+abstract class AbstractPlayer implements Player<Move>, ValueFunction<Board<Move>> {
 
 	final Intercessor cessor;
 	
@@ -12,11 +12,11 @@ abstract class AbstractPlayer implements Player<BMove>, ValueFunction<Board<BMov
 	
 	public void youLoose(Color color) {}
 	
-	public BMove play(Color color) {
+	public Move play(Color color) {
 		return cessor.bestMove(color, this).argmax;
 	}
 	
-	public BMove printPlay(Color color) {
+	public Move printPlay(Color color) {
 		return play(color);
 	}
 }

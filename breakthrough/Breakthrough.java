@@ -10,7 +10,7 @@ import java.util.Stack;
  *
  * @see breakthrough.Board
  */
-public final class Breakthrough implements Board<BMove> {
+public final class Breakthrough implements Board<Move> {
 
     /** keeps track of the state of the board */
 	private Color[][] grid;
@@ -101,7 +101,7 @@ public final class Breakthrough implements Board<BMove> {
 		return boardCopy;
 	}
 	
-	public Board<BMove> copy() {
+	public Board<Move> copy() {
 		return new Breakthrough(getGrid(), turn, winner,
 				count.get(Color.white), count.get(Color.black));
 	}
@@ -166,7 +166,7 @@ public final class Breakthrough implements Board<BMove> {
 		System.out.println("\n");
 	}
 	
-	public void move(BMove move) {
+	public void move(Move move) {
 		if(!isLegal(move)) {
 			throw new RuntimeException("Somebody is trying to cheat!");
 		}
@@ -181,12 +181,12 @@ public final class Breakthrough implements Board<BMove> {
 		turn = turn.opposite();
 	}
 	
-	private void moveOnGrid(BMove move) {
+	private void moveOnGrid(Move move) {
 		grid[move.i][move.j] = Color.none;
 		grid[move.newi(turn)][move.newj(turn)] = turn;
 	}
 	
-	public boolean isLegal(BMove move) {
+	public boolean isLegal(Move move) {
 		if(!(move.i>=0 && move.i<size && move.j>=0 && move.j<size)) {
 			throw new RuntimeException("out of bounds coordinates");
 		}

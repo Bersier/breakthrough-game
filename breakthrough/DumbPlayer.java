@@ -7,7 +7,7 @@ final class DumbPlayer extends AbstractPlayer {
 	}
 
     @Override
-	public double at(Board<BMove> board) {
+	public double at(Board<Move> board) {
 		final Color color = Intercessor.getColorOfLastPlayer(board);
 		return board.count(color) - board.count(color.opposite());
 	}

@@ -3,7 +3,7 @@ package breakthrough;
 /**
  * Instances of this class represent moves in Breakthrough.
  */
-public final class BMove {
+public final class Move {
 
     /** start coordinates */
 	final int i, j;
@@ -11,13 +11,13 @@ public final class BMove {
     /** direction of the move */
 	private final Direction dir;
 	
-	BMove(int i, int j, Direction dir) {
+	Move(int i, int j, Direction dir) {
 		this.i = i;
 		this.j = j;
 		this.dir = dir;
 	}
 
-	BMove(int i, int j, int dir) {
+	Move(int i, int j, int dir) {
 		this.i = i;
 		this.j = j;
         this.dir = Direction.values()[dir + 1];

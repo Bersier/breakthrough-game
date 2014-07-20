@@ -22,26 +22,26 @@ public final class Intercessor {
 
 	final static Random random = new Random();
 	final int size;
-	private final Board<BMove> board;
+	private final Board<Move> board;
 	
-	Intercessor(Board<BMove> board) {
+	Intercessor(Board<Move> board) {
 		this.board = board;
 		this.size  = board.getSize();
 	}
 
     /** @return all currently legal moves, shuffled, for the given color */
-    List<BMove> getMoves(Color color) {
+    List<Move> getMoves(Color color) {
 		return getMoves(color, board);
 	}
 
     /** @return all legal moves, shuffled, for the given color and board */
-	public static List<BMove> getMoves(Color color, Board<BMove> board) {
+	public static List<Move> getMoves(Color color, Board<Move> board) {
 		final int size = board.getSize();
-		final List<BMove> list = new ArrayList<BMove>(size*size / 2);
+		final List<Move> list = new ArrayList<Move>(size*size / 2);
 		for(int i = 0; i < size; i++) {
 			for(int j = color.inc; j < size-1 + color.inc; j++) {
 				for(int dir = -1; dir <= 1; dir++) {
-					final BMove move = new BMove(i, j, dir);
+					final Move move = new Move(i, j, dir);
 					if(board.isLegal(move)) {
 						list.add(move);
 					}
@@ -53,13 +53,13 @@ public final class Intercessor {
 	}
 
     /** @return the board resulting from the execution of the given move */
-    Board<BMove> board(BMove move) {
+    Board<Move> board(Move move) {
 		return board(move, board);
 	}
 
     /** @return a new board on which the given move has been executed */
-	public static Board<BMove> board(BMove move, Board<BMove> board) {
-		final Board<BMove> copy = board.copy();
+	public static Board<Move> board(Move move, Board<Move> board) {
+		final Board<Move> copy = board.copy();
 		copy.move(move);
 		return copy;
 	}
@@ -68,7 +68,7 @@ public final class Intercessor {
      * @return a best move of the given color according to the given value function.
      * If several best moves exist, one of them is chosen randomly.
      */
-	Max<BMove> bestMove(Color color, ValueFunction<Board<BMove>> value) {
+	Max<Move> bestMove(Color color, ValueFunction<Board<Move>> value) {
         return bestMove(color, getMoves(color), value);
     }
 
@@ -76,53 +76,53 @@ public final class Intercessor {
      * @return a best move for the given board of the given color according to the given value function.
      * If several best moves exist, one of them is chosen randomly.
      */
-	private Max<BMove> bestMove(Color color, List<BMove> list, ValueFunction<Board<BMove>> value) {
+	private Max<Move> bestMove(Color color, List<Move> list, ValueFunction<Board<Move>> value) {
 		if(list.isEmpty()) {
 			throw new IllegalArgumentException("Move list is empty!");
 		}
-		BMove best = list.get(0);
+		Move best = list.get(0);
 		double bestValue = value.at(board(best));
-		for(BMove move : list) {
+		for(Move move : list) {
 			final double moveValue = value.at(board(move));
 			if(moveValue > bestValue) {
 				best = move;
 				bestValue = moveValue;
 			}
 		}
-		return new Max<BMove>(best, bestValue);
+		return new Max<Move>(best, bestValue);
 	}
 
-    Max<BMove> problyBestMove(Color color, double epsilon, ValueFunction<Board<BMove>> value) {
+    Max<Move> problyBestMove(Color color, double epsilon, ValueFunction<Board<Move>> value) {
         return problyBestMove(color, epsilon, getMoves(color), value);
     }
 
-    Max<BMove> problyBestMove(Color color, ValueFunction<Board<BMove>> valueFunction) {
+    Max<Move> problyBestMove(Color color, ValueFunction<Board<Move>> valueFunction) {
         return problyBestMove(color, getMoves(color), valueFunction);
     }
 
-	private Max<BMove> problyBestMove(Color color, double epsilon,
-                                      List<BMove> list, ValueFunction<Board<BMove>> value) {
-		Max<BMove> best = bestMove(color, list, value);
+	private Max<Move> problyBestMove(Color color, double epsilon,
+                                      List<Move> list, ValueFunction<Board<Move>> value) {
+		Max<Move> best = bestMove(color, list, value);
 		if(random.nextDouble() < epsilon) {
-			BMove move = list.get(random.nextInt(list.size()));
-			return new Max<BMove>(move, best.value);
+			Move move = list.get(random.nextInt(list.size()));
+			return new Max<Move>(move, best.value);
 		}
         else {
 		    return best;
         }
 	}
 
-	private Max<BMove> problyBestMove(Color color, List<BMove> list,
-                                      ValueFunction<Board<BMove>> value) {
-		Max<BMove> best = bestMove(color, list, value);
+	private Max<Move> problyBestMove(Color color, List<Move> list,
+                                      ValueFunction<Board<Move>> value) {
+		Max<Move> best = bestMove(color, list, value);
 		if(random.nextDouble() < Math.pow(1-best.value,1)/16) {
-			BMove move = list.get(random.nextInt(list.size()));
-			return new Max<BMove>(move, best.value);
+			Move move = list.get(random.nextInt(list.size()));
+			return new Max<Move>(move, best.value);
 		}
 		return best;
 	}
 
-	static Color getColorOfLastPlayer(Board<BMove> board) {
+	static Color getColorOfLastPlayer(Board<Move> board) {
 		Color color = board.getTurn().opposite();
 		if(color == Color.none) {
 			Color winner = board.getWinner(); 
@@ -135,7 +135,7 @@ public final class Intercessor {
 	}
 
     /** @return a new board that represents the same game but with colors inverted */
-	public static Board<BMove> reverse(Board<BMove> board) {
+	public static Board<Move> reverse(Board<Move> board) {
 		final int size = board.getSize();
 		Color[][] grid = new Color[size][size];
 		for(int i = 0; i < size; i++) {
@@ -150,7 +150,7 @@ public final class Intercessor {
     /**
      * @return the last 'width' columns of the board, as a list, ordered lexicographically by (-j,i)
      */
-	public static List<Color> getList(Board<BMove> board, int width) {
+	public static List<Color> getList(Board<Move> board, int width) {
 		final int size = board.getSize();
 		final List<Color> list = new ArrayList<Color>(size*width);
 		for(int j = size-1; j >= Math.max(0, size-width); j--) {
@@ -162,7 +162,7 @@ public final class Intercessor {
 	}
 
     /** @return whether the player of the given color wins for the given board */
-	public static boolean wins(Color color, Board<BMove> board) {//todo why not use getWinner function?
+	public static boolean wins(Color color, Board<Move> board) {//todo why not use getWinner function?
 		if(board.count(color.opposite()) == 0) {
 			return true;
 		}

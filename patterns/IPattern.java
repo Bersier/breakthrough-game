@@ -1,10 +1,10 @@
 package patterns;
 
-import breakthrough.BMove;
 import breakthrough.Board;
 import breakthrough.Breakthrough;
 import breakthrough.Color;
 import breakthrough.Intercessor;
+import breakthrough.Move;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +15,7 @@ final class IPattern implements Pattern {
 	private final int size;
 	private final int N;
 	private final int width;
-	private final Board<BMove> board;
+	private final Board<Move> board;
 	private final Paluator pal;
 	private final boolean[][] shadows;
 	
@@ -52,7 +52,7 @@ final class IPattern implements Pattern {
 				noOfBlacks);
 		
 	}
-	IPattern(int size, int N, Board<BMove> board,
+	IPattern(int size, int N, Board<Move> board,
 			Paluator pal, boolean[][] shadows) {
 		this.size = size;
 		this.N = N;
@@ -121,7 +121,7 @@ final class IPattern implements Pattern {
 		return newShadows;
 	}
 	
-	private Board<BMove> lesserAt(int i, int j) {
+	private Board<Move> lesserAt(int i, int j) {
 		final Color[][] grid = board.getGrid();
 		int whites = board.count(Color.white);
 		int blacks = board.count(Color.black);
@@ -168,7 +168,7 @@ final class IPattern implements Pattern {
 		final List<Pattern> lessers = new ArrayList<Pattern>(size*width);
 		for(int j=size-width; j<size; j++) {
 			for(int i=0; i<size; i++) {
-				Board<BMove> lesser = lesserAt(i, j);
+				Board<Move> lesser = lesserAt(i, j);
 				if(lesser != null) {
 					lessers.add(new IPattern(size, N, lesser, pal,
 							shadow(i, j)));
@@ -193,7 +193,7 @@ final class IPattern implements Pattern {
 		return board.getTurn();
 	}
 	
-	boolean isBe(Board<BMove> board) {
+	boolean isBe(Board<Move> board) {
 		if(board.getWinner() == Color.white) {
 			return true;
 		}
@@ -218,12 +218,12 @@ final class IPattern implements Pattern {
 		if(Intercessor.wins(Color.black, board)) {
 			return Ternar.no;
 		}
-		List<BMove> moves = Intercessor.getMoves(getBeginner(), board);
+		List<Move> moves = Intercessor.getMoves(getBeginner(), board);
 		switch(getBeginner()) {
 		case white:
 			//System.out.println("whitein");
-			for(BMove move : moves) {
-				Board<BMove> newBoard = Intercessor.board(move, board);
+			for(Move move : moves) {
+				Board<Move> newBoard = Intercessor.board(move, board);
 				if(pal.isWin(N-1, Color.white, newBoard)) {
 					//board.printBoard();
 					//System.out.println("whiteout with ya");
@@ -236,8 +236,8 @@ final class IPattern implements Pattern {
 			if(!pal.isWin(N-1, Color.white, board)) {
 				return Ternar.no;
 			}
-			for(BMove move : moves) {
-				Board<BMove> newBoard = Intercessor.board(move, board);
+			for(Move move : moves) {
+				Board<Move> newBoard = Intercessor.board(move, board);
 				if(!pal.isWin(N-1, Color.white, newBoard) ||
 						Intercessor.wins(Color.black, newBoard)) {
 					return Ternar.no;
@@ -251,7 +251,7 @@ final class IPattern implements Pattern {
 	}
 
 	@Override
-	public boolean match(Board<BMove> board) {
+	public boolean match(Board<Move> board) {
 		throw new RuntimeException("arg");
 	}
 	
