@@ -87,19 +87,20 @@ public final class GameEngine<Move> {
 	public static void main(String[] args) {
 		Board<breakthrough.Move> board = new Breakthrough(4);
 		Intercessor cessor = new Intercessor((Board<breakthrough.Move>)board);
-		Player<breakthrough.Move> white = new DumbPlayer(cessor);
+		Player<breakthrough.Move> white = new NetPlayer(cessor);
 		Player<breakthrough.Move> black = new NetPlayer(cessor);
 		GameEngine<breakthrough.Move> game = new GameEngine<breakthrough.Move>(board, white, black);
 		for(int i=1; true; i++) {
-			if(i%10000 == 0) {
+			if(i%100000 == 0) {
 				System.out.println("whiteWins: "+game.whiteWins+" blackWins: "+game.blackWins);
 				game.whiteWins = 0;
 				game.blackWins = 0;	
 			}
-			if(i%100000 == 0) {
-				System.out.print(game.black);
+			if(i%1000000 == 0) {
+				System.out.println(game.white);
+				System.out.println(game.black);
 			}
-			if(i%300000 == 0) {
+			if(i%10000000 == 0) {
 				System.out.println(game.printPlay());
 				System.out.println(game.printPlay());
 			}

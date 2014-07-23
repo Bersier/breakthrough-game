@@ -13,7 +13,7 @@ public class RandomPlayer extends HeuristicPlayer {
     public RandomPlayer() {
         super(new ValueFunction<GameState>() {
             @Override
-            public double at(GameState o) {
+            public double at(GameState state) {
                 return 0;
             }
         });

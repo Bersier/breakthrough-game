@@ -25,12 +25,12 @@ public class HeuristicPlayer implements Player {
     }
 
     @Override
-    public void start(GameState initialState, Color yourColor) {
-        start(yourColor);
+    public void gameStart(GameState initialState, Color yourColor) {
+        gameStart(yourColor);
     }
 
     @Override
-    public void start(Color yourColor) {
+    public void gameStart(Color yourColor) {
         if (myColor != null) {
             throw new IllegalStateException("Start method got already called!");
         }
@@ -38,10 +38,7 @@ public class HeuristicPlayer implements Player {
     }
 
     @Override
-    public void youWin() {}
-
-    @Override
-    public void youLoose() {}
+    public void gameOver(boolean youWon) {}
 
     @Override
     public Move play(GameState current) {

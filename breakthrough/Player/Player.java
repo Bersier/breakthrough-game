@@ -10,22 +10,17 @@ public interface Player {
      * Tell this player that a new game has started with the given initial state.
      * And that it is assigned the given color. White is assumed to start.
      */
-    void start(GameState initialState, Color yourColor);
+    void gameStart(GameState initialState, Color yourColor);
 
     /**
      * Tell this player that a new game has started, and that it is assigned the given color.
      */
-    void start(Color yourColor);
+    void gameStart(Color yourColor);
 
     /**
-     * Tell this player that it won.
+     * Tell this player that the game is over and whether it won.
      */
-	void youWin();
-
-    /**
-     * Tell this player that it lost.
-     */
-	void youLoose();
+    void gameOver(boolean youWon);
 
     /**
      * Ask the player for a move.
