@@ -9,17 +9,17 @@ import java.util.Arrays;
  * <p/>
  * Created on 7/23/2014.
  */
-public abstract class AbstractDefaultGameState extends AbstractGameState {
+abstract class AbstractBigState extends AbstractGameState {
 
-    private final int size;
-    private final Color[][] board;
+    final int size;
+    final Color[][] board;
 
-    AbstractDefaultGameState(Color[][] board) {
+    AbstractBigState(Color[][] board) {
         this.size = board.length;
         this.board = copyBoard(board);
     }
 
-    AbstractDefaultGameState(GameState state) {
+    AbstractBigState(GameState state) {
         this.size = state.size();
         this.board = new Color[size][size];
         for (int i = 0; i < size; i++) {
@@ -32,6 +32,13 @@ public abstract class AbstractDefaultGameState extends AbstractGameState {
     @Override
     public int size() {
         return size;
+    }
+
+    /**
+     * @return the equivalent coordinate on the reverse board
+     */
+    int inverse(int i) {
+        return size-1 - i;
     }
 
     static Color[][] copyBoard(Color[][] board) {
