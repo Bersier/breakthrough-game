@@ -52,7 +52,7 @@ public class Game {
      * @return a new game state of the given size for a game that is about to start
      */
     public static GameState newGameState(int size) {
-        return new DefaultGameState(startingBoard(size));
+        return new InversionGameState(startingBoard(size));
     }
 
     /**
