@@ -64,7 +64,7 @@ final class NetPlayer extends AbstractPlayer {
 		}
 		old.put(color, board);
 		DecimalFormat f = new DecimalFormat("00");
-		System.out.println("I'm "+f.format(max.value*100)+"% sure I'm wining.");
+		System.out.println("I'm "+f.format(max.value*100)+"% sure I'm winning.");
 		return max.argmax;
 	}
 	

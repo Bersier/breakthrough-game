@@ -1,4 +1,4 @@
-package breakthrough.gameState;
+package breakthrough.game;
 
 import breakthrough.Color;
 import breakthrough.Move;
@@ -108,6 +108,9 @@ abstract class AbstractGameState implements GameState {
         return false;
     }
 
+    /**
+     * @return the column which makes the player of the given color win if they reach it
+     */
     protected int winningColumn(Color color) {
         return (color == Color.white) ? size()-1 : 0;
     }

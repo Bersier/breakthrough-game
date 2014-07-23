@@ -4,7 +4,7 @@ import breakthrough.Color;
 import breakthrough.Max;
 import breakthrough.Move;
 import breakthrough.ValueFunction;
-import breakthrough.gameState.GameState;
+import breakthrough.game.GameState;
 
 import java.util.List;
 

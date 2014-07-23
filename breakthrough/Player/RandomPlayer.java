@@ -1,7 +1,7 @@
 package breakthrough.player;
 
 import breakthrough.ValueFunction;
-import breakthrough.gameState.GameState;
+import breakthrough.game.GameState;
 
 /**
  * Plays randomly. Chooses a legal move uniformly at random.

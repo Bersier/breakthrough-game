@@ -1,4 +1,4 @@
-package breakthrough.gameState;
+package breakthrough.game;
 
 import breakthrough.Color;
 import breakthrough.Move;

@@ -1,7 +1,7 @@
 package breakthrough.player;
 
 import breakthrough.Color;
-import breakthrough.gameState.GameState;
+import breakthrough.game.GameState;
 import breakthrough.Move;
 
 public interface Player {

@@ -1,12 +1,11 @@
-package breakthrough;
+package breakthrough.game;
 
-import breakthrough.gameState.GameState;
+import breakthrough.Color;
+import breakthrough.Move;
 import breakthrough.player.Player;
 
 /**
  * Created on 7/20/2014.
- *
- * @author Stephane Bersier
  */
 public class Game {
 
@@ -52,9 +51,36 @@ public class Game {
     }
 
     /**
-     * @return return a new game state of the given size for a game that is about to start
+     * @return a new game state of the given size for a game that is about to start
      */
     public static GameState newGameState(int size) {
-        return null;//todo
+        return new DefaultGameState(startingBoard(size));
+    }
+
+    /**
+     * @return a 2D array representation for a game of the given size that is about to start
+     */
+    private static Color[][] startingBoard(int size) {
+        final Color[][] board = new Color[size][size];
+        final int noOfPawnColumns = 2 * size / 7;
+
+        for (int i = 0; i < size; i++) {
+
+            // put white pawns at start of row
+            for (int j = 0; j < noOfPawnColumns; j++) {
+                board[i][j] = Color.white;
+            }
+
+            // put no pawns in the middle
+            for (int j = noOfPawnColumns; j < size - noOfPawnColumns; j++) {
+                board[i][j] = Color.none;
+            }
+
+            // put black pawns at end of row
+            for (int j = size - noOfPawnColumns; j < size; j++) {
+                board[i][j] = Color.black;
+            }
+        }
+        return board;
     }
 }
