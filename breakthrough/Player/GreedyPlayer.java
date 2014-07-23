@@ -10,9 +10,9 @@ import breakthrough.game.GameState;
  * <p/>
  * Created on 7/23/2014.
  */
-public class GreedyPlayer extends HeuristicPlayer {
+public class GreedyPlayer extends HeuristicPlayer {//todo next: composition of partial value functions?
 
-    public GreedyPlayer() {
+    public GreedyPlayer() {//todo make this return a probability
         super(new ValueFunction<GameState>() {
             @Override
             public double at(GameState state) {
