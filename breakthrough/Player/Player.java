@@ -4,6 +4,11 @@ import breakthrough.Color;
 import breakthrough.game.GameState;
 import breakthrough.Move;
 
+/**
+ * Instances of this interface implement Breakthrough players.
+ * <p>
+ * Created on 7/20/2014.
+ */
 public interface Player {
 
     /**

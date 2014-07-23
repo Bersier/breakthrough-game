@@ -8,9 +8,9 @@ import java.util.List;
 /**
  * Instances of this interface represent states of a Breakthrough game in progress.
  * They should be immutable.
- * They do not store who's turn it is or whether someone won, nor do they take these into account.
+ * They do not store whose turn it is or whether someone won, nor do they take these into account.
  * So they assume they are being used properly.
- *
+ * <p>
  * Created on 7/19/2014.
  */
 public interface GameState {
@@ -68,6 +68,15 @@ public interface GameState {
      * @return how many pawns of that color are on the board
      */
     int count(Color color);
+
+    /**
+     * @return whether the other GameState represents the same game state
+     */
+    @Override
+    public boolean equals(Object other);
+
+    @Override
+    public int hashCode();
 
     /**
      * @return an ASCII representation of the game state

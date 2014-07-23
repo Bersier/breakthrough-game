@@ -1,6 +1,5 @@
 package breakthrough.player;
 
-import breakthrough.Color;
 import breakthrough.Max;
 import breakthrough.Move;
 import breakthrough.ValueFunction;
@@ -13,11 +12,9 @@ import java.text.DecimalFormat;
  * <p>
  * Created on 7/20/2014.
  */
-public class HeuristicPlayer implements Player {
+public class HeuristicPlayer extends AbstractPlayer {
 
-    private static final DecimalFormat F = new DecimalFormat("00");
     private final ValueFunction<GameState> heuristic;
-    private Color myColor;
     private Double confidence = .5;
 
     public HeuristicPlayer(ValueFunction<GameState> heuristic) {
@@ -25,30 +22,15 @@ public class HeuristicPlayer implements Player {
     }
 
     @Override
-    public void gameStart(GameState initialState, Color yourColor) {
-        gameStart(yourColor);
-    }
-
-    @Override
-    public void gameStart(Color yourColor) {
-        if (myColor != null) {
-            throw new IllegalStateException("Start method got already called!");
-        }
-        myColor = yourColor;
-    }
-
-    @Override
-    public void gameOver(boolean youWon) {}
-
-    @Override
     public Move play(GameState current) {
-        final Max<Move> bestMove = Utils.bestMove(current, myColor, heuristic);
+        final Max<Move> bestMove = Utils.bestMove(current, myColor(), heuristic);
         confidence = bestMove.value;
         return bestMove.argmax;
     }
 
     @Override
     public String talk() {
-        return "I feel " + F.format(confidence * 100) + "% confident about winning.";
+        final DecimalFormat f = new DecimalFormat("00");
+        return "I feel " + f.format(confidence * 100) + "% confident about winning.";
     }
 }

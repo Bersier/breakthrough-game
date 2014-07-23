@@ -8,9 +8,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * Provides default implementations where possible.
+ * <p>
  * Created on 7/20/2014.
- *
- * @author Stephane Bersier
  */
 abstract class AbstractGameState implements GameState {
 
@@ -124,5 +124,92 @@ abstract class AbstractGameState implements GameState {
             }
         }
         return count;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        final GameState otherState = (GameState) other;
+        for (int i = 0; i < size(); i++) {
+            for (int j = 0; j < size(); j++) {
+                if (otherState.getColorAt(i, j) != getColorAt(i, j)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        // todo
+        return 0;
+    }
+
+    @Override
+    public String toString() {
+        return new ASCIIBoardRepresentation(this).toString();
+    }
+
+    private static class ASCIIBoardRepresentation {
+
+        private final StringBuilder builder = new StringBuilder();
+        private final String string;
+
+        ASCIIBoardRepresentation(GameState state) {
+            final int size = state.size();
+
+            appendLn("\n");
+            leftSpace(); horizontalBorder(size);
+            for (int i = 0; i < size; i++) {
+                leftSpace();
+                for (int j = 0; j < size; j++) {
+                    append("|");
+                    pawn(state.getColorAt(i, j));
+                }
+                appendLn("|");
+                leftSpace(); horizontalBorder(size);
+            }
+            appendLn("\n");
+
+            this.string = builder.toString();
+        }
+
+        @Override
+        public String toString() {
+            return string;
+        }
+
+        private void leftSpace() {
+            append("\t");
+        }
+
+        private void horizontalBorder(int size) {
+            for(int i=0; i<size; i++) {
+                append("----");
+            }
+            appendLn("-");
+        }
+
+        private void pawn(Color color) {
+            switch (color) {
+                case white:
+                    append(" O ");
+                    break;
+                case black:
+                    append(" X ");
+                    break;
+                case none:
+                    append("   ");
+                    break;
+            }
+        }
+
+        private void append(String string) {
+            builder.append(string);
+        }
+
+        private void appendLn(String string) {
+            builder.append(string).append("\n");
+        }
     }
 }

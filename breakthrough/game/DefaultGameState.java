@@ -6,11 +6,11 @@ import breakthrough.Move;
 import java.util.Arrays;
 
 /**
+ * The default implementation for GameState. Not optimized, but big-Oh optimal. Simple. Safe.
+ * <p>
  * Created on 7/23/2014.
- *
- * @author Stephane Bersier
  */
-public class DefaultGameState extends AbstractGameState {
+class DefaultGameState extends AbstractGameState {
 
     private final int size;
     private final Color[][] board;
