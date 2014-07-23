@@ -195,22 +195,22 @@ final class Tafactory {
 	static Tafa blackElse(int size, int depth, int length) {
 		final Tafa ans = growth(size, length);
 		final Node lay = ans.getLayer(depth).get(0);
-		lay.setChild(Color.black, null);
+		lay.setChild(Color.Black, null);
 		return ans;
 	}
 	
 	static Tafa blackElseDestNaite(int size, int depth, int length) {
 		final Tafa ans = growth(size, length);
 		final Node lay = ans.getLayer(depth).get(0);
-		lay.setChild(Color.white, null);
-		lay.setChild(Color.none, null);
+		lay.setChild(Color.White, null);
+		lay.setChild(Color.None, null);
 		return ans;
 	}
 	
 	static Tafa blackElseDestStraite(int size, int depth, int length) {
 		final Tafa ans = growth(size, length);
 		final Node lay = ans.getLayer(depth).get(0);
-		lay.setChild(Color.none, null);
+		lay.setChild(Color.None, null);
 		return ans;
 	}
 	
@@ -232,8 +232,8 @@ final class Tafactory {
 		Node current = head;
 		for(int i=0; i<size; i++) {
 			final Node next = new LittleNode();
-			current.setChild(Color.white, next);
-			current.setChild(Color.none, next);
+			current.setChild(Color.White, next);
+			current.setChild(Color.None, next);
 			current = next;
 		}
 		return head;
@@ -254,12 +254,12 @@ final class Tafactory {
 		for(Color color : list) {
 			final List<Node> next = new ArrayList<Node>(3);
 			switch(color) {
-			case black:
-				next.add(aCase(Color.black, current));
-			case none:
-				next.add(aCase(Color.none, current));
-			case white:
-				next.add(aCase(Color.white, current));
+			case Black:
+				next.add(aCase(Color.Black, current));
+			case None:
+				next.add(aCase(Color.None, current));
+			case White:
+				next.add(aCase(Color.White, current));
 			}
 			current = next;
 		}
@@ -270,8 +270,8 @@ final class Tafactory {
 	private static Tafa caseTafa(int size, int depth) {
 		final Tafa ans = growth(size, size);
 		final Node lay = ans.getLayer(depth).get(0);
-		lay.setChild(Color.black, null);
-		lay.setChild(Color.none, null);
+		lay.setChild(Color.Black, null);
+		lay.setChild(Color.None, null);
 		return ans;
 	}
 	
@@ -326,21 +326,21 @@ final class Tafactory {
 			if(start%size != 0) {
 				dest = start - size - 1;
 				final Tafa morel = forUse(tafa);
-				morel.InitRedir(Color.white, start);
+				morel.InitRedir(Color.White, start);
 				morel.destRedirNaiteWhite(dest);
 				ans = union(ans, morel);
 				System.out.print(".");
 			}
 			dest = start - size;
 			final Tafa mores = forUse(tafa);
-			mores.InitRedir(Color.white, start);
+			mores.InitRedir(Color.White, start);
 			mores.destRedirStraiteWhite(dest);
 			ans = union(ans, mores);
 			System.out.print(",");
 			if(start%size != size-1) {
 				dest = start - size + 1;
 				final Tafa morer = forUse(tafa);
-				morer.InitRedir(Color.white, start);
+				morer.InitRedir(Color.White, start);
 				morer.destRedirNaiteWhite(dest);
 				ans = union(ans, morer);
 				System.out.print(".");
@@ -375,7 +375,7 @@ final class Tafactory {
 			if(start%size != 0) {
 				dest = start + size - 1;
 				final Tafa morel = tafa.copy();
-				morel.InitRedir(Color.black, start);
+				morel.InitRedir(Color.Black, start);
 				morel.destRedirNaiteBlack(dest);
 				bedn = blackElseDestNaite(size, dest, length);
 				temp = intersection(temp, union(morel, bedn));	
@@ -384,7 +384,7 @@ final class Tafactory {
 			dest = start + size;
 			//System.gc();
 			final Tafa mores = tafa.copy();
-			mores.InitRedir(Color.black, start);
+			mores.InitRedir(Color.Black, start);
 			mores.destRedirStraiteBlack(dest);
 			bedn = blackElseDestStraite(size, dest, length);
 			temp = intersection(temp, union(mores, bedn));
@@ -393,7 +393,7 @@ final class Tafactory {
 				dest = start + size + 1;
 				//System.gc();
 				final Tafa morer = tafa.copy();
-				morer.InitRedir(Color.black, start);
+				morer.InitRedir(Color.Black, start);
 				morer.destRedirNaiteBlack(dest);
 				bedn = blackElseDestNaite(size, dest, length);
 				temp = intersection(temp, union(morer, bedn));
@@ -413,7 +413,7 @@ final class Tafactory {
 	
 	static Tafa next(Color turn, Tafa tafa, Tafa previous) {
 		switch(turn) {
-		case white:
+		case White:
 			Tafa next1 = nextWhite(tafa, previous);
 			//next1.printPatterns();
 			//next1.printPatterns2();
@@ -422,7 +422,7 @@ final class Tafactory {
 			//next1 = genTafa(next1.getSize(), next1.getPatterns());
 			//System.out.println("size after compactification: "+next1.size());
 			return next1;
-		case black:
+		case Black:
 			Tafa next2 = nextBlack(tafa);
 			//next2.printPatterns();
 			//next2.printPatterns2();
@@ -442,7 +442,7 @@ final class Tafactory {
 		previous.getPatterns();
 		ans.push(previous);
 		previous = null;
-		Color color = Color.white;
+		Color color = Color.White;
 		for(int i=1; i<=N; i++) {
 			final Tafa next = next(color, ans.peek(), previous);
 			System.out.println(i+" moves ahead ("+color+").\n");

@@ -34,20 +34,20 @@ final class IPattern implements Pattern {
 		}
 		for(int j=0; j<start; j++) {
 			for(int i=0; i<size; i++) {
-				grid[i][j] = Color.none;
+				grid[i][j] = Color.None;
 			}
 		}
 		int noOfBlacks = 0;
 		for(int j=start; j<size; j++) {
 			for(int i=0; i<size; i++) {
-				grid[i][j] = Color.black;
+				grid[i][j] = Color.Black;
 				noOfBlacks++;
 			}
 		}
 		this.board = new Breakthrough(
 				grid,
-				Color.none,
-				Color.black,
+				Color.None,
+				Color.Black,
 				0,
 				noOfBlacks);
 		
@@ -123,41 +123,41 @@ final class IPattern implements Pattern {
 	
 	private Board<Move> lesserAt(int i, int j) {
 		final Color[][] grid = board.getGrid();
-		int whites = board.count(Color.white);
-		int blacks = board.count(Color.black);
+		int whites = board.count(Color.White);
+		int blacks = board.count(Color.Black);
 		switch(grid[i][j]) {
-			case black:
+			case Black:
 				if(shadows[i][j-size+width]) {
-					grid[i][j] = Color.none;
+					grid[i][j] = Color.None;
 				} else {
-					grid[i][j] = Color.white;
+					grid[i][j] = Color.White;
 					whites++;
 				}
 				blacks--;
 			break;
-			case none:
-				grid[i][j] = Color.white;
+			case None:
+				grid[i][j] = Color.White;
 				whites++;
 			break;
-			case white:
+			case White:
 				return null;
 		}
 		final Color winner;
 		final Color turn;
-		final boolean whiteWins = Intercessor.wins(Color.white, grid);
-		final boolean blackWins = Intercessor.wins(Color.white, grid);
+		final boolean whiteWins = Intercessor.wins(Color.White, grid);
+		final boolean blackWins = Intercessor.wins(Color.White, grid);
 		if(whiteWins) {
-			winner = Color.white;
-			turn = Color.none;
+			winner = Color.White;
+			turn = Color.None;
 			if(blackWins) {
 				return null;
 			}
 		} else if(blackWins) {
-			winner = Color.black;
-			turn = Color.none;
+			winner = Color.Black;
+			turn = Color.None;
 		} else {
-			winner = Color.none;
-			turn = (N%2==0)? Color.black : Color.white;
+			winner = Color.None;
+			turn = (N%2==0)? Color.Black : Color.White;
 		}
 		return new Breakthrough(grid, turn, winner,
 				whites, blacks);
@@ -194,11 +194,11 @@ final class IPattern implements Pattern {
 	}
 	
 	boolean isBe(Board<Move> board) {
-		if(board.getWinner() == Color.white) {
+		if(board.getWinner() == Color.White) {
 			return true;
 		}
 		for(int i=N-2; i>0; i-=2) {
-			if(pal.isWin(i, Color.white, board)) {
+			if(pal.isWin(i, Color.White, board)) {
 				//System.out.println("is be");
 				return true;
 			}
@@ -215,31 +215,31 @@ final class IPattern implements Pattern {
 		if(isBe(board)) {
 			return Ternar.be;
 		}
-		if(Intercessor.wins(Color.black, board)) {
+		if(Intercessor.wins(Color.Black, board)) {
 			return Ternar.no;
 		}
 		List<Move> moves = Intercessor.getMoves(getBeginner(), board);
 		switch(getBeginner()) {
-		case white:
+		case White:
 			//System.out.println("whitein");
 			for(Move move : moves) {
 				Board<Move> newBoard = Intercessor.board(move, board);
-				if(pal.isWin(N-1, Color.white, newBoard)) {
+				if(pal.isWin(N-1, Color.White, newBoard)) {
 					//board.printBoard();
 					//System.out.println("whiteout with ya");
 					return Ternar.ya;
 				}
 			}
 			return Ternar.no;
-		case black:
+		case Black:
 			//System.out.println("blackin");
-			if(!pal.isWin(N-1, Color.white, board)) {
+			if(!pal.isWin(N-1, Color.White, board)) {
 				return Ternar.no;
 			}
 			for(Move move : moves) {
 				Board<Move> newBoard = Intercessor.board(move, board);
-				if(!pal.isWin(N-1, Color.white, newBoard) ||
-						Intercessor.wins(Color.black, newBoard)) {
+				if(!pal.isWin(N-1, Color.White, newBoard) ||
+						Intercessor.wins(Color.Black, newBoard)) {
 					return Ternar.no;
 				}
 			}

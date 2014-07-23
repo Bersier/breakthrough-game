@@ -16,12 +16,12 @@ public final class Breakthrough implements Board<Move> {
 	private Color[][] grid;
 
 	private final int size;
-	private Color turn = Color.white;
+	private Color turn = Color.White;
 
     /** keeps track of the number of pawns of each color */
 	private final Map<Color, Integer> count = new EnumMap<Color, Integer>(Color.class);
 
-	private Color winner = Color.none;
+	private Color winner = Color.None;
 
     /**
      * Creates a new game of size 8.
@@ -49,8 +49,8 @@ public final class Breakthrough implements Board<Move> {
 		this.turn = turn;
 		this.winner = winner;
 		this.size = grid.length;
-		this.count.put(Color.white, whiteCount);
-		this.count.put(Color.black, blackCount);
+		this.count.put(Color.White, whiteCount);
+		this.count.put(Color.Black, blackCount);
 	}
 
     /**
@@ -61,20 +61,20 @@ public final class Breakthrough implements Board<Move> {
 
 		for(int i = 0; i < size; i++) {
 			for(int j = 0; j < noOfPawnRows; j++) {
-				grid[i][j] = Color.white;
+				grid[i][j] = Color.White;
 			}
 			for(int j = noOfPawnRows; j < size - noOfPawnRows; j++) {
-				grid[i][j] = Color.none;
+				grid[i][j] = Color.None;
 			}
 			for(int j = size - noOfPawnRows; j<size; j++) {
-				grid[i][j] = Color.black;
+				grid[i][j] = Color.Black;
 			}
 		}
 
-		this.count.put(Color.white, size * noOfPawnRows);
-		this.count.put(Color.black, size * noOfPawnRows);
-		this.turn = Color.white;
-		this.winner = Color.none;
+		this.count.put(Color.White, size * noOfPawnRows);
+		this.count.put(Color.Black, size * noOfPawnRows);
+		this.turn = Color.White;
+		this.winner = Color.None;
 	}
 
 	public Color getColorAt(int i, int j) {
@@ -103,7 +103,7 @@ public final class Breakthrough implements Board<Move> {
 	
 	public Board<Move> copy() {
 		return new Breakthrough(getGrid(), turn, winner,
-				count.get(Color.white), count.get(Color.black));
+				count.get(Color.White), count.get(Color.Black));
 	}
 	
 	private static void printHorizontalBorder(int size) {
@@ -122,9 +122,9 @@ public final class Breakthrough implements Board<Move> {
 		System.out.print("   ");
 	}
 	private static void printColor(Color color) {
-		if(color == Color.white) {
+		if(color == Color.White) {
 			printWhite();
-		} else if(color == Color.black) {
+		} else if(color == Color.Black) {
 			printBlack();
 		} else {
 			printNone();
@@ -173,7 +173,7 @@ public final class Breakthrough implements Board<Move> {
 		final int newi = move.newi(turn);
 		final int newj = move.newj(turn);
 		final Color colorAtDest = grid[newi][newj]; 
-		if(colorAtDest != Color.none) {
+		if(colorAtDest != Color.None) {
 			count.put(colorAtDest, count.get(colorAtDest)-1);
 		}
 		moveOnGrid(move);
@@ -182,7 +182,7 @@ public final class Breakthrough implements Board<Move> {
 	}
 	
 	private void moveOnGrid(Move move) {
-		grid[move.i][move.j] = Color.none;
+		grid[move.i][move.j] = Color.None;
 		grid[move.newi(turn)][move.newj(turn)] = turn;
 	}
 	
@@ -204,7 +204,7 @@ public final class Breakthrough implements Board<Move> {
 		if(grid[newi][newj] == turn) {
 			return false;
 		}
-		if(move.isStraight() && grid[newi][newj] != Color.none) {
+		if(move.isStraight() && grid[newi][newj] != Color.None) {
 			return false;
 		}
 		return true;
@@ -217,16 +217,16 @@ public final class Breakthrough implements Board<Move> {
 	private void updateWinner(int newj) {
 		if(count.get(turn.opposite()) == 0) {
 			setWinner(turn);
-		} else if(turn == Color.white && newj == size-1) {
-			setWinner(Color.white);
-		} else if(turn == Color.black && newj == 0) {
-			setWinner(Color.black);
+		} else if(turn == Color.White && newj == size-1) {
+			setWinner(Color.White);
+		} else if(turn == Color.Black && newj == 0) {
+			setWinner(Color.Black);
 		}
 	}
 	
 	private void setWinner(Color color) {
 		winner = color;
-		turn = Color.none;
+		turn = Color.None;
 	}
 	
 }

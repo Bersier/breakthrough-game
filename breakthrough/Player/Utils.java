@@ -1,9 +1,6 @@
 package breakthrough.player;
 
-import breakthrough.Color;
-import breakthrough.Max;
-import breakthrough.Move;
-import breakthrough.ValueFunction;
+import breakthrough.*;
 import breakthrough.game.GameState;
 
 import java.util.List;
@@ -18,21 +15,21 @@ import java.util.List;
 public class Utils {
 
     /**
-     * @return a best move of the given color according to the given value function.
+     * @return a best move for white, according to the given value function.
      * If several best moves exist, one of them is chosen randomly.
      */
-    public static Max<Move> bestMove(GameState state, Color color, ValueFunction<GameState> value) {
-        final List<Move> moves = state.legalMoves(color);
-        Move best = moves.get(0);
+    public static Max<WhiteMove> bestMove(GameState state, ValueFunction<GameState> value) {
+        final List<WhiteMove> moves = state.legalMoves();
+        WhiteMove best = moves.get(0);
         double bestValue = value.at(state.after(best));
-        for (Move move : moves) {
+        for (WhiteMove move : moves) {
             final double moveValue = value.at(state.after(move));
             if (moveValue > bestValue) {
                 best = move;
                 bestValue = moveValue;
             }
         }
-        return new Max<Move>(best, bestValue);
+        return new Max<WhiteMove>(best, bestValue);
     }
 
 }

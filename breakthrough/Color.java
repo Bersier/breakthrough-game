@@ -2,7 +2,7 @@ package breakthrough;
 
 public enum Color {
 	
-	white(0), black(1), none(-1);
+	White(0), Black(1), None(-1);
 	
 	public final int inc;
 	
@@ -12,11 +12,11 @@ public enum Color {
 
 	public Color opposite() {
 		switch(this) {
-		case white:
-			return black;
-		case black:
-			return white;
+		case White:
+			return Black;
+		case Black:
+			return White;
 		}
-		return none;
+		return None;
 	}
 }

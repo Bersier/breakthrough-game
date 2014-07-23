@@ -27,18 +27,18 @@ public final class GameEngine<Move> {
 	}
 	
 	private boolean whiteWins() {
-		if(board.getWinner() == Color.white) {
-			white.youWin(Color.white);
-			black.youLoose(Color.black);
+		if(board.getWinner() == Color.White) {
+			white.youWin(Color.White);
+			black.youLoose(Color.Black);
 			whiteWins++;
 			return true;
 		}
 		return false;
 	}
 	private boolean blackWins() {
-		if(board.getWinner() == Color.black) {
-			black.youWin(Color.black);
-			white.youLoose(Color.white);
+		if(board.getWinner() == Color.Black) {
+			black.youWin(Color.Black);
+			white.youLoose(Color.White);
 			blackWins++;
 			return true;
 		}
@@ -49,17 +49,17 @@ public final class GameEngine<Move> {
 	private int blackWins = 0;
 	private Color play() {
 		while(true) {
-			Move move = white.play(Color.white);
+			Move move = white.play(Color.White);
 			board.move(move);
 			if(whiteWins()) {
 				board.reset();
-				return Color.white;
+				return Color.White;
 			}
-			move = black.play(Color.black);
+			move = black.play(Color.Black);
 			board.move(move);
 			if(blackWins()) {
 				board.reset();
-				return Color.black;
+				return Color.Black;
 			}
 		}
 	}
@@ -67,19 +67,19 @@ public final class GameEngine<Move> {
 	private Color printPlay() {
 		board.printBoard();
 		while(true) {
-			Move move = white.printPlay(Color.white);
+			Move move = white.printPlay(Color.White);
 			board.move(move);
 			board.printBoard();
 			if(whiteWins()) {
 				board.reset();
-				return Color.white;
+				return Color.White;
 			}
-			move = black.printPlay(Color.black);
+			move = black.printPlay(Color.Black);
 			board.move(move);
 			board.printBoard();
 			if(blackWins()) {
 				board.reset();
-				return Color.black;
+				return Color.Black;
 			}
 		}
 	}

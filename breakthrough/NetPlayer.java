@@ -86,12 +86,12 @@ final class NetPlayer extends AbstractPlayer {
 	private double[] boardToInput(Color color, Board<Move> board) {
 		final int sizeSquared = cessor.size*cessor.size;
 		final double[] input = new double[2*sizeSquared];
-		int k = (color == Color.white) ? sizeSquared-1 : 0;
-		final int kinc = (color == Color.white) ? -1 : 1;
+		int k = (color == Color.White) ? sizeSquared-1 : 0;
+		final int kinc = (color == Color.White) ? -1 : 1;
 		for(int i=cessor.size-1; i>=0; i--) {
 			for(int j=cessor.size-1; j>=0; j--) {
 				final Color pawn = board.getColorAt(i, j);
-				if(pawn == Color.none) {
+				if(pawn == Color.None) {
 					input[k] = 0.0;
 					input[sizeSquared + k] = 0.0;
 				} else {
@@ -107,12 +107,12 @@ final class NetPlayer extends AbstractPlayer {
 	private double[] boardToMirrorInput(Color color, Board<Move> board) {
 		final int sizeSquared = cessor.size*cessor.size;
 		final double[] input = new double[2*sizeSquared];
-		int k = (color == Color.white) ? sizeSquared-1 : 0;
-		final int kinc = (color == Color.white) ? -1 : 1;
+		int k = (color == Color.White) ? sizeSquared-1 : 0;
+		final int kinc = (color == Color.White) ? -1 : 1;
 		for(int i=0; i<cessor.size; i++) {
 			for(int j=cessor.size-1; j>=0; j--) {
 				final Color pawn = board.getColorAt(i, j);
-				if(pawn == Color.none) {
+				if(pawn == Color.None) {
 					input[k] = 0.0;
 					input[sizeSquared + k] = 0.0;
 				} else {

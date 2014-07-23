@@ -10,24 +10,8 @@ import breakthrough.game.GameState;
  */
 public abstract class AbstractPlayer implements Player {
 
-    private Color myColor;
-
-    protected Color myColor() {
-        return myColor;
-    }
-
     @Override
-    public void gameStart(GameState initialState, Color yourColor) {
-        gameStart(yourColor);
-    }
-
-    @Override
-    public void gameStart(Color yourColor) {
-        if (myColor != null) {
-            throw new IllegalStateException("Start method got already called!");
-        }
-        myColor = yourColor;
-    }
+    public void gameStart(GameState initialState, boolean youStart) {}
 
     @Override
     public void gameOver(boolean youWon) {}

@@ -124,9 +124,9 @@ public final class Intercessor {
 
 	static Color getColorOfLastPlayer(Board<Move> board) {
 		Color color = board.getTurn().opposite();
-		if(color == Color.none) {
+		if(color == Color.None) {
 			Color winner = board.getWinner(); 
-			if(winner == Color.none) {
+			if(winner == Color.None) {
 				throw new RuntimeException("Fatal: Nobody's turn and Nobody won!");
 			}
 			color = winner;
@@ -144,7 +144,7 @@ public final class Intercessor {
 			}
 		}
 		return new Breakthrough(grid, board.getTurn().opposite(), board.getWinner().opposite(),
-				board.count(Color.black), board.count(Color.white));
+				board.count(Color.Black), board.count(Color.White));
 	}
 
     /**
@@ -167,7 +167,7 @@ public final class Intercessor {
 			return true;
 		}
 		final int size = board.getSize();
-		final int j = (color == Color.white)? size-1 : 0;
+		final int j = (color == Color.White)? size-1 : 0;
 		for(int i = 0; i<size; i++) {
 			if(board.getColorAt(i, j) == color) {
 				return true;
@@ -195,7 +195,7 @@ public final class Intercessor {
 			return true;
 		}
 		
-		final int j = (color == Color.white)? size-1 : 0;
+		final int j = (color == Color.White)? size-1 : 0;
 		for(int i=0; i<size; i++) {
 			if(grid[i][j] == color) {
 				return true;

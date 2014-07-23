@@ -122,13 +122,13 @@ class INode implements Node {
 			Node child = getChild(color);
 			if(child != null) {
 				switch(color) {
-				case white:
+				case White:
 					System.out.println("\""+this.oldHash()+"\" -> \""+child.oldHash()+"\" [color=yellow] ;");
 					break;
-				case none:
+				case None:
 					System.out.println("\""+this.oldHash()+"\" -> \""+child.oldHash()+"\" [color=grey] ;");
 					break;
-				case black:
+				case Black:
 					System.out.println("\""+this.oldHash()+"\" -> \""+child.oldHash()+"\" [color=black] ;");
 					break;
 				}
@@ -143,13 +143,13 @@ class INode implements Node {
 				Node child = getChild(color);
 				if(child != null) {
 					switch(color) {
-					case white:
+					case White:
 						System.out.println("\""+this.oldHash()+"\" -> \""+child.oldHash()+"\" [color=yellow] ;");
 					break;
-					case none:
+					case None:
 						System.out.println("\""+this.oldHash()+"\" -> \""+child.oldHash()+"\" [color=grey] ;");
 					break;
-					case black:
+					case Black:
 						System.out.println("\""+this.oldHash()+"\" -> \""+child.oldHash()+"\" [color=black] ;");
 					break;
 					}

@@ -16,9 +16,9 @@ final class LittleNode implements Node {
 	@Override
 	public Node getChild(Color color) {
 		switch(color) {
-		case white:
+		case White:
 			return white;
-		case black:
+		case Black:
 			return black;
 		default:
 			return none;
@@ -54,11 +54,11 @@ final class LittleNode implements Node {
 	
 	@Override
 	public final int hashCode() {
-		Node child = getChild(Color.white);
+		Node child = getChild(Color.White);
 		int ans = (child==null) ? INode.code : child.oldHash();
-		child = getChild(Color.black);
+		child = getChild(Color.Black);
 		ans ^= Hash.rotl((child==null) ? INode.code : child.oldHash(), 1);
-		child = getChild(Color.none);
+		child = getChild(Color.None);
 		ans ^= Hash.rotl((child==null) ? INode.code : child.oldHash(), 2);
 		return ans;
 	}
@@ -95,8 +95,8 @@ final class LittleNode implements Node {
 	@Override
 	public boolean equals(Object o) {
 		final Node node = (Node)o;
-		Node child = getChild(Color.white);
-		Node other = node.getChild(Color.white);
+		Node child = getChild(Color.White);
+		Node other = node.getChild(Color.White);
 		if(child == null) {
 			if(other != null) {
 				return false;
@@ -104,8 +104,8 @@ final class LittleNode implements Node {
 		} else if(!child.isSame(other)) {
 			return false;
 		}
-		child = getChild(Color.black);
-		other = node.getChild(Color.black);
+		child = getChild(Color.Black);
+		other = node.getChild(Color.Black);
 		if(child == null) {
 			if(other != null) {
 				return false;
@@ -113,8 +113,8 @@ final class LittleNode implements Node {
 		} else if(!child.isSame(other)) {
 			return false;
 		}
-		child = getChild(Color.none);
-		other = node.getChild(Color.none);
+		child = getChild(Color.None);
+		other = node.getChild(Color.None);
 		if(child == null) {
 			if(other != null) {
 				return false;
@@ -132,13 +132,13 @@ final class LittleNode implements Node {
 			Node child = getChild(color);
 			if(child != null) {
 				switch(color) {
-				case white:
+				case White:
 					System.out.println("\""+this.oldHash()+"\" -> \""+child.oldHash()+"\" [color=yellow] ;");
 					break;
-				case none:
+				case None:
 					System.out.println("\""+this.oldHash()+"\" -> \""+child.oldHash()+"\" [color=grey] ;");
 					break;
-				case black:
+				case Black:
 					System.out.println("\""+this.oldHash()+"\" -> \""+child.oldHash()+"\" [color=black] ;");
 					break;
 				}
@@ -149,10 +149,10 @@ final class LittleNode implements Node {
 	@Override
 	public void setChild(Color color, Node node) {
 		switch(color) {
-		case white:
+		case White:
 			white = node;
 		break;
-		case black:
+		case Black:
 			black = node;
 		break;
 		default:

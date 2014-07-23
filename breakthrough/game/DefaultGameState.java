@@ -1,7 +1,7 @@
 package breakthrough.game;
 
 import breakthrough.Color;
-import breakthrough.Move;
+import breakthrough.WhiteMove;
 
 import java.util.Arrays;
 
@@ -41,13 +41,28 @@ class DefaultGameState extends AbstractGameState {
     }
 
     @Override
-    public GameState after(Move move) {
-        final DefaultGameState result = new DefaultGameState(this.board);
-        final Color[][] board = result.board;
-        final Color pawnColor = board[move.i][move.j];
-        board[move.i][move.j] = Color.none;
-        board[move.newi(pawnColor)][move.newj(pawnColor)] = pawnColor;
-        return result;
+    public GameState after(WhiteMove move) {
+
+        // reverse the board
+        final Color[][] board = reverse(this.board);
+
+        // apply the reverse of the move on the reversed board, which is equivalent to the original move
+        board[size-1 - move.i]   [size-1 - move.j]    = Color.None;
+        board[size-1 - move.newi][size-1 - move.newj] = Color.Black;
+
+        // wrap the board
+        return new DefaultGameState(board);
+    }
+
+    private static Color[][] reverse(Color[][] board) {
+        final int size = board.length;
+        final Color[][] reverse = new Color[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                reverse[size-1 - i][size-1 - j] = board[i][j].opposite();
+            }
+        }
+        return reverse;
     }
 
     private static Color[][] copyBoard(Color[][] board) {
@@ -55,9 +70,7 @@ class DefaultGameState extends AbstractGameState {
         final Color[][] copy = new Color[size][];
         for (int i = 0; i < size; i++) {
             final Color[] row = board[i];
-            if (row.length != size) {
-                throw new IllegalArgumentException("Passed 2D array is not a legal board!");
-            }
+            Game.checkSizesAreEqual(row.length, size);
             copy[i] = Arrays.copyOf(row, size);
         }
         return copy;

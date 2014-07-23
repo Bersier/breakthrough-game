@@ -17,7 +17,7 @@ final class OldTafa {// implements Set!?
 		Node current = head;
 		for(int i=0; i<length; i++) {
 			final WrapperNode next = new WrapperNode();
-			current.setChild(Color.white, next);
+			current.setChild(Color.White, next);
 			current = next;
 		}
 	}

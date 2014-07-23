@@ -3,6 +3,7 @@ package breakthrough.player;
 import breakthrough.Max;
 import breakthrough.Move;
 import breakthrough.ValueFunction;
+import breakthrough.WhiteMove;
 import breakthrough.game.GameState;
 
 import java.text.DecimalFormat;
@@ -22,8 +23,8 @@ public class HeuristicPlayer extends AbstractPlayer {
     }
 
     @Override
-    public Move play(GameState current) {
-        final Max<Move> bestMove = Utils.bestMove(current, myColor(), heuristic);
+    public WhiteMove play(GameState current) {
+        final Max<WhiteMove> bestMove = Utils.bestMove(current, heuristic);
         confidence = bestMove.value;
         return bestMove.argmax;
     }

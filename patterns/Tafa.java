@@ -103,8 +103,8 @@ final class Tafa extends INode {// replace ArrayLists by Stacks?
 	void InitRedir(Color color, int depth) {
 		final List<Node> layer = getLayer(depth);
 		for(Node node : layer) {
-			node.setChild(color, node.getChild(Color.none));
-			node.setChild(Color.none, null);
+			node.setChild(color, node.getChild(Color.None));
+			node.setChild(Color.None, null);
 			node.setChild(color.opposite(), null);
 		}
 		minimize();
@@ -114,7 +114,7 @@ final class Tafa extends INode {// replace ArrayLists by Stacks?
 	private void destRedirNaite(Color color, int depth) {
 		final List<Node> layer = getLayer(depth);
 		for(Node node : layer) {
-			node.setChild(Color.none, node.getChild(color));
+			node.setChild(Color.None, node.getChild(color));
 			node.setChild(color.opposite(), node.getChild(color));
 			node.setChild(color, null);
 		}
@@ -123,9 +123,9 @@ final class Tafa extends INode {// replace ArrayLists by Stacks?
 	private void destRedirStraite(Color color, int depth) {
 		final List<Node> layer = getLayer(depth);
 		for(Node node : layer) {
-			node.setChild(Color.none, node.getChild(color));
-			node.setChild(Color.black, null);
-			node.setChild(Color.white, null);
+			node.setChild(Color.None, node.getChild(color));
+			node.setChild(Color.Black, null);
+			node.setChild(Color.White, null);
 		}
 		minimize();
 	}
@@ -133,9 +133,9 @@ final class Tafa extends INode {// replace ArrayLists by Stacks?
 	void destRedirNaiteBlack(int depth) {
 		final List<Node> layer = getLayer(depth);
 		for(Node node : layer) {
-			node.setChild(Color.none, node.getChild(Color.black));
-			node.setChild(Color.white, node.getChild(Color.black));
-			node.setChild(Color.black, null);
+			node.setChild(Color.None, node.getChild(Color.Black));
+			node.setChild(Color.White, node.getChild(Color.Black));
+			node.setChild(Color.Black, null);
 		}
 		minimize();
 	}
@@ -143,8 +143,8 @@ final class Tafa extends INode {// replace ArrayLists by Stacks?
 	void destRedirNaiteWhite(int depth) {
 		final List<Node> layer = getLayer(depth);
 		for(Node node : layer) {
-			node.setChild(Color.none, node.getChild(Color.white));
-			node.setChild(Color.black, node.getChild(Color.white));
+			node.setChild(Color.None, node.getChild(Color.White));
+			node.setChild(Color.Black, node.getChild(Color.White));
 		}
 		minimize();
 	}
@@ -152,9 +152,9 @@ final class Tafa extends INode {// replace ArrayLists by Stacks?
 	void destRedirStraiteBlack(int depth) {
 		final List<Node> layer = getLayer(depth);
 		for(Node node : layer) {
-			node.setChild(Color.none, node.getChild(Color.black));
-			node.setChild(Color.black, null);
-			node.setChild(Color.white, null);
+			node.setChild(Color.None, node.getChild(Color.Black));
+			node.setChild(Color.Black, null);
+			node.setChild(Color.White, null);
 		}
 		minimize();
 	}
@@ -162,8 +162,8 @@ final class Tafa extends INode {// replace ArrayLists by Stacks?
 	void destRedirStraiteWhite(int depth) {
 		final List<Node> layer = getLayer(depth);
 		for(Node node : layer) {
-			node.setChild(Color.none, node.getChild(Color.white));
-			node.setChild(Color.black, null);
+			node.setChild(Color.None, node.getChild(Color.White));
+			node.setChild(Color.Black, null);
 		}
 		minimize();
 	}
@@ -464,12 +464,12 @@ final class Tafa extends INode {// replace ArrayLists by Stacks?
       return ans;
     }
     
-    final Node blackChild = current.getChild(Color.black);
+    final Node blackChild = current.getChild(Color.Black);
     final Set<ColorList> blackPatterns;
     if(blackChild != null) {
       final Set<Node> blackElders = new HashSet<Node>();
       for(Node elder : elders) {
-        final Node blackElder = elder.getChild(Color.black);
+        final Node blackElder = elder.getChild(Color.Black);
         if(blackElder != null) { blackElders.add(blackElder); }
       }
       blackPatterns = getPatterns(blackChild, blackElders, height-1);
@@ -477,12 +477,12 @@ final class Tafa extends INode {// replace ArrayLists by Stacks?
       blackPatterns = new HashSet<ColorList>(0);
     }
     
-    final Node noneChild = current.getChild(Color.none);
+    final Node noneChild = current.getChild(Color.None);
     final Set<ColorList> nonePatterns;
     if(noneChild != null) {
       final Set<Node> noneElders = new HashSet<Node>();
       for(Node elder : elders) {
-        final Node noneElder = elder.getChild(Color.none);
+        final Node noneElder = elder.getChild(Color.None);
         if(noneElder != null) { noneElders.add(noneElder); }
       }
       if(blackChild != null) { noneElders.add(blackChild); }
@@ -493,12 +493,12 @@ final class Tafa extends INode {// replace ArrayLists by Stacks?
     
     nonePatterns.removeAll(blackPatterns);
     
-    final Node whiteChild = current.getChild(Color.white);
+    final Node whiteChild = current.getChild(Color.White);
     final Set<ColorList> whitePatterns;
     if(whiteChild != null) {
       final Set<Node> whiteElders = new HashSet<Node>();
       for(Node elder : elders) {
-        final Node whiteElder = elder.getChild(Color.white);
+        final Node whiteElder = elder.getChild(Color.White);
         if(whiteElder != null) { whiteElders.add(whiteElder); }
       }
       if(noneChild != null) { whiteElders.add(noneChild); }
@@ -513,15 +513,15 @@ final class Tafa extends INode {// replace ArrayLists by Stacks?
     final Set<ColorList> patterns = new HashSet<ColorList>();
     
     for(ColorList list : blackPatterns) {
-      list.push(Color.black);
+      list.push(Color.Black);
       patterns.add(list);
     }
     for(ColorList list : nonePatterns) {
-      list.push(Color.none);
+      list.push(Color.None);
       patterns.add(list);
     }
     for(ColorList list : whitePatterns) {
-      list.push(Color.white);
+      list.push(Color.White);
       patterns.add(list);
     }
     
@@ -542,21 +542,21 @@ final class Tafa extends INode {// replace ArrayLists by Stacks?
 				new HashMap<Node, Set<ColorList>>(layer.size());
 			for(Node node : layer) {
 				final Set<ColorList> nodeSet = new HashSet<ColorList>();
-				Node child = node.getChild(Color.white);
+				Node child = node.getChild(Color.White);
 				Set<ColorList> whites;
 				if(child != null) {
 					whites = copy(listMap.get(child));
 				} else {
 					whites = new HashSet<ColorList>(0);
 				}
-				child = node.getChild(Color.none);
+				child = node.getChild(Color.None);
 				Set<ColorList> nones;
 				if(child != null) {
 					nones = copy(listMap.get(child));
 				} else {
 					nones = new HashSet<ColorList>(0);
 				}
-				child = node.getChild(Color.black);
+				child = node.getChild(Color.Black);
 				Set<ColorList> blacks;
 				if(child != null) {
 					blacks = copy(listMap.get(child));
@@ -572,15 +572,15 @@ final class Tafa extends INode {// replace ArrayLists by Stacks?
 				}
 				nones.removeAll(blacks);
 				for(ColorList stack : whites) {
-					stack.push(Color.white);
+					stack.push(Color.White);
 					nodeSet.add(stack);
 				}
 				for(ColorList stack : nones) {
-					stack.push(Color.none);
+					stack.push(Color.None);
 					nodeSet.add(stack);
 				}
 				for(ColorList stack : blacks) {
-					stack.push(Color.black);
+					stack.push(Color.Black);
 					nodeSet.add(stack);
 				}
 				next.put(node, nodeSet);

@@ -40,11 +40,11 @@ final class Paluator implements ValueFunction<Board<Move>> {
 		if(board.getSize() != size) {
 			throw new RuntimeException("size mismatch");
 		}
-		if(color == Color.black) {
+		if(color == Color.Black) {
 			board = Intercessor.reverse(board);
 		}
 		if(N == 0) {
-			return Intercessor.wins(Color.white, board);
+			return Intercessor.wins(Color.White, board);
 		} else {
 			final int width = Math.min(size,(N+3)/2);
 			return tafas.get(N-1).accepts(Intercessor.getList(board, width));

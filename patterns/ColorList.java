@@ -68,21 +68,21 @@ final class ColorList implements StackFace<Color> {
 			boolean isWhite = peek(white1);
 			boolean isBlack = peek(black1);
 			if(isWhite) {
-				return Color.white;
+				return Color.White;
 			} else if(isBlack) {
-				return Color.black;
+				return Color.Black;
 			} else {
-				return Color.none;
+				return Color.None;
 			}
 		} else {
 			boolean isWhite = peek(white2);
 			boolean isBlack = peek(black2);
 			if(isWhite) {
-				return Color.white;
+				return Color.White;
 			} else if(isBlack) {
-				return Color.black;
+				return Color.Black;
 			} else {
-				return Color.none;
+				return Color.None;
 			}
 		}
 	}
@@ -135,11 +135,11 @@ final class ColorList implements StackFace<Color> {
 		}
 		if(next<sizeLimit/2) {
 			switch(color) {
-			case white:
+			case White:
 				white1 = push(true, white1);
 				black1 = push(false, black1);
 				break;
-			case black:
+			case Black:
 				white1 = push(false, white1);
 				black1 = push(true, black1);
 				break;
@@ -149,11 +149,11 @@ final class ColorList implements StackFace<Color> {
 			}
 		} else {
 			switch(color) {
-			case white:
+			case White:
 				white2 = push(true, white2);
 				black2 = push(false, black2);
 				break;
-			case black:
+			case Black:
 				white2 = push(false, white2);
 				black2 = push(true, black2);
 				break;
