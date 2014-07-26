@@ -178,7 +178,7 @@ public final class Breakthrough implements Board<Move> {
 		}
 		moveOnGrid(move);
 		updateWinner(newj);
-		turn = turn.opposite();
+		turn = turn.dual();
 	}
 	
 	private void moveOnGrid(Move move) {
@@ -215,7 +215,7 @@ public final class Breakthrough implements Board<Move> {
 	}
 
 	private void updateWinner(int newj) {
-		if(count.get(turn.opposite()) == 0) {
+		if(count.get(turn.dual()) == 0) {
 			setWinner(turn);
 		} else if(turn == Color.White && newj == size-1) {
 			setWinner(Color.White);

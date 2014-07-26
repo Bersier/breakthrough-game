@@ -448,7 +448,7 @@ final class Tafactory {
 			System.out.println(i+" moves ahead ("+color+").\n");
 			previous = ans.peek();
 			ans.push(next);
-			color = color.opposite();
+			color = color.dual();
 		}
 		return ans;
 	}

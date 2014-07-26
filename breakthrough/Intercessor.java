@@ -123,7 +123,7 @@ public final class Intercessor {
 	}
 
 	static Color getColorOfLastPlayer(Board<Move> board) {
-		Color color = board.getTurn().opposite();
+		Color color = board.getTurn().dual();
 		if(color == Color.None) {
 			Color winner = board.getWinner(); 
 			if(winner == Color.None) {
@@ -140,10 +140,10 @@ public final class Intercessor {
 		Color[][] grid = new Color[size][size];
 		for(int i = 0; i < size; i++) {
 			for(int j = 0; j < size; j++) {
-				grid[i][j] = board.getColorAt(size - i - 1, size - j - 1).opposite();
+				grid[i][j] = board.getColorAt(size - i - 1, size - j - 1).dual();
 			}
 		}
-		return new Breakthrough(grid, board.getTurn().opposite(), board.getWinner().opposite(),
+		return new Breakthrough(grid, board.getTurn().dual(), board.getWinner().dual(),
 				board.count(Color.Black), board.count(Color.White));
 	}
 
@@ -163,7 +163,7 @@ public final class Intercessor {
 
     /** @return whether the player of the given color wins for the given board */
 	public static boolean wins(Color color, Board<Move> board) {//todo why not use getWinner function?
-		if(board.count(color.opposite()) == 0) {
+		if(board.count(color.dual()) == 0) {
 			return true;
 		}
 		final int size = board.getSize();
@@ -181,7 +181,7 @@ public final class Intercessor {
      * by the given color matrix
      */
     public static boolean wins(Color color, Color[][] grid) {
-		Color other = color.opposite();
+		Color other = color.dual();
 		final int size = grid.length;
 		int count = 0;
 		for(int i=0; i<size; i++) {

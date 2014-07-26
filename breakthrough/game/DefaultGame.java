@@ -42,7 +42,7 @@ class DefaultGame extends TwoDArrayGame {
         final Color[][] reverse = new Color[size][size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                reverse[size-1 - i][size-1 - j] = board[i][j].opposite();
+                reverse[size-1 - i][size-1 - j] = board[i][j].dual();
             }
         }
         return reverse;

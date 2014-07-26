@@ -105,7 +105,7 @@ final class Tafa extends INode {// replace ArrayLists by Stacks?
 		for(Node node : layer) {
 			node.setChild(color, node.getChild(Color.None));
 			node.setChild(Color.None, null);
-			node.setChild(color.opposite(), null);
+			node.setChild(color.dual(), null);
 		}
 		minimize();
 	}
@@ -115,7 +115,7 @@ final class Tafa extends INode {// replace ArrayLists by Stacks?
 		final List<Node> layer = getLayer(depth);
 		for(Node node : layer) {
 			node.setChild(Color.None, node.getChild(color));
-			node.setChild(color.opposite(), node.getChild(color));
+			node.setChild(color.dual(), node.getChild(color));
 			node.setChild(color, null);
 		}
 		minimize();

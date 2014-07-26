@@ -35,7 +35,7 @@ public final class Move {
      * @return the i-coordinate after making this move
      */
 	public int newi(Color color) {
-		return i + (1 - 2*color.ordinal())*(dir.ordinal()-1);
+		return i + (1 - color.ordinal())*(dir.ordinal()-1);
 	}
 
     /**
@@ -43,7 +43,7 @@ public final class Move {
      * @return the j-coordinate after making this move
      */
 	public int newj(Color color) {
-		return j + (1 - 2*color.ordinal());
+		return j + (1 - color.ordinal());
 	}
 	
 }

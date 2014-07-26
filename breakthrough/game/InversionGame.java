@@ -26,7 +26,7 @@ class InversionGame extends TwoDArrayGame {
     @Override
     public Color getColorAt(int i, int j) {
         final Color color = board[get(i)][get(j)];
-        return invertedColors ? color.opposite() : color;
+        return invertedColors ? color.dual() : color;
     }
 
     private void removePawnAt(int i, int j) {

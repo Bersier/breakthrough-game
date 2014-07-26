@@ -1,22 +1,38 @@
 package breakthrough;
 
+/**
+ * The colors used in Breakthrough.
+ * Used for board squares, players, pawns, ...
+ */
 public enum Color {
-	
-	White(0), Black(1), None(-1);
-	
+
+    /**
+     * By default, color of the player who is about to play.
+     */
+	White(0),
+
+    /**
+     * Color of an empty square.
+     */
+    None(-1),
+
+    /**
+    * By default, color of the player who just played.
+    */
+    Black(1);
+
+
+    @Deprecated
 	public final int inc;
 	
 	private Color(int inc) {
 		this.inc = inc;
 	}
 
-	public Color opposite() {
-		switch(this) {
-		case White:
-			return Black;
-		case Black:
-			return White;
-		}
-		return None;
+    /**
+     * @return the dual of this color; None is its own dual.
+     */
+	public Color dual() {
+		return Color.values()[2 - ordinal()];
 	}
 }
