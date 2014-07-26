@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
  * <p>
  * Created on 7/20/2014.
  */
-public class HeuristicPlayer extends AbstractPlayer {
+public class HeuristicPlayer implements Player {
 
     private final ValueFunction<GameState> heuristic;
     private Double confidence = .5;

@@ -16,12 +16,12 @@ public interface Player {
      * @param initialState the game state the start of the game
      * @param youStart whether this player plays first
      */
-    void gameStart(GameState initialState, boolean youStart);
+    default void gameStart(GameState initialState, boolean youStart) {}
 
     /**
      * Tell this player that the game is over and whether it won.
      */
-    void gameOver(boolean youWon);
+    default void gameOver(boolean youWon) {}
 
     /**
      * Ask the player for a white move.
@@ -35,5 +35,7 @@ public interface Player {
      * @return whatever this player wants to say at that point in the game.
      * For example, it could indicate how confident it is in winning.
      */
-    String talk();
+    default String talk() {
+        return "";
+    }
 }
