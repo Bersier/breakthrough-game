@@ -1,8 +1,5 @@
 package breakthrough.player;
 
-import breakthrough.ValueFunction;
-import breakthrough.game.GameState;
-
 /**
  * Plays randomly. Chooses a legal move uniformly at random.
  * <p>
@@ -11,11 +8,6 @@ import breakthrough.game.GameState;
 public class RandomPlayer extends HeuristicPlayer {
 
     public RandomPlayer() {
-        super(new ValueFunction<GameState>() {
-            @Override
-            public double at(GameState state) {
-                return 0;
-            }
-        });
+        super(state -> 0);
     }
 }

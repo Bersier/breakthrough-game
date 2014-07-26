@@ -8,6 +8,7 @@ import breakthrough.game.GameState;
  * <p>
  * Created on 7/20/2014.
  */
+@FunctionalInterface
 public interface Player {
 
     /**

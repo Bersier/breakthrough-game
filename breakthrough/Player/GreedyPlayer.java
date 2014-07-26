@@ -15,16 +15,12 @@ import breakthrough.heuristic.WinningHeuristic;
  * <p/>
  * Created on 7/23/2014.
  */
-public class GreedyPlayer extends HeuristicPlayer {//todo next: composition of partial value functions?
+public class GreedyPlayer extends HeuristicPlayer {
 
     public GreedyPlayer() {
         super(new WinningHeuristic(
                 state -> normalizeToUtility(state.count(Color.White), state.count(Color.Black))
         ));
-        /*super(
-                state -> state.hasWinner() ?
-                        1 : normalizeToUtility(state.count(Color.White), state.count(Color.Black))
-        );*/
     }
 
     private static double normalizeToUtility(double whiteCount, double blackCount) {

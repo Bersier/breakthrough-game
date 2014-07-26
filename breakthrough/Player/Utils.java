@@ -14,6 +14,10 @@ import java.util.List;
  */
 public class Utils {
 
+    public static Player newRandomPlayer() {
+        return new HeuristicPlayer(board -> 0);
+    }
+
     /**
      * @return a best move for white, according to the given value function.
      * If several best moves exist, one of them is chosen randomly.
@@ -31,5 +35,4 @@ public class Utils {
         }
         return new Max<WhiteMove>(best, bestValue);
     }
-
 }
