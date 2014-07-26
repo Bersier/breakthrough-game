@@ -2,27 +2,34 @@ package breakthrough.player;
 
 import breakthrough.WhiteMove;
 import breakthrough.game.Game;
-import breakthrough.heuristic.LearningHeuristic;
+import breakthrough.heuristic.Heuristic;
 
 /**
  * <p>
  * Created on 7/26/2014.
  */
-public class TD1Player implements Player {
+public class TD1Player extends HeuristicPlayer {
 
-    private final LearningHeuristic heuristic;
+    private Game previous = null;
 
-    public TD1Player(LearningHeuristic heuristic) {
-        this.heuristic = heuristic;
+    public TD1Player(Heuristic heuristic) {
+        super(heuristic);
     }
 
     @Override
     public void gameStart(Game initialState, boolean youStart) {
-
+        if (! youStart) {
+            previous = initialState;
+        }
     }
 
     @Override
     public WhiteMove play(Game current) {
-        return null;
+        WhiteMove move = super.play(current);
+        if (previous != null) {
+            heuristic.learn(previous, lastValue);
+        }
+        previous = current.after(move);
+        return move;
     }
 }

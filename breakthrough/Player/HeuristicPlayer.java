@@ -15,8 +15,8 @@ import java.text.DecimalFormat;
  */
 public class HeuristicPlayer implements Player {
 
-    private final ValueFunction<Game> heuristic;
-    private double lastValue = 0;
+    final ValueFunction<Game> heuristic;
+    double lastValue = 0;
 
     public HeuristicPlayer(Heuristic heuristic) {
         this.heuristic = heuristic;

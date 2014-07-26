@@ -2,21 +2,16 @@ package machineLearning;
 
 import breakthrough.ValueFunction;
 
+@Deprecated
 public interface LearningValueFunction<Obs> extends ValueFunction<Obs> {
 
     @Override
 	double at(Obs o);
 
     /**
-     * Give feedback to the learner.
-     * Tell it that the last observation it evaluated should have been given the given value.
-     *
-     * @param value the value of the last {@link Obs}
-     */
-	void learn(double value);
-
-    /**
-     * Learn that a given observation has a given value.
+     * Learn that the given observation has the given value this time.
+     * The same observation could be given different values through this method,
+     * in which case the learner should try to learn the average value, or expected utility.
      *
      * @param o observation
      * @param value value of the {@link Obs}
