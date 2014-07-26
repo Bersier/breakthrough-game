@@ -96,7 +96,7 @@ public class Game {
     /**
      * @return a game state corresponding to the given 2D Color array
      */
-    public GameState gameState(Color[][] board) {
+    public static GameState gameState(Color[][] board) {
         checkSize(board);
         return new DefaultGameState(board);
     }

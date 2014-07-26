@@ -1,5 +1,8 @@
 package breakthrough.player;
 
+import static java.lang.Math.sin;
+import static java.lang.Math.PI;
+
 import breakthrough.Color;
 import breakthrough.ValueFunction;
 import breakthrough.game.GameState;
@@ -12,15 +15,17 @@ import breakthrough.game.GameState;
  */
 public class GreedyPlayer extends HeuristicPlayer {//todo next: composition of partial value functions?
 
-    public GreedyPlayer() {//todo make this return a probability
+    public GreedyPlayer() {
         super(new ValueFunction<GameState>() {
             @Override
             public double at(GameState state) {
                 if (state.hasWinner()) {
-                    return Integer.MAX_VALUE;
+                    return 1;
                 }
                 else {
-                    return state.count(Color.White) - state.count(Color.Black);
+                    final double w = state.count(Color.White);
+                    final double b = state.count(Color.Black);
+                    return  sin(PI/2 * (w - b)/(w + b));
                 }
             }
         });
