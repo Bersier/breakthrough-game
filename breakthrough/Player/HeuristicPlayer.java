@@ -1,10 +1,10 @@
 package breakthrough.player;
 
 import breakthrough.Max;
-import breakthrough.Move;
 import breakthrough.ValueFunction;
 import breakthrough.WhiteMove;
 import breakthrough.game.GameState;
+import breakthrough.heuristic.Heuristic;
 
 import java.text.DecimalFormat;
 
@@ -16,22 +16,23 @@ import java.text.DecimalFormat;
 public class HeuristicPlayer implements Player {
 
     private final ValueFunction<GameState> heuristic;
-    private Double confidence = .5;
+    private double lastValue = 0;
 
-    public HeuristicPlayer(ValueFunction<GameState> heuristic) {
+    public HeuristicPlayer(Heuristic heuristic) {
         this.heuristic = heuristic;
     }
 
     @Override
     public WhiteMove play(GameState current) {
         final Max<WhiteMove> bestMove = Utils.bestMove(current, heuristic);
-        confidence = bestMove.value;
+        lastValue = bestMove.value;
         return bestMove.argmax;
     }
 
     @Override
     public String talk() {
         final DecimalFormat f = new DecimalFormat("00");
+        final double confidence = (lastValue + 1)/2;
         return "I feel " + f.format(confidence * 100) + "% confident about winning.";
     }
 }
