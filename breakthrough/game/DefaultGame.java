@@ -4,17 +4,17 @@ import breakthrough.Color;
 import breakthrough.WhiteMove;
 
 /**
- * The default implementation for GameState. Not optimized, but big-Oh optimal. Simple. Safe.
+ * The default implementation for {@link Game}. Not optimized, but big-Oh optimal. Simple. Safe.
  * <p>
  * Created on 7/23/2014.
  */
-class DefaultGameState extends AbstractBigState {
+class DefaultGame extends TwoDArrayGame {
 
-    DefaultGameState(Color[][] board) {
+    DefaultGame(Color[][] board) {
         super(board);
     }
 
-    DefaultGameState(GameState state) {
+    DefaultGame(Game state) {
         super(state);
     }
 
@@ -24,7 +24,7 @@ class DefaultGameState extends AbstractBigState {
     }
 
     @Override
-    public GameState after(WhiteMove move) {
+    public Game after(WhiteMove move) {
 
         // reverse the board
         final Color[][] board = reverse(this.board);
@@ -34,7 +34,7 @@ class DefaultGameState extends AbstractBigState {
         board[inverse(move.newi)][inverse(move.newj)] = Color.Black;
 
         // wrap the board
-        return new DefaultGameState(board);
+        return new DefaultGame(board);
     }
 
     private static Color[][] reverse(Color[][] board) {

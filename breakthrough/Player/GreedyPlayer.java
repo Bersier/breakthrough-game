@@ -4,13 +4,10 @@ import static java.lang.Math.sin;
 import static java.lang.Math.PI;
 
 import breakthrough.Color;
-import breakthrough.ValueFunction;
-import breakthrough.game.GameState;
-import breakthrough.heuristic.Heuristic;
 import breakthrough.heuristic.WinningHeuristic;
 
 /**
- * Greedy Player.
+ * Greedy {@link Player}.
  * Gives first priority to winning moves, and second priority to moves with highest count advantage.
  * <p/>
  * Created on 7/23/2014.
@@ -23,7 +20,14 @@ public class GreedyPlayer extends HeuristicPlayer {
         ));
     }
 
+    /**
+     * @param whiteCount number of white pawns on the board
+     * @param blackCount number of black pawns on the board
+     * @return a utility estimation
+     */
     private static double normalizeToUtility(double whiteCount, double blackCount) {
-        return sin(PI/2 * (whiteCount - blackCount)/(whiteCount + blackCount));
+
+        // the use of the sine is to get a smooth function with zero derivative at the end points
+        return sin(PI/2 * (blackCount - whiteCount)/(blackCount + whiteCount));
     }
 }

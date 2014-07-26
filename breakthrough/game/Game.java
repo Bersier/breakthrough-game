@@ -2,117 +2,85 @@ package breakthrough.game;
 
 import breakthrough.Color;
 import breakthrough.WhiteMove;
-import breakthrough.player.Player;
+
+import java.util.List;
 
 /**
- * Created on 7/20/2014.
+ * Instances of this interface represent states of a Breakthrough game in progress.
+ * The player whose turn it is always plays white.
+ * Thus, the board gets reversed each turn, so as to remain in canonical form.
+ * They should be immutable.
+ * They do not store whether someone won.
+ * They can assume they are being used properly.
+ * <p>
+ * Created on 7/19/2014.
  */
-public class Game {
+public interface Game {
 
     /**
-     * Play a Breakthrough game with the given players.
+     * @param i first board coordinate
+     * @param j second board coordinate
+     * @return the color of the pawn at that position, or None if there is no pawn there
+     */
+    Color getColorAt(int i, int j);
+
+    /**
+     * @return the size of one side of the square board
+     */
+    int size();
+
+    /**
+     * Returns a new game state which represents the board after the move has been executed.
+     * The pawn color on that board is reversed, as it is always white's turn.
      *
-     * @param white the first player
-     * @param black the second player
-     * @param size the size of one side of the square board on which is to be played
-     * @return who won
-     */
-    public static Player play(Player white, Player black, int size) {
-        return play(white, black, newGameState(size));
-    }
-
-    /**
-     * Play a Breakthrough game with the given players from the given state.
+     * Does not check whether the given move is legal.
      *
-     * @param active the player who is about to play
-     * @param passive the player who just played
-     * @param state the current state of the Breakthrough game
-     * @return the winner
+     * @param move the move to be executed
+     * @return the resulting board.
      */
-    public static Player play(Player active, Player passive, GameState state) {
-
-        // check whether there is a winner
-        if (state.hasWinner()) {
-            return passive;
-        }
-
-        // ask player whose turn it is for its next move
-        final WhiteMove move = active.play(state);
-
-        // check the move is legal
-        if (! state.isLegal(move)) {
-            throw new RuntimeException("Cheating attempt by " + active + " detected!");
-        }
-
-        // continue the game, switching player roles
-        return play(passive, active, state.after(move));
-    }
+    Game after(WhiteMove move);
 
     /**
-     * @return a new game state of the given size for a game that is about to start
+     * @return whether the given move is legal for the player whose turn it is (white),
+     * ignoring winning conditions
      */
-    public static GameState newGameState(int size) {
-        return new InversionGameState(startingBoard(size));
-    }
+    boolean isLegal(WhiteMove move);
 
     /**
-     * @return a 2D array representation for a game of the given size that is about to start
+     * @return all legal moves, shuffled
      */
-    private static Color[][] startingBoard(int size) {
-        checkSize(size);
-
-        final Color[][] board = new Color[size][size];
-        final int noOfPawnColumns = 2 * size / 7;
-
-        for (int i = 0; i < size; i++) {
-
-            // put white pawns at start of row
-            for (int j = 0; j < noOfPawnColumns; j++) {
-                board[i][j] = Color.White;
-            }
-
-            // put no pawns in the middle
-            for (int j = noOfPawnColumns; j < size - noOfPawnColumns; j++) {
-                board[i][j] = Color.None;
-            }
-
-            // put black pawns at end of row
-            for (int j = size - noOfPawnColumns; j < size; j++) {
-                board[i][j] = Color.Black;
-            }
-        }
-        return board;
-    }
-
-    private static void checkSize(int size) {
-        if (size < 2) {
-            throw new IllegalArgumentException("Board size must be at least 2!");
-        }
-        if (size > 128) {
-            throw new IllegalArgumentException("Board size may not be above 128!");
-        }
-    }
+    List<WhiteMove> legalMoves();
 
     /**
-     * @return a game state corresponding to the given 2D Color array
+     * @return all possible gameStates resulting from a legal move, shuffled
      */
-    public static GameState gameState(Color[][] board) {
-        checkSize(board);
-        return new DefaultGameState(board);
-    }
+    List<Game> futures();
 
-    private static void checkSize(Color[][] board) {
-        final int size = board.length;
-        checkSize(size);
-        for (int i = 0; i < size; i++) {
-            final int rowLength = board[i].length;
-            checkSizesAreEqual(size, rowLength);
-        }
-    }
+    /**
+     * Assumes that the given board is the result of legal play.
+     *
+     * @return whether white won in this state.
+     */
+    boolean hasWinner();
 
-    static void checkSizesAreEqual(int size, int rowLength) {
-        if (rowLength != size) {
-            throw new IllegalArgumentException("Passed 2D array is not square!");
-        }
-    }
+    /**
+     * @param color the color of the pawns that are to be counted
+     * @return how many pawns of that color are on the board
+     */
+    int count(Color color);
+
+    /**
+     * @return whether the other GameState represents the same game state
+     */
+    @Override
+    boolean equals(Object other);
+
+    @Override
+    int hashCode();
+
+    /**
+     * @return an ASCII representation of the game state
+     */
+    @Override
+    String toString();
 }

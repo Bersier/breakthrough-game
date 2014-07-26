@@ -13,7 +13,7 @@ import java.util.List;
  * <p>
  * Created on 7/20/2014.
  */
-abstract class AbstractGameState implements GameState {
+abstract class AbstractGame implements Game {
 
     @Override
     public boolean isLegal(WhiteMove move) {
@@ -75,9 +75,9 @@ abstract class AbstractGameState implements GameState {
     }
 
     @Override
-    public List<GameState> futures() {
+    public List<Game> futures() {
         final List<WhiteMove> moves = legalMoves();
-        final List<GameState> states = new ArrayList<GameState>(moves.size());
+        final List<Game> states = new ArrayList<Game>(moves.size());
         for (WhiteMove move : moves) {
             states.add(after(move));
         }
@@ -112,7 +112,7 @@ abstract class AbstractGameState implements GameState {
 
     @Override
     public boolean equals(Object other) {
-        final GameState otherState = (GameState) other;
+        final Game otherState = (Game) other;
         for (int i = 0; i < size(); i++) {
             for (int j = 0; j < size(); j++) {
                 if (otherState.getColorAt(i, j) != getColorAt(i, j)) {
@@ -139,7 +139,7 @@ abstract class AbstractGameState implements GameState {
         private final StringBuilder builder = new StringBuilder();
         private final String string;
 
-        ASCIIBoardRepresentation(GameState state) {
+        ASCIIBoardRepresentation(Game state) {
             final int size = state.size();
 
             appendLn("\n");

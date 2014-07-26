@@ -1,25 +1,25 @@
 package breakthrough.game;
 
 import breakthrough.Color;
-import breakthrough.WhiteMove;
 
 import java.util.Arrays;
 
 /**
+ * Common code for Game implementations that represent the board as a 2D array.
  * <p/>
  * Created on 7/23/2014.
  */
-abstract class AbstractBigState extends AbstractGameState {
+abstract class TwoDArrayGame extends AbstractGame {
 
     final int size;
     final Color[][] board;
 
-    AbstractBigState(Color[][] board) {
+    TwoDArrayGame(Color[][] board) {
         this.size = board.length;
         this.board = copyBoard(board);
     }
 
-    AbstractBigState(GameState state) {
+    TwoDArrayGame(Game state) {
         this.size = state.size();
         this.board = new Color[size][size];
         for (int i = 0; i < size; i++) {
@@ -46,7 +46,7 @@ abstract class AbstractBigState extends AbstractGameState {
         final Color[][] copy = new Color[size][];
         for (int i = 0; i < size; i++) {
             final Color[] row = board[i];
-            Game.checkSizesAreEqual(row.length, size);
+            Utils.checkSizesAreEqual(row.length, size);
             copy[i] = Arrays.copyOf(row, size);
         }
         return copy;

@@ -4,22 +4,22 @@ import breakthrough.Color;
 import breakthrough.WhiteMove;
 
 /**
- * Similar to DefaultGameState, but handles game state inversions lazily.
+ * Similar to {@link DefaultGame}, but handles game state inversions lazily.
  * <p>
  * Created on 7/23/2014.
  */
-class InversionGameState extends AbstractBigState {
+class InversionGame extends TwoDArrayGame {
 
     /**
      * whether black and white are inverted
      */
     private boolean invertedColors = false;
 
-    InversionGameState(Color[][] board) {
+    InversionGame(Color[][] board) {
         super(board);
     }
 
-    InversionGameState(GameState state) {
+    InversionGame(Game state) {
         super(state);
     }
 
@@ -42,8 +42,8 @@ class InversionGameState extends AbstractBigState {
     }
 
     @Override
-    public GameState after(WhiteMove move) {
-        final InversionGameState nextState = new InversionGameState(board);
+    public Game after(WhiteMove move) {
+        final InversionGame nextState = new InversionGame(board);
         nextState.invertedColors =   invertedColors;
         nextState.removePawnAt(move.i   , move.j   );
         nextState.putPawnAt   (move.newi, move.newj);

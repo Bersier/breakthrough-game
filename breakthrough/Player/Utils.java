@@ -1,7 +1,7 @@
 package breakthrough.player;
 
 import breakthrough.*;
-import breakthrough.game.GameState;
+import breakthrough.game.Game;
 
 import java.util.List;
 
@@ -14,15 +14,17 @@ import java.util.List;
  */
 public class Utils {
 
-    public static Player newRandomPlayer() {
-        return new HeuristicPlayer(board -> 0);
-    }
+    /**
+     * Plays randomly.
+     * Chooses a legal move uniformly at random.
+     */
+    public static final Player RandomPlayer = new HeuristicPlayer(board -> 0);
 
     /**
      * @return a best move for white, according to the given value function.
      * If several best moves exist, one of them is chosen randomly.
      */
-    public static Max<WhiteMove> bestMove(GameState state, ValueFunction<GameState> value) {
+    public static Max<WhiteMove> bestMove(Game state, ValueFunction<Game> value) {
         final List<WhiteMove> moves = state.legalMoves();
         WhiteMove best = moves.get(0);
         double bestValue = value.at(state.after(best));

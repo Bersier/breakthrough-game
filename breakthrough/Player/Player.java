@@ -1,7 +1,7 @@
 package breakthrough.player;
 
 import breakthrough.WhiteMove;
-import breakthrough.game.GameState;
+import breakthrough.game.Game;
 
 /**
  * Instances of this interface implement Breakthrough players.
@@ -17,7 +17,7 @@ public interface Player {
      * @param initialState the game state the start of the game
      * @param youStart whether this player plays first
      */
-    default void gameStart(GameState initialState, boolean youStart) {}
+    default void gameStart(Game initialState, boolean youStart) {}
 
     /**
      * Tell this player that the game is over and whether it won.
@@ -27,10 +27,10 @@ public interface Player {
     /**
      * Ask the player for a white move.
      * <p>
-     * Players always play for white.
-     * It is the duty of the game controller to make the needed conversions.
+     * Players always play white.
+     * It is the duty of the game controller to make the needed conversions/inversions.
      */
-	WhiteMove play(GameState current);
+	WhiteMove play(Game current);
 
     /**
      * @return whatever this player wants to say at that point in the game.

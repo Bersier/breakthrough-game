@@ -3,27 +3,30 @@ package breakthrough.player;
 import breakthrough.Max;
 import breakthrough.ValueFunction;
 import breakthrough.WhiteMove;
-import breakthrough.game.GameState;
+import breakthrough.game.Game;
 import breakthrough.heuristic.Heuristic;
 
 import java.text.DecimalFormat;
 
 /**
- * Simple heuristic player. Always plays a best move of its given heuristic.
+ * Simple heuristic player. Always plays a best move of its given {@link Heuristic}.
  * <p>
  * Created on 7/20/2014.
  */
 public class HeuristicPlayer implements Player {
 
-    private final ValueFunction<GameState> heuristic;
+    private final ValueFunction<Game> heuristic;
     private double lastValue = 0;
 
     public HeuristicPlayer(Heuristic heuristic) {
         this.heuristic = heuristic;
     }
 
+    /**
+     * @return one of the moves judged best with uniform probability
+     */
     @Override
-    public WhiteMove play(GameState current) {
+    public WhiteMove play(Game current) {
         final Max<WhiteMove> bestMove = Utils.bestMove(current, heuristic);
         lastValue = bestMove.value;
         return bestMove.argmax;
