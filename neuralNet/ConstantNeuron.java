@@ -12,5 +12,4 @@ final class ConstantNeuron implements Neuron {
 	}
 	
 	public void updatePreDelta(double quantity) {}
-	
 }

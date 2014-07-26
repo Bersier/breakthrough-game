@@ -6,5 +6,4 @@ interface Neuron {
 	
 	// used by children to tell parents about delta
 	void updatePreDelta(double quantity);
-	
 }

@@ -8,5 +8,4 @@ interface DynamicNeuron extends Neuron {
 	
 	// update the weights
 	void computeDeltaAndWeights();
-	
 }

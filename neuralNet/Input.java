@@ -12,5 +12,4 @@ final class Input {
 		this.weight = weight;
 		this.neuron = neuron;
 	}
-	
 }

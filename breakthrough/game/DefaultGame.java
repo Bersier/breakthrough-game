@@ -10,6 +10,11 @@ import breakthrough.WhiteMove;
  */
 class DefaultGame extends TwoDArrayGame {
 
+    /**
+     * Unsafe! Does not make a copy of the array argument.
+     *
+     * @param board the array that will be used by this {@link Game} to represent the board
+     */
     DefaultGame(Color[][] board) {
         super(board);
     }
@@ -35,6 +40,11 @@ class DefaultGame extends TwoDArrayGame {
 
         // wrap the board
         return new DefaultGame(board);
+    }
+
+    @Override
+    public Game mirror() {
+        return new DefaultGame(mirror(board));
     }
 
     private static Color[][] reverse(Color[][] board) {

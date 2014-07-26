@@ -15,6 +15,11 @@ class InversionGame extends TwoDArrayGame {
      */
     private boolean invertedColors = false;
 
+    /**
+     * Unsafe! Does not make a copy of the array argument.
+     *
+     * @param board the array that will be used by this {@link Game} to represent the board
+     */
     InversionGame(Color[][] board) {
         super(board);
     }
@@ -49,5 +54,10 @@ class InversionGame extends TwoDArrayGame {
         nextState.putPawnAt   (move.newi, move.newj);
         nextState.invertedColors = ! invertedColors;
         return nextState;
+    }
+
+    @Override
+    public Game mirror() {
+        return new InversionGame(mirror(board));
     }
 }

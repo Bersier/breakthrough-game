@@ -73,5 +73,4 @@ final class NormalNeuron implements DynamicNeuron {
 	public void updatePreDelta(double quantity) {
 		preDelta += quantity;
 	}
-	
 }

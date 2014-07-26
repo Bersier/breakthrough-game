@@ -1,13 +1,13 @@
 package neuralNet;
 
-import machineLearning.Evaluator;
+import machineLearning.LearningValueFunction;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
 
-public final class Network implements Evaluator<double[]> {
+public final class Network implements LearningValueFunction<double[]> {
 
 	final static Random random = new Random();
 	private final static double rate = 0.001;//0.05;
@@ -116,7 +116,7 @@ public final class Network implements Evaluator<double[]> {
 		delayedLearn(inputs, desiredOutput);
 	}
 	
-	public double evaluate(double[] inputs) {
+	public double at(double[] inputs) {
 		return evaluateGen(inputs)[0];
 	}
 	
@@ -182,7 +182,7 @@ public final class Network implements Evaluator<double[]> {
 		for(int i=0; i<1000; i++) {
 			System.out.println("i = "+i);
 			for(double[][] eg : trainingSet) {
-				double output = network.evaluate(eg[0]);
+				double output = network.at(eg[0]);
 				System.out.println("\tcase <"+eg[0][0]+","+eg[0][1]+
 						"> output: "+output);
 				network.learn(eg[1]);
@@ -190,5 +190,4 @@ public final class Network implements Evaluator<double[]> {
 		}
 		System.out.println("\ndone");
 	}
-	
 }

@@ -41,6 +41,14 @@ public interface Game {
     Game after(WhiteMove move);
 
     /**
+     * The game as seen in a mirror.
+     * As the game has a lateral symmetry, the two games are effectively the same.
+     *
+     * @return a game where row i becomes row (size-1 - i)
+     */
+    Game mirror();
+
+    /**
      * @return whether the given move is legal for the player whose turn it is (white),
      * ignoring winning conditions
      */

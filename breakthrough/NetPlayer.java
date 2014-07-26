@@ -1,6 +1,6 @@
 package breakthrough;
 
-import machineLearning.Evaluator;
+import machineLearning.LearningValueFunction;
 import neuralNet.Network;
 import java.util.Map;
 import java.util.EnumMap;
@@ -20,7 +20,7 @@ import java.text.DecimalFormat;
 
 final class NetPlayer extends AbstractPlayer {
 	
-	private final Evaluator<double[]> evaluator;
+	private final LearningValueFunction<double[]> evaluator;
 	private final Map<Color, Board<Move>> old =
 		new EnumMap<Color, Board<Move>>(Color.class);
 	
@@ -127,12 +127,11 @@ final class NetPlayer extends AbstractPlayer {
 	
 	public double at(Board<Move> board) {
 		final Color color = Intercessor.getColorOfLastPlayer(board);
-		return evaluator.evaluate(boardToInput(color, board));
+		return evaluator.at(boardToInput(color, board));
 	}
 	
 	public double mirrorAt(Board<Move> board) {
 		final Color color = Intercessor.getColorOfLastPlayer(board);
-		return evaluator.evaluate(boardToMirrorInput(color, board));
+		return evaluator.at(boardToMirrorInput(color, board));
 	}
-
 }

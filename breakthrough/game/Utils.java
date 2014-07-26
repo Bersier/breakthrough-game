@@ -4,6 +4,8 @@ import breakthrough.Color;
 import breakthrough.WhiteMove;
 import breakthrough.player.Player;
 
+import java.util.Arrays;
+
 /**
  * Created on 7/20/2014.
  */
@@ -52,7 +54,7 @@ public class Utils {
      * @return a new game state of the given size for a game that is about to start
      */
     public static Game newGameState(int size) {
-        return new InversionGame(startingBoard(size));
+        return new DefaultGame(startingBoard(size));
     }
 
     /**
@@ -98,7 +100,7 @@ public class Utils {
      */
     public static Game gameState(Color[][] board) {
         checkSize(board);
-        return new DefaultGame(board);
+        return new DefaultGame(copy(board));
     }
 
     private static void checkSize(Color[][] board) {
@@ -110,9 +112,18 @@ public class Utils {
         }
     }
 
-    static void checkSizesAreEqual(int size, int rowLength) {
+    private static void checkSizesAreEqual(int size, int rowLength) {
         if (rowLength != size) {
             throw new IllegalArgumentException("Passed 2D array is not square!");
         }
+    }
+
+    private static Color[][] copy(Color[][] board) {
+        final int size = board.length;
+        final Color[][] copy = new Color[size][];
+        for (int i = 0; i < size; i++) {
+            copy[i] = Arrays.copyOf(board[i], size);
+        }
+        return copy;
     }
 }

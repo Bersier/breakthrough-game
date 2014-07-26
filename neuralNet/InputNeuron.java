@@ -27,5 +27,4 @@ final class InputNeuron implements Neuron {
 	public void updatePreDelta(double quantity) {
 		preDelta += quantity;
 	}
-	
 }

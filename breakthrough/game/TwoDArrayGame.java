@@ -1,6 +1,7 @@
 package breakthrough.game;
 
 import breakthrough.Color;
+import breakthrough.WhiteMove;
 
 import java.util.Arrays;
 
@@ -14,9 +15,14 @@ abstract class TwoDArrayGame extends AbstractGame {
     final int size;
     final Color[][] board;
 
+    /**
+     * Unsafe! Does not make a copy of the array argument.
+     *
+     * @param board the array that will be used by this {@link Game} to represent the board
+     */
     TwoDArrayGame(Color[][] board) {
         this.size = board.length;
-        this.board = copyBoard(board);
+        this.board = board;
     }
 
     TwoDArrayGame(Game state) {
@@ -41,13 +47,11 @@ abstract class TwoDArrayGame extends AbstractGame {
         return size-1 - i;
     }
 
-    static Color[][] copyBoard(Color[][] board) {
+    static Color[][] mirror(Color[][] board) {
         final int size = board.length;
         final Color[][] copy = new Color[size][];
         for (int i = 0; i < size; i++) {
-            final Color[] row = board[i];
-            Utils.checkSizesAreEqual(row.length, size);
-            copy[i] = Arrays.copyOf(row, size);
+            copy[i] = Arrays.copyOf(board[size-1 - i], size);
         }
         return copy;
     }
