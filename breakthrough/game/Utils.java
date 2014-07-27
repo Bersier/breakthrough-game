@@ -11,16 +11,31 @@ import java.util.Arrays;
  */
 public class Utils {
 
+    public static boolean loggingEnabled = false;
+    private static boolean colorsInverted = false;
+
     /**
      * Play a Breakthrough game with the given players.
      *
      * @param white the first player
      * @param black the second player
      * @param size the size of one side of the square board on which is to be played
-     * @return who won
+     * @return the color of the winner
      */
-    public static Player play(Player white, Player black, int size) {
-        return play(white, black, newGameState(size));
+    public static Color play(Player white, Player black, int size) {
+        final Game start = newGameState(size);
+        white.gameStart(start, true);
+        black.gameStart(start, false);
+        final Player winner = play(white, black, start);
+        winner.gameOver(true);
+        if (winner == white) {
+            black.gameOver(false);
+            return Color.White;
+        }
+        else {
+            white.gameOver(false);
+            return Color.Black;
+        }
     }
 
     /**
@@ -35,6 +50,10 @@ public class Utils {
 
         // check whether there is a winner
         if (state.hasWinner()) {
+            if (loggingEnabled) {
+                System.out.println(state.toString(colorsInverted));
+                colorsInverted = false;
+            }
             return passive;
         }
 
@@ -44,6 +63,14 @@ public class Utils {
         // check the move is legal
         if (! state.isLegal(move)) {
             throw new RuntimeException("Cheating attempt by " + active + " detected!");
+        }
+
+        // if logging is enabled, print out the board and what the player has to say
+        if (loggingEnabled) {
+            System.out.println(state.toString(colorsInverted));
+            colorsInverted = !colorsInverted;
+            String color = colorsInverted ? "White" : "Black";
+            System.out.println(color + " is playing: " + active.talk());
         }
 
         // continue the game, switching player roles
@@ -118,12 +145,23 @@ public class Utils {
         }
     }
 
-    private static Color[][] copy(Color[][] board) {
+    static Color[][] copy(Color[][] board) {
         final int size = board.length;
         final Color[][] copy = new Color[size][];
         for (int i = 0; i < size; i++) {
             copy[i] = Arrays.copyOf(board[i], size);
         }
         return copy;
+    }
+
+    static Color[][] reverse(Color[][] board) {
+        final int size = board.length;
+        final Color[][] reverse = new Color[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                reverse[size-1 - i][size-1 - j] = board[i][j].dual();
+            }
+        }
+        return reverse;
     }
 }

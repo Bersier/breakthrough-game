@@ -24,7 +24,7 @@ class DefaultGame extends TwoDArrayGame {
     }
 
     @Override
-    public Color getColorAt(int i, int j) {
+    public Color at(int i, int j) {
         return board[i][j];
     }
 
@@ -32,7 +32,7 @@ class DefaultGame extends TwoDArrayGame {
     public Game after(WhiteMove move) {
 
         // reverse the board
-        final Color[][] board = reverse(this.board);
+        final Color[][] board = Utils.reverse(this.board);
 
         // apply the reverse of the move on the reversed board, which is equivalent to the original move
         board[inverse(move.i)]   [inverse(move.j)]    = Color.None;
@@ -45,16 +45,5 @@ class DefaultGame extends TwoDArrayGame {
     @Override
     public Game mirror() {
         return new DefaultGame(mirror(board));
-    }
-
-    private static Color[][] reverse(Color[][] board) {
-        final int size = board.length;
-        final Color[][] reverse = new Color[size][size];
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                reverse[size-1 - i][size-1 - j] = board[i][j].dual();
-            }
-        }
-        return reverse;
     }
 }

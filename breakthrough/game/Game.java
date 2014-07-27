@@ -22,7 +22,7 @@ public interface Game {
      * @param j second board coordinate
      * @return the color of the pawn at that position, or None if there is no pawn there
      */
-    Color getColorAt(int i, int j);
+    Color at(int i, int j);
 
     /**
      * @return the size of one side of the square board
@@ -67,7 +67,7 @@ public interface Game {
     /**
      * Assumes that the given board is the result of legal play.
      *
-     * @return whether white won in this state.
+     * @return whether the player who just played (Black) won in this state.
      */
     boolean hasWinner();
 
@@ -76,6 +76,12 @@ public interface Game {
      * @return how many pawns of that color are on the board
      */
     int count(Color color);
+
+    /**
+     * @param colorsInverted if true, flips the roles of black and white in the representation
+     * @return an ASCII representation of the game state
+     */
+    String toString(boolean colorsInverted);
 
     /**
      * @return whether the other GameState represents the same game state

@@ -13,7 +13,7 @@ class InversionGame extends TwoDArrayGame {
     /**
      * whether black and white are inverted
      */
-    private boolean invertedColors = false;
+    private boolean colorsInverted = false;
 
     /**
      * Unsafe! Does not make a copy of the array argument.
@@ -29,9 +29,9 @@ class InversionGame extends TwoDArrayGame {
     }
 
     @Override
-    public Color getColorAt(int i, int j) {
+    public Color at(int i, int j) {
         final Color color = board[get(i)][get(j)];
-        return invertedColors ? color.dual() : color;
+        return colorsInverted ? color.dual() : color;
     }
 
     private void removePawnAt(int i, int j) {
@@ -39,20 +39,20 @@ class InversionGame extends TwoDArrayGame {
     }
 
     private void putPawnAt(int i, int j) {
-        board[get(i)][get(j)] = invertedColors ? Color.Black : Color.White;
+        board[get(i)][get(j)] = colorsInverted ? Color.Black : Color.White;
     }
 
     private int get(int i) {
-        return invertedColors ? inverse(i) : i;
+        return colorsInverted ? inverse(i) : i;
     }
 
     @Override
     public Game after(WhiteMove move) {
-        final InversionGame nextState = new InversionGame(board);
-        nextState.invertedColors =   invertedColors;
+        final InversionGame nextState = new InversionGame(Utils.copy(board));
+        nextState.colorsInverted = colorsInverted;
         nextState.removePawnAt(move.i   , move.j   );
         nextState.putPawnAt   (move.newi, move.newj);
-        nextState.invertedColors = ! invertedColors;
+        nextState.colorsInverted = !colorsInverted;
         return nextState;
     }
 

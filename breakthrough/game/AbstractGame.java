@@ -24,7 +24,7 @@ abstract class AbstractGame implements Game {
         }
 
         // make sure there is a pawn of the right color at the initial position
-        if (getColorAt(move.i, move.j) != Color.White) {
+        if (at(move.i, move.j) != Color.White) {
             return false;
         }
 
@@ -43,12 +43,12 @@ abstract class AbstractGame implements Game {
         }
 
         // if the destination position is occupied by a pawn of same color...
-        if (getColorAt(newi, newj) == Color.White) {
+        if (at(newi, newj) == Color.White) {
             return false;
         }
 
         // if the move is straight and the destination position is occupied...
-        if (move.isStraight() && getColorAt(newi, newj) != Color.None) {
+        if (move.isStraight() && at(newi, newj) != Color.None) {
             return false;
         }
 
@@ -87,16 +87,16 @@ abstract class AbstractGame implements Game {
     @Override
     public boolean hasWinner() {
 
-        // check whether there is a white pawn on the winning column
-        final int winningColumn = size() - 1;
+        // check whether there is a black pawn on the winning column
+        final int winningColumn = 0;
         for (int i = 0; i < size(); i++) {
-            if (getColorAt(i, winningColumn) == Color.White) {
+            if (at(i, winningColumn) == Color.Black) {
                 return true;
             }
         }
 
         // check whether there are no more pawns of opposite color
-        return count(Color.Black) == 0;
+        return count(Color.White) == 0;
     }
 
     @Override
@@ -104,10 +104,26 @@ abstract class AbstractGame implements Game {
         int count = 0;
         for (int i = 0; i < size(); i++) {
             for (int j = 0; j < size(); j++) {
-                count += (getColorAt(i, j) == color) ? 1 : 0;
+                count += (at(i, j) == color) ? 1 : 0;
             }
         }
         return count;
+    }
+
+    @Override
+    public String toString(boolean colorsInverted) {
+        if (colorsInverted) {
+            final Color[][] reverse = new Color[size()][size()];
+            for (int i = 0; i < size(); i++) {//todo remove redundancy (also in Utils)
+                for (int j = 0; j < size(); j++) {
+                    reverse[size()-1 - i][size()-1 - j] = at(i, j).dual();
+                }
+            }
+            return Utils.gameState(reverse).toString();
+        }
+        else {
+            return toString();
+        }
     }
 
     @Override
@@ -115,7 +131,7 @@ abstract class AbstractGame implements Game {
         final Game otherState = (Game) other;
         for (int i = 0; i < size(); i++) {
             for (int j = 0; j < size(); j++) {
-                if (otherState.getColorAt(i, j) != getColorAt(i, j)) {
+                if (otherState.at(i, j) != at(i, j)) {
                     return false;
                 }
             }
@@ -148,7 +164,7 @@ abstract class AbstractGame implements Game {
                 leftSpace();
                 for (int j = 0; j < size; j++) {
                     append("|");
-                    pawn(state.getColorAt(i, j));
+                    pawn(state.at(i, j));
                 }
                 appendLn("|");
                 leftSpace(); horizontalBorder(size);

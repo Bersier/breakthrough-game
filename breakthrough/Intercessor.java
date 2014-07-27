@@ -115,7 +115,7 @@ public final class Intercessor {
 	private Max<Move> problyBestMove(Color color, List<Move> list,
                                       ValueFunction<Board<Move>> value) {
 		Max<Move> best = bestMove(color, list, value);
-		if(random.nextDouble() < Math.pow(1-best.value,1)/16) {
+		if(random.nextDouble() < (1 - best.value)/16) {
 			Move move = list.get(random.nextInt(list.size()));
 			return new Max<Move>(move, best.value);
 		}

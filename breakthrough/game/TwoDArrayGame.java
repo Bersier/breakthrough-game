@@ -1,7 +1,6 @@
 package breakthrough.game;
 
 import breakthrough.Color;
-import breakthrough.WhiteMove;
 
 import java.util.Arrays;
 
@@ -30,7 +29,7 @@ abstract class TwoDArrayGame extends AbstractGame {
         this.board = new Color[size][size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                this.board[i][j] = state.getColorAt(i, j);
+                this.board[i][j] = state.at(i, j);
             }
         }
     }
@@ -41,7 +40,7 @@ abstract class TwoDArrayGame extends AbstractGame {
     }
 
     /**
-     * @return the equivalent coordinate on the reverse board
+     * @return the equivalent coordinate on the reverse board//todo use this more!
      */
     int inverse(int i) {
         return size-1 - i;
