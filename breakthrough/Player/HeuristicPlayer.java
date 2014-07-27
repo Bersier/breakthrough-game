@@ -8,6 +8,8 @@ import breakthrough.heuristic.Heuristic;
 
 import java.text.DecimalFormat;
 
+import static breakthrough.heuristic.Utils.vToP;
+
 /**
  * Simple heuristic player. Always plays a best move of its given {@link Heuristic}.
  * <p>
@@ -35,7 +37,7 @@ public class HeuristicPlayer implements Player {
     @Override
     public String talk() {
         final DecimalFormat f = new DecimalFormat("00");
-        final double confidence = (lastValue + 1)/2;
+        final double confidence = vToP(lastValue);
         return "I feel " + f.format(confidence * 100) + "% confident about winning.";
     }
 }

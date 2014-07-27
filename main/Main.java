@@ -26,9 +26,7 @@ public class Main {
         Player white = new TD1Player(new NeuralNetHeuristic(size));
         Player black = new GreedyPlayer();
 
-        Utils.loggingEnabled = true;
-        final Color theWinner = Utils.play(white, black, size);
-        System.out.println("The winner is: " + theWinner);
+        final Color theWinner = Utils.showPlay(white, black, size);
     }
 
     private static void playABunch(int size) {
@@ -54,10 +52,7 @@ public class Main {
                 System.out.println(black);
             }
             if(i%1000000 == 0) {
-                Utils.loggingEnabled = true;
-                final Color theWinner = Utils.play(white, black, size);
-                System.out.println("The winner is: " + theWinner);
-                Utils.loggingEnabled = false;
+                final Color theWinner = Utils.showPlay(white, black, size);
             }
         }
     }

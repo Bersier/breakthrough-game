@@ -11,9 +11,6 @@ import java.util.Arrays;
  */
 public class Utils {
 
-    public static boolean loggingEnabled = false;
-    private static boolean colorsInverted = false;
-
     /**
      * Play a Breakthrough game with the given players.
      *
@@ -23,10 +20,67 @@ public class Utils {
      * @return the color of the winner
      */
     public static Color play(Player white, Player black, int size) {
+        final Game start = gameStart(white, black, size);
+        final Player winner = play(white, black, start);
+        return gameClose(white, black, winner);
+    }
+
+    /**
+     * Play a Breakthrough game with the given players, showing its progress.
+     *
+     * @param white the first player
+     * @param black the second player
+     * @param size the size of one side of the square board on which is to be played
+     * @return the color of the winner
+         */
+    public static Color showPlay(Player white, Player black, int size) {
+        final Game start = gameStart(white, black, size);
+        final Player winner = showPlay(white, black, start, Color.White);
+        return gameClose(white, black, winner);
+    }
+
+    /**
+     * @return a new game state of the given size for a game that is about to start
+     */
+    public static Game newGameState(int size) {
+        return new DefaultGame(startingBoard(size));
+    }
+
+    /**
+     * @return a game state corresponding to the given 2D Color array
+     */
+    public static Game gameState(Color[][] board) {
+        checkSize(board);
+        return new DefaultGame(copy(board));
+    }
+
+    /**
+     * Play a Breakthrough game with the given players from the given state.
+     *
+     * @param active the player who is about to play
+     * @param passive the player who just played
+     * @param state the current state of the Breakthrough game
+     * @return the winner
+     */
+    private static Player play(Player active, Player passive, Game state) {
+
+        // check whether there is a winner
+        if (state.hasWinner()) {
+            return passive;
+        }
+
+        // continue the game, switching player roles
+        return play(passive, active, getNextState(active, state));
+    }
+
+    private static Game gameStart(Player white, Player black, int size) {
         final Game start = newGameState(size);
         white.gameStart(start, true);
         black.gameStart(start, false);
-        final Player winner = play(white, black, start);
+        return start;
+    }
+
+    private static Color gameClose(Player white, Player black, Player winner) {
         winner.gameOver(true);
         if (winner == white) {
             black.gameOver(false);
@@ -39,23 +93,41 @@ public class Utils {
     }
 
     /**
-     * Play a Breakthrough game with the given players from the given state.
+     * Play a Breakthrough game with the given players from the given state, showing its progress.
      *
      * @param active the player who is about to play
      * @param passive the player who just played
      * @param state the current state of the Breakthrough game
      * @return the winner
      */
-    public static Player play(Player active, Player passive, Game state) {
+    private static Player showPlay(Player active, Player passive, Game state, Color activeColor) {
 
         // check whether there is a winner
         if (state.hasWinner()) {
-            if (loggingEnabled) {
-                System.out.println(state.toString(colorsInverted));
-                colorsInverted = false;
-            }
+
+            // print out the last position and the winner
+            System.out.println(gameToString(state, activeColor));
+            System.out.println("The winner is: " + passive);
+
             return passive;
         }
+
+        final Game nextState = getNextState(active, state);
+
+        // print out the board and what the player has to say
+        System.out.println(gameToString(state, activeColor));
+        System.out.println(activeColor + " is playing: " + active.talk());
+
+        // continue the game, switching player roles
+        return showPlay(passive, active, nextState, activeColor.dual());
+    }
+
+    private static String gameToString(Game game, Color activeColor) {
+        final Game toShow = activeColor == Color.Black ? game.dual() : game;
+        return toShow.toString();
+    }
+
+    private static Game getNextState(Player active, Game state) {
 
         // ask player whose turn it is for its next move
         final WhiteMove move = active.play(state);
@@ -65,23 +137,7 @@ public class Utils {
             throw new RuntimeException("Cheating attempt by " + active + " detected!");
         }
 
-        // if logging is enabled, print out the board and what the player has to say
-        if (loggingEnabled) {
-            System.out.println(state.toString(colorsInverted));
-            colorsInverted = !colorsInverted;
-            String color = colorsInverted ? "White" : "Black";
-            System.out.println(color + " is playing: " + active.talk());
-        }
-
-        // continue the game, switching player roles
-        return play(passive, active, state.after(move));
-    }
-
-    /**
-     * @return a new game state of the given size for a game that is about to start
-     */
-    public static Game newGameState(int size) {
-        return new DefaultGame(startingBoard(size));
+        return state.after(move);
     }
 
     /**
@@ -91,7 +147,7 @@ public class Utils {
         checkSize(size);
 
         final Color[][] board = new Color[size][size];
-        final int noOfPawnColumns = 2 * size / 7;
+        final int noOfPawnColumns = 1 + size / 7;
 
         for (int i = 0; i < size; i++) {
 
@@ -120,14 +176,6 @@ public class Utils {
         if (size > 128) {
             throw new IllegalArgumentException("Board size may not be above 128!");
         }
-    }
-
-    /**
-     * @return a game state corresponding to the given 2D Color array
-     */
-    public static Game gameState(Color[][] board) {
-        checkSize(board);
-        return new DefaultGame(copy(board));
     }
 
     private static void checkSize(Color[][] board) {

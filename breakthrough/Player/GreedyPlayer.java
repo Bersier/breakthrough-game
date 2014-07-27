@@ -27,7 +27,7 @@ public class GreedyPlayer extends HeuristicPlayer {
      */
     private static double normalizeToUtility(double whiteCount, double blackCount) {
 
-        // the use of the sine is to get a smooth function with zero derivative at the end points
+        // the use of the sine is to get a smooth function with zero derivative at the end-points
         return sin(PI/2 * (blackCount - whiteCount)/(blackCount + whiteCount));
     }
 }

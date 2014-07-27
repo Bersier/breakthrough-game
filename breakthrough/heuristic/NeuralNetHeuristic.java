@@ -5,6 +5,8 @@ import breakthrough.ValueFunction;
 import breakthrough.game.Game;
 import neuralNet.Network;
 
+import static breakthrough.heuristic.Utils.*;
+
 /**
  * Not too sure about this class. Created it so that I could use my old Network class with my
  * new framework.
@@ -26,12 +28,12 @@ public class NeuralNetHeuristic implements Heuristic {
 
     @Override
     public double at(Game state) {
-        return 2*network.at(gameToDoubleArray(state)) - 1;
+        return ptoV(network.at(gameToDoubleArray(state)));
     }
 
     @Override
     public void learn(Game game, double value) {
-        network.learn(gameToDoubleArray(game), (value + 1)/2);
+        network.learn(gameToDoubleArray(game), vToP(value));
     }
 
     /**
@@ -65,7 +67,7 @@ public class NeuralNetHeuristic implements Heuristic {
     }
 
 
-    @Override
+    @Override//todo fix
     public String toString() {
         return network.toString();
     }
