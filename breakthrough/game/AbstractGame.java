@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static breakthrough.game.Utils.*;
+
 /**
  * Provides default implementations where possible.
  * <p>
@@ -111,15 +113,14 @@ abstract class AbstractGame implements Game {
     }
 
     @Override
-    public String toString(boolean colorsInverted) {
-        if (colorsInverted) {
-            final Color[][] reverse = new Color[size()][size()];
-            for (int i = 0; i < size(); i++) {//todo remove redundancy (also in Utils)
-                for (int j = 0; j < size(); j++) {
-                    reverse[size()-1 - i][size()-1 - j] = at(i, j).dual();
-                }
-            }
-            return Utils.gameState(reverse).toString();
+    public Game dual() {
+        return gameState(reverse(getBoard(this)));
+    }
+
+    @Override
+    public String toString(boolean playersInverted) {//todo remove
+        if (playersInverted) {
+            return dual().toString();
         }
         else {
             return toString();

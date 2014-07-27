@@ -164,4 +164,8 @@ public class Utils {
         }
         return reverse;
     }
+
+    static Color[][] getBoard(Game game) {
+        return new DefaultGame(game).board;
+    }
 }
