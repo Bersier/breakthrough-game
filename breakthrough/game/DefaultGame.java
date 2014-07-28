@@ -35,8 +35,8 @@ class DefaultGame extends TwoDArrayGame {
         final Color[][] board = Utils.reverse(this.board);
 
         // apply the reverse of the move on the reversed board, which is equivalent to the original move
-        board[inverse(move.i)]   [inverse(move.j)]    = Color.None;
-        board[inverse(move.newi)][inverse(move.newj)] = Color.Black;
+        board[dual(move.i)]   [dual(move.j)]    = Color.None;
+        board[dual(move.newi)][dual(move.newj)] = Color.Black;
 
         // wrap the board
         return new DefaultGame(board);

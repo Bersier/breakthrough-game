@@ -162,7 +162,7 @@ public final class Intercessor {
 	}
 
     /** @return whether the player of the given color wins for the given board */
-	public static boolean wins(Color color, Board<Move> board) {//todo why not use getWinner function?
+	public static boolean wins(Color color, Board<Move> board) {
 		if(board.count(color.dual()) == 0) {
 			return true;
 		}

@@ -1,7 +1,6 @@
 package breakthrough.player;
 
 import breakthrough.Max;
-import breakthrough.ValueFunction;
 import breakthrough.WhiteMove;
 import breakthrough.game.Game;
 import breakthrough.heuristic.Heuristic;
@@ -17,11 +16,21 @@ import static breakthrough.heuristic.Utils.vToP;
  */
 public class HeuristicPlayer implements Player {
 
-    final ValueFunction<Game> heuristic;
-    double lastValue = 0;
+    final Heuristic heuristic;
+    double expectedGain;
 
     public HeuristicPlayer(Heuristic heuristic) {
         this.heuristic = heuristic;
+    }
+
+    @Override
+    public void gameStart(Game start, boolean iStart) {
+        expectedGain = iStart ? 0 : heuristic.at(start);
+    }
+
+    @Override
+    public void gameOver(boolean iWon) {
+        expectedGain = iWon ? 1 : -1;
     }
 
     /**
@@ -30,14 +39,19 @@ public class HeuristicPlayer implements Player {
     @Override
     public WhiteMove play(Game current) {
         final Max<WhiteMove> bestMove = Utils.bestMove(current, heuristic);
-        lastValue = bestMove.value;
+        expectedGain = bestMove.value;
         return bestMove.argmax;
     }
 
     @Override
     public String talk() {
         final DecimalFormat f = new DecimalFormat("00");
-        final double confidence = vToP(lastValue);
+        final double confidence = vToP(expectedGain);
         return "I feel " + f.format(confidence * 100) + "% confident about winning.";
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", with heuristic:\n" + heuristic.toString();
     }
 }

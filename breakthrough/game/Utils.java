@@ -207,7 +207,7 @@ public class Utils {
         final Color[][] reverse = new Color[size][size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                reverse[size-1 - i][size-1 - j] = board[i][j].dual();
+                reverse[dual(size, i)][dual(size, j)] = board[i][j].dual();
             }
         }
         return reverse;
@@ -215,5 +215,12 @@ public class Utils {
 
     static Color[][] getBoard(Game game) {
         return new DefaultGame(game).board;
+    }
+
+    /**
+     * @return the reversed coordinate
+     */
+    static int dual(int size, int i) {
+        return size-1 - i;
     }
 }

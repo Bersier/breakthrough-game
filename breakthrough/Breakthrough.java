@@ -43,7 +43,7 @@ public final class Breakthrough implements Board<Move> {
 
     /**
      * Creates a new game in a state given by the arguments.
-     *///todo should the two last two arguments be there?
+     */
 	public Breakthrough(Color[][] board, Color turn, Color winner, int whiteCount, int blackCount) {
 		this.grid = board;
 		this.turn = turn;
@@ -56,7 +56,7 @@ public final class Breakthrough implements Board<Move> {
     /**
      * Resets the game to the start configuration.
      */
-	public void reset() {//todo make this private?
+	public void reset() {
 		final int noOfPawnRows = 2*size / 7;
 
 		for(int i = 0; i < size; i++) {

@@ -43,7 +43,7 @@ class InversionGame extends TwoDArrayGame {
     }
 
     private int get(int i) {
-        return colorsInverted ? inverse(i) : i;
+        return colorsInverted ? dual(i) : i;
     }
 
     @Override

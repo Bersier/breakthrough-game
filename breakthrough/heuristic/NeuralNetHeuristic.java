@@ -19,7 +19,6 @@ public class NeuralNetHeuristic implements Heuristic {
 
     public NeuralNetHeuristic(int size) {
         this.network = new Network(2*size*size, 1);
-
     }
 
     public NeuralNetHeuristic(int size, int noOfHiddenLayers) {
@@ -37,38 +36,31 @@ public class NeuralNetHeuristic implements Heuristic {
     }
 
     /**
-     * The first half of the array saves only the positions of the white pawns,
-     * the second half only the positions of the black pawns.
+     * The first half of the array saves only the positions of the black pawns,
+     * the second half only the positions of the white pawns.
      * A pawn is represented by a 1, no pawn by a zero.
      *
      * @return a 1D double array representing the given game
      */
     private double[] gameToDoubleArray(Game game) {
         final int size = game.size();
-        final int sizeSquared = size * size;
-        final double[] array = new double[2 * sizeSquared];
+        final double[] array = new double[2 * size*size];
 
-        int k = sizeSquared-1;
-        for(int i = size-1; i >= 0; i--) {
-            for(int j = size-1; j >= 0; j--) {
+        int k = 0;
+        for(int i = 0; i < size; i++) {
+            for(int j = 0; j < size; j++) {
                 final Color pawn = game.at(i, j);
-                if(pawn == Color.None) {
-                    array[k] = 0;
-                    array[sizeSquared + k] = 0;
-                } else {
-                    array[k] = (1 - pawn.ordinal()/2);
-                    array[sizeSquared + k] = pawn.ordinal()/2;
-                }
-                k--;
+                array[k]             = (pawn == Color.Black) ? 1 : 0;
+                array[k + size*size] = (pawn == Color.White) ? 1 : 0;
+                k++;
             }
         }
 
         return array;
     }
 
-
-    @Override//todo fix
+    @Override
     public String toString() {
-        return network.toString();
+        return "Neural net: " + network.toString();
     }
 }

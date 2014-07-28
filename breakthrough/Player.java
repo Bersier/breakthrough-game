@@ -19,7 +19,7 @@ interface Player<Move> {
     /**
      * Ask the player for a move of the given color.
      */
-	Move play(Color color);//todo should take as input the current state of the game!
+	Move play(Color color);
 	
 	Move printPlay(Color color);
 	

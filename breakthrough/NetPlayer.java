@@ -1,10 +1,10 @@
 package breakthrough;
 
-import machineLearning.LearningValueFunction;
 import neuralNet.Network;
-import java.util.Map;
-import java.util.EnumMap;
+
 import java.text.DecimalFormat;
+import java.util.EnumMap;
+import java.util.Map;
 
 // do not store! show old input to network at learn-time!
 // quickprop
@@ -20,7 +20,7 @@ import java.text.DecimalFormat;
 
 final class NetPlayer extends AbstractPlayer {
 	
-	private final LearningValueFunction<double[]> evaluator;
+	private final ValueFunction<double[]> evaluator;
 	private final Map<Color, Board<Move>> old =
 		new EnumMap<Color, Board<Move>>(Color.class);
 	

@@ -1,14 +1,13 @@
 package neuralNet;
 
 import breakthrough.ValueFunction;
-import machineLearning.LearningValueFunction;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Random;
 
-public final class Network implements LearningValueFunction<double[]>, ValueFunction<double[]> {
+public final class Network implements ValueFunction<double[]> {
 
 	final static Random random = new Random();
 	private final static double rate = 0.001;//0.05;

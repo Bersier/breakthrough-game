@@ -71,5 +71,5 @@ public interface Board<Move> {
     /**
      * Prints an ASCII representation of the game state
      */
-	void printBoard();//todo use toString instead
+	void printBoard();
 }

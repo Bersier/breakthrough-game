@@ -11,7 +11,7 @@ import breakthrough.heuristic.Heuristic;
  */
 public class TD1Player extends HeuristicPlayer {
 
-    private Game previous = null;
+    private Game previous;
 
     public TD1Player(Heuristic heuristic) {
         super(heuristic);
@@ -19,14 +19,14 @@ public class TD1Player extends HeuristicPlayer {
 
     @Override
     public void gameStart(Game initialState, boolean youStart) {
-        if (! youStart) {
-            previous = initialState;
-        }
+        super.gameStart(initialState, youStart);
+        previous = youStart ? null : initialState;
     }
 
     @Override
     public void gameOver(boolean youWon) {
-        heuristic.learn(previous, youWon ? 1 : -1);
+        super.gameOver(youWon);
+        learn();
     }
 
     @Override
@@ -34,7 +34,7 @@ public class TD1Player extends HeuristicPlayer {
         final WhiteMove move = super.play(current);
         final Game next = current.after(move);
         if (previous != null && !next.hasWinner()) {
-            heuristic.learn(previous, lastValue);
+            learn();
         }
         previous = next;
         return move;
@@ -43,5 +43,9 @@ public class TD1Player extends HeuristicPlayer {
     @Override
     public String toString() {
         return heuristic.toString();
+    }
+
+    private void learn() {
+        heuristic.learn(previous, expectedGain);
     }
 }

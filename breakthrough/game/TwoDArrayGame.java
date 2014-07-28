@@ -40,17 +40,17 @@ abstract class TwoDArrayGame extends AbstractGame {
     }
 
     /**
-     * @return the equivalent coordinate on the reverse board//todo use this more!
+     * @return the equivalent coordinate on the reverse board
      */
-    int inverse(int i) {
-        return size-1 - i;
+    int dual(int i) {
+        return Utils.dual(size, i);
     }
 
     static Color[][] mirror(Color[][] board) {
         final int size = board.length;
         final Color[][] copy = new Color[size][];
         for (int i = 0; i < size; i++) {
-            copy[i] = Arrays.copyOf(board[size-1 - i], size);
+            copy[i] = Arrays.copyOf(board[Utils.dual(size, i)], size);
         }
         return copy;
     }
