@@ -83,13 +83,6 @@ public interface Game {
     Game dual();
 
     /**
-     * @param colorsInverted if true, flips the roles of black and white in the representation
-     * @return an ASCII representation of the game state
-     */
-    @Deprecated
-    String toString(boolean colorsInverted);
-
-    /**
      * Assumes the given object is a GameState of same size than this.
      *
      * @return whether the other GameState represents the same game state

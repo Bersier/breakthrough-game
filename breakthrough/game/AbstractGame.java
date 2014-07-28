@@ -118,16 +118,6 @@ abstract class AbstractGame implements Game {
     }
 
     @Override
-    public String toString(boolean playersInverted) {//todo remove
-        if (playersInverted) {
-            return dual().toString();
-        }
-        else {
-            return toString();
-        }
-    }
-
-    @Override
     public boolean equals(Object other) {
         final Game otherState = (Game) other;
         for (int i = 0; i < size(); i++) {
