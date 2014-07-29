@@ -15,7 +15,7 @@ import static breakthrough.heuristic.Utils.*;
  */
 public class NeuralNetHeuristic implements Heuristic {
 
-    private final ValueFunction<double[]> network;
+    private final ValueFunction<double[]> network;//todo Bug: as used currently, it is terribly underconfident
 
     public NeuralNetHeuristic(int size) {
         this.network = new Network(2*size*size, 1);
