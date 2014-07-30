@@ -7,6 +7,7 @@ import breakthrough.WhiteMove.Direction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static breakthrough.game.Utils.*;
 
@@ -78,12 +79,7 @@ abstract class AbstractGame implements Game {
 
     @Override
     public List<Game> futures() {
-        final List<WhiteMove> moves = legalMoves();
-        final List<Game> states = new ArrayList<Game>(moves.size());
-        for (WhiteMove move : moves) {
-            states.add(after(move));
-        }
-        return states;
+        return legalMoves().stream().map(this::after).collect(Collectors.toList());
     }
 
     @Override
