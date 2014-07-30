@@ -1,7 +1,7 @@
 package breakthrough.heuristic;
 
 import breakthrough.Color;
-import breakthrough.ValueFunction;
+import commons.ValueFunction;
 import breakthrough.game.Game;
 import neuralNet.Network;
 

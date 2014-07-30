@@ -1,4 +1,4 @@
-package breakthrough;
+package commons;
 
 /**
  * @param <Obs> the type of the observations to evaluate

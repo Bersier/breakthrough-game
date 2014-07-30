@@ -1,5 +1,6 @@
 package breakthrough;
 
+import commons.ValueFunction;
 import neuralNet.Network;
 
 import java.text.DecimalFormat;

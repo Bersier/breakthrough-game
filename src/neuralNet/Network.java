@@ -1,6 +1,6 @@
 package neuralNet;
 
-import breakthrough.ValueFunction;
+import commons.ValueFunction;
 
 import java.util.ArrayList;
 import java.util.Arrays;

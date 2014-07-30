@@ -1,5 +1,7 @@
 package breakthrough;
 
+import commons.ValueFunction;
+
 abstract class AbstractPlayer implements Player<Move>, ValueFunction<Board<Move>> {
 
 	public final Intercessor cessor;

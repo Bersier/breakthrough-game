@@ -67,4 +67,19 @@ public class WhiteMove {//todo restrict use of constructors? Move class (to game
         return newj;
     }
 
+    @Override
+    public boolean equals(Object other) {
+        final WhiteMove o = (WhiteMove)other;
+        return (i == o.i) && (j == o.j) && (newi == o.newi);
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;//todo
+    }
+
+    @Override
+    public String toString() {
+        return "(" + i + "," + j + ") -> (" + newi + "," + newj + ")";
+    }
 }

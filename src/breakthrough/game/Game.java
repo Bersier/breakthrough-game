@@ -92,7 +92,7 @@ public interface Game {
     Game dual();
 
     /**
-     * Assumes the given object is a GameState of same size than this.
+     * Assumes the given object is a GameState of same size as this.
      *
      * @return whether the other GameState represents the same game state
      */

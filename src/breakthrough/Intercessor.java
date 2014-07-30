@@ -3,6 +3,8 @@ package breakthrough;
 // +random.nextGaussian()/20
 // don't need to pass the color along anywhere I pass the board along!
 
+import commons.ValueFunction;
+
 import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;

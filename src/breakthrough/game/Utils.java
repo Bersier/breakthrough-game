@@ -42,7 +42,7 @@ public class Utils {
     /**
      * @return a new game state of the given size for a game that is about to start
      */
-    public static Game newGameState(int size) {
+    public static Game newGame(int size) {
         return new DefaultGame(startingBoard(size));
     }
 
@@ -74,7 +74,7 @@ public class Utils {
     }
 
     private static Game gameStart(Player white, Player black, int size) {
-        final Game start = newGameState(size);
+        final Game start = newGame(size);
         white.gameStart(start, true);
         black.gameStart(start, false);
         return start;

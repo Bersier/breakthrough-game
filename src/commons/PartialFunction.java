@@ -1,4 +1,4 @@
-package breakthrough;
+package commons;
 
 import java.util.function.Function;
 

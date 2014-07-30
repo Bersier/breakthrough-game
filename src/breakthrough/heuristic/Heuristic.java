@@ -1,6 +1,6 @@
 package breakthrough.heuristic;
 
-import breakthrough.ValueFunction;
+import commons.ValueFunction;
 import breakthrough.game.Game;
 
 /**

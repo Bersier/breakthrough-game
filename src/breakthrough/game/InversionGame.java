@@ -58,6 +58,8 @@ class InversionGame extends TwoDArrayGame {
 
     @Override
     public Game mirror() {
-        return new InversionGame(mirror(board));
+        final InversionGame mirrorGame = new InversionGame(mirror(board));
+        mirrorGame.colorsInverted = colorsInverted;
+        return mirrorGame;
     }
 }

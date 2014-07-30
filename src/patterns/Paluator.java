@@ -4,7 +4,7 @@ import breakthrough.Board;
 import breakthrough.Color;
 import breakthrough.Intercessor;
 import breakthrough.Move;
-import breakthrough.ValueFunction;
+import commons.ValueFunction;
 
 import java.util.List;
 
