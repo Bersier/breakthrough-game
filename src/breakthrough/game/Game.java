@@ -51,8 +51,17 @@ public interface Game {
     /**
      * @return whether the given move is legal for the player whose turn it is (white),
      * ignoring winning conditions
+     * @throws ObviouslyIllegalException when a move is obviously illegal on any board, as this
+     * indicates a weakness of the calling code.
      */
     boolean isLegal(WhiteMove move);
+
+    public class ObviouslyIllegalException extends RuntimeException {
+
+        public ObviouslyIllegalException(String message) {
+            super(message);
+        }
+    }
 
     /**
      * @return all legal moves, shuffled

@@ -173,8 +173,8 @@ public class Utils {
         if (size < 2) {
             throw new IllegalArgumentException("Board size must be at least 2!");
         }
-        if (size > 128) {
-            throw new IllegalArgumentException("Board size may not be above 128!");
+        if (size >= 32768) {
+            throw new IllegalArgumentException("Board size may not be above 32767!");
         }
     }
 

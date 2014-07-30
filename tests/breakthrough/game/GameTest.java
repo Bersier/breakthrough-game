@@ -58,7 +58,7 @@ public class GameTest {
 
     @Test
     public void testLegalMoves() throws Exception {
-        
+
     }
 
     @Test

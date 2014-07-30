@@ -23,7 +23,7 @@ abstract class AbstractGame implements Game {
 
         // check that the initial position of the move is in bounds
         if (!(move.i >= 0 && move.i < size() && move.j >= 0 && move.j < size())) {
-            throw new RuntimeException("Initial position out of bounds!");
+            throw new ObviouslyIllegalException("Initial position out of bounds!");
         }
 
         // make sure there is a pawn of the right color at the initial position
@@ -37,7 +37,7 @@ abstract class AbstractGame implements Game {
 
         // if it is out of bounds column-wise, the initial position was on the win column
         if (newj < 0 || newj >= size()) {
-            throw new RuntimeException("Initial position is on win column!");
+            throw new ObviouslyIllegalException("Initial position is on win column!");
         }
 
         // if it is out of bounds row-wise...

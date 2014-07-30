@@ -1,4 +1,4 @@
-package patterns;
+package commons;
 
 public final class Pair<A, B> {
 
@@ -11,7 +11,7 @@ public final class Pair<A, B> {
 	}
 	
 	public int hashCode() {
-		return first.hashCode() ^ Hash.rotl(second.hashCode(), 1); 
+		return first.hashCode() ^ Hash.rotl(second.hashCode(), 1);
 	}
 	
 	public boolean equals(Object o) {

@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import breakthrough.Color;
+import commons.Pair;
 
 /*
  * The algorithm:

@@ -5,30 +5,27 @@ package breakthrough;
  * <p/>
  * Created on 7/23/2014.
  */
-public class WhiteMove {
+public class WhiteMove {//todo restrict use of constructors? Move class (to game)?
 
     public static enum Direction {
         Left, Straight, Right
     }
 
     /** start coordinates */
-    public final byte i, j;
+    public final short i, j;
 
     /** destination coordinates */
-    public final byte newi, newj;
+    public final short newi, newj;
 
     public WhiteMove(int i, int j, Direction direction) {
-        this.i    = (byte)i;
-        this.j    = (byte)j;
-        this.newi = (byte)(this.i + direction.ordinal()-1);
-        this.newj = (byte)(this.j + 1);
+        this(i, j, direction.ordinal()-1);
     }
 
-    public WhiteMove(int i, int j, int direction) {
-        this.i    = (byte)i;
-        this.j    = (byte)j;
-        this.newi = (byte)(this.i + direction);
-        this.newj = (byte)(this.j + 1);
+    private WhiteMove(int i, int j, int direction) {
+        this.i    = (short)i;
+        this.j    = (short)j;
+        this.newi = (short)(this.i + direction);
+        this.newj = (short)(this.j + 1);
     }
 
     /**

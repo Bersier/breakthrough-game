@@ -1,6 +1,7 @@
 package patterns;
 
 import breakthrough.Color;
+import commons.Hash;
 
 final class LittleNode implements Node {
 

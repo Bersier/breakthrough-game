@@ -1,6 +1,8 @@
 package patterns;
 
 import breakthrough.Color;
+import commons.Hash;
+
 import java.util.List;
 import java.util.ArrayList;
 
