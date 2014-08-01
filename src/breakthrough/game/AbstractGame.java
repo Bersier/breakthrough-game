@@ -22,13 +22,8 @@ abstract class AbstractGame implements Game {
     public boolean isLegal(WhiteMove move) {
 
         // check that the initial position of the move is in bounds
-        if (!(move.i >= 0 && move.i < size() && move.j >= 0 && move.j < size())) {
+        if (! (  move.i >= 0   &&   move.i < size()   &&   move.j >= 0   &&   move.j < size()  )) {
             throw new ObviouslyIllegalException("Initial position out of bounds!");
-        }
-
-        // make sure there is a pawn of the right color at the initial position
-        if (at(move.i, move.j) != Color.White) {
-            return false;
         }
 
         // get the destination position
@@ -36,8 +31,13 @@ abstract class AbstractGame implements Game {
         final int newi = move.newi;
 
         // if it is out of bounds column-wise, the initial position was on the win column
-        if (newj < 0 || newj >= size()) {
+        if (newj >= size()) {
             throw new ObviouslyIllegalException("Initial position is on win column!");
+        }
+
+        // make sure there is a pawn of the right color at the initial position
+        if (at(move.i, move.j) != Color.White) {
+            return false;
         }
 
         // if it is out of bounds row-wise...
@@ -63,6 +63,7 @@ abstract class AbstractGame implements Game {
     public List<WhiteMove> legalMoves() {
         final int size = size();
         final List<WhiteMove> list = new ArrayList<WhiteMove>(size * size / 2);
+
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size - 1; j++) {
                 for (Direction dir : Direction.values()) {

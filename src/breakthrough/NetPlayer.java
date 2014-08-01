@@ -49,11 +49,11 @@ final class NetPlayer extends AbstractPlayer {
 	
 	public Move play(Color color) {
 		final Max<Move> max = cessor.problyBestMove(color, this);
-		final Board<Move> board = cessor.board(max.argmax);
+		final Board<Move> next = cessor.board(max.argmax);
 		if(old.containsKey(color)) {
 			learn(color, max.value);
 		}
-		old.put(color, board);
+		old.put(color, next);
 		return max.argmax;
 	}
 	

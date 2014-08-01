@@ -1,19 +1,21 @@
 package breakthrough.player;
 
+import breakthrough.Max;
 import breakthrough.WhiteMove;
 import breakthrough.game.Game;
 import breakthrough.heuristic.Heuristic;
 
 /**
- * Uses basic Temporal Difference to learn.
+ * Uses basic Temporal Difference to learn. Doesn't always play the best move in order to explore.
+ * Does mirror learning (for now).
  * <p>
  * Created on 7/26/2014.
  */
-public class TD1Player extends HeuristicPlayer {
+public class TD1BPlayer extends HeuristicPlayer {
 
     private Game previous;
 
-    public TD1Player(Heuristic heuristic) {
+    public TD1BPlayer(Heuristic heuristic) {
         super(heuristic);
     }
 
@@ -31,11 +33,17 @@ public class TD1Player extends HeuristicPlayer {
 
     @Override
     public WhiteMove play(Game current) {
-        final WhiteMove move = super.play(current);
+        final Max<WhiteMove> bestMove = Utils.usuallyBestMove(current, heuristic);
+
+        expectedGain         = bestMove.value;
+        final WhiteMove move = bestMove.argmax;
+
         final Game next = current.after(move);
+
         if (previous != null) {
             learn();
         }
+
         previous = next;
         return move;
     }
@@ -47,5 +55,6 @@ public class TD1Player extends HeuristicPlayer {
 
     private void learn() {
         heuristic.learn(previous, expectedGain);
+        heuristic.learn(previous.mirror(), expectedGain);
     }
 }

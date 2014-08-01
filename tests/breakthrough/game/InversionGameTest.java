@@ -6,6 +6,7 @@ import org.junit.runners.Parameterized;
 import java.util.Collection;
 
 /**
+ * Tests the InversionGame implementation of Game.
  * <p>
  * Created on 7/30/2014.
  */
@@ -13,7 +14,7 @@ import java.util.Collection;
 public class InversionGameTest extends GameTest {
 
     public InversionGameTest(Game refG, Game game) {
-    super(refG, game);
+        super(refG, game);
     }
 
     @Parameterized.Parameters

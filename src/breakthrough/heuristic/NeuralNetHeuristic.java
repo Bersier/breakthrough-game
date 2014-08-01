@@ -15,7 +15,7 @@ import static breakthrough.heuristic.Utils.*;
  */
 public class NeuralNetHeuristic implements Heuristic {
 
-    private final ValueFunction<double[]> network;//todo Bug: as used currently, it is terribly underconfident
+    private final ValueFunction<double[]> network;
 
     public NeuralNetHeuristic(int size) {
         this.network = new Network(2*size*size, 1);
@@ -43,7 +43,7 @@ public class NeuralNetHeuristic implements Heuristic {
      * @return a 1D double array representing the given game
      */
     private double[] gameToDoubleArray(Game game) {
-        final int size = game.size();
+        final int      size  = game.size();
         final double[] array = new double[2 * size*size];
 
         int k = 0;

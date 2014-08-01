@@ -8,8 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static java.lang.Math.PI;
+import static java.lang.Math.sin;
+
 /**
- * Utility class for players.
+ * Utility class for players.//todo split into utility class for players and utility class for outside (?)
  * <p>
  * Provides generally useful methods for players.
  * <p>
@@ -24,6 +27,12 @@ public class Utils {
      * Chooses a legal move uniformly at random.
      */
     public static final Player RandomPlayer = new HeuristicPlayer(board -> 0);
+
+    /**
+     * Chooses a legal move that maximizes the number advantage.
+     */
+    public static final Player CountPlayer =
+            new HeuristicPlayer(board -> board.count(Color.Black) - board.count(Color.White));
 
     /**
      * @return a best move for white, according to the given value function.
@@ -78,5 +87,16 @@ public class Utils {
             }
         }
         return list;
+    }
+
+    /**
+     * @param whiteCount number of white pawns on the board
+     * @param blackCount number of black pawns on the board
+     * @return a utility estimation
+     */
+    static double normalizeToUtility(double whiteCount, double blackCount) {
+
+        // the use of the sine is to get a smooth function with zero derivative at the end-points
+        return sin(PI/2 * (blackCount - whiteCount)/(blackCount + whiteCount));
     }
 }

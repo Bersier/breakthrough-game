@@ -13,7 +13,7 @@ public interface Heuristic extends ValueFunction<Game> {
 
     /**
      * -1 represents a sure loss,
-     * 1 represents a sure win;
+     *  1 represents a sure win;
      * so the returned value should lie in the interval [-1, 1]
      *
      * @return the expected value of the given game state for the player who just played, i.e. Black

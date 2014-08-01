@@ -20,4 +20,11 @@ public class WinningHeuristic implements Heuristic {
     public double at(Game state) {
         return state.hasWinner() ? 1 : els.at(state);
     }
+
+    @Override
+    public void learn(Game state, double utility) {
+        if (! state.hasWinner()) {
+            els.learn(state, utility);
+        }
+    }
 }

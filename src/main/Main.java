@@ -5,10 +5,13 @@ import breakthrough.game.Utils;
 import breakthrough.heuristic.NeuralNetHeuristic;
 import breakthrough.player.GreedyPlayer;
 import breakthrough.player.Player;
+import breakthrough.player.TD1BPlayer;
 import breakthrough.player.TD1Player;
 
 import java.util.EnumMap;
 import java.util.Map;
+
+import static breakthrough.player.Utils.CountPlayer;
 
 /**
  * <p>
@@ -30,8 +33,8 @@ public class Main {
     }
 
     private static void playABunch(int size) {
-        Player white = new TD1Player(new NeuralNetHeuristic(size));
-        Player black = new GreedyPlayer();
+        Player white = new TD1BPlayer(new NeuralNetHeuristic(size));
+        Player black = CountPlayer;
 
         final Map<Color, Player> player = new EnumMap<Color, Player>(Color.class);
         player.put(Color.White, white); player.put(Color.Black, black);
