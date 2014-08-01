@@ -1,8 +1,8 @@
 package patterns;
 
 
-enum Ternar {
+public enum Ternar {
 
-	no, be, ya;
+	no, be, ya,
 	
 }

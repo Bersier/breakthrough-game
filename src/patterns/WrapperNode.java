@@ -2,14 +2,14 @@ package patterns;
 
 import breakthrough.Color;
 
-final class WrapperNode implements Node {
+public final class WrapperNode implements Node {
 
 	private Node myNode;
 	
 	WrapperNode(Node node) {
 		this.myNode = node;
 	}
-	WrapperNode() {
+	public WrapperNode() {
 		this(new INode());
 	}
 	

@@ -11,12 +11,12 @@ import java.util.Stack;
 import java.util.Set;
 import java.util.HashSet;
 
-final class Tafa extends INode {// replace ArrayLists by Stacks?
+public final class Tafa extends INode {// replace ArrayLists by Stacks?
 	
 	private int length;
 	private final int size;
 	
-	Tafa(int size, int length) {
+	public Tafa(int size, int length) {
 		this.length = length;
 		this.size = size;
 	}
@@ -237,7 +237,7 @@ final class Tafa extends INode {// replace ArrayLists by Stacks?
 		return ans;
 	}
 	
-	Tafa littleCopy() {
+	public Tafa littleCopy() {
 		Map<Node, Node> layer = new HashMap<Node, Node>();
 		final Tafa ans = new Tafa(size, length);
 		layer.put(this, ans);

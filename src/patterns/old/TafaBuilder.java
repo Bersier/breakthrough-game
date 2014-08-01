@@ -1,4 +1,6 @@
-package patterns;
+package patterns.old;
+
+import patterns.Ternar;
 
 import java.util.Set;
 import java.util.HashSet;

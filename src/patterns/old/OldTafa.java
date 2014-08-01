@@ -1,6 +1,11 @@
-package patterns;
+package patterns.old;
 
 import breakthrough.Color;
+import patterns.Node;
+import patterns.Tafa;
+import patterns.Tafactory;
+import patterns.WrapperNode;
+
 import java.util.List;
 
 final class OldTafa {// implements Set!?

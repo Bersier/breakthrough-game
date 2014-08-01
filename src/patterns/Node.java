@@ -4,7 +4,7 @@ import breakthrough.Color;
 
 // add defs to make it WrapperNode-equiv?
 
-interface Node {
+public interface Node {
 	
 	Node getChild(Color color);
 	

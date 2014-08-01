@@ -1,10 +1,11 @@
-package patterns;
+package patterns.old;
 
 import breakthrough.Board;
 import breakthrough.Breakthrough;
 import breakthrough.Color;
 import breakthrough.Intercessor;
 import breakthrough.Move;
+import patterns.Ternar;
 
 import java.util.Arrays;
 import java.util.List;

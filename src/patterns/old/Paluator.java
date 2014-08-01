@@ -1,4 +1,4 @@
-package patterns;
+package patterns.old;
 
 import breakthrough.Board;
 import breakthrough.Color;

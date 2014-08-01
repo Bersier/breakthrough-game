@@ -1,8 +1,9 @@
-package patterns;
+package patterns.old;
 
 import breakthrough.Color;
 import breakthrough.Board;
 import breakthrough.Move;
+import patterns.Ternar;
 
 import java.util.List;
 

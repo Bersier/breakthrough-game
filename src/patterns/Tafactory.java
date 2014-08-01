@@ -36,9 +36,9 @@ import commons.Pair;
  */
 
 
-final class Tafactory {
+public final class Tafactory {
 	
-	static Tafa union(Tafa node1, Tafa node2) {
+	public static Tafa union(Tafa node1, Tafa node2) {
 		if(node1 == null) {
 			return node2;
 		} else if(node2 == null) {
@@ -248,7 +248,7 @@ final class Tafactory {
 		return next;
 	}
 	
-	static Tafa generateTafa(int size, List<Color> list) {
+	public static Tafa generateTafa(int size, List<Color> list) {
 		final Tafa head = new Tafa(size, list.size());
 		List<Node> current = new ArrayList<Node>(3);
 		current.add(head);
