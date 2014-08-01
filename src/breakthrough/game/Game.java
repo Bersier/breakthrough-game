@@ -6,12 +6,16 @@ import breakthrough.WhiteMove;
 import java.util.List;
 
 /**
- * Instances of this interface represent states of a Breakthrough game in progress.
+ * Instances of this interface represent the state of a Breakthrough game in progress.
  * The player whose turn it is always plays white.
  * Thus, the board gets reversed each turn, so as to remain in canonical form.
  * They should be immutable.
  * They do not store whether someone won.
  * They can assume they are being used properly.
+ * <p>
+ * Think of the board as a matrix, with white players initially on the left, moving to the right,
+ * and the opposite for black players. As with matrices, the i-coordinate determines the row, and
+ * the j-coordinate the column.
  * <p>
  * Created on 7/19/2014.
  */

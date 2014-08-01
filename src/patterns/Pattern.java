@@ -29,7 +29,7 @@ interface Pattern {
 	// returns the number of turns after which the attacker is supposed to win
 	int getN();
 	
-	// a pattern's good if the attacker always wins in this position in N turns
+	// a pattern is good if the attacker always wins in this position in N turns
 	Ternar isGood();
 	
 	// returns all the patterns directly smaller than this (this is their sup)

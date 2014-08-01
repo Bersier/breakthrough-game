@@ -457,12 +457,10 @@ final class Tafactory {
 	public static void main(String[] args) {
 	  System.out.println(java.lang.Runtime.getRuntime().maxMemory());
 		System.out.println("start");
-		final List<Tafa> list = tafas(16, 40);
+		final List<Tafa> list = tafas(8, 40);
 		//list.get(3).print();
 		System.out.println("done");
-		
 	}
-	
 }
 
 

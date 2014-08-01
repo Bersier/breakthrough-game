@@ -2,11 +2,12 @@ package patterns;
 
 import breakthrough.Color;
 import commons.Hash;
+import commons.Stack;
 
 import java.util.List;
 import java.util.ArrayList;
 
-final class ColorList implements StackFace<Color> {
+final class ColorList implements Stack<Color> {
 
 	private static final int sizeLimit = 64;
 	
