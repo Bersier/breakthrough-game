@@ -1,7 +1,8 @@
 package patterns;
 
 import breakthrough.Color;
-import breakthrough.Breakthrough;
+import breakthrough.game.ASCIIBoardRepresentation;
+
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -596,7 +597,7 @@ public final class Tafa extends INode {// replace ArrayLists by Stacks?
 		final Set<Stack<Color>> patterns = transe(trans(getPatterns()));
 		System.out.println("There are "+patterns.size()+" patterns:");
 		for(Stack<Color> stack : patterns) {
-			Breakthrough.printStackGrid(size, stack);
+            System.out.println(new ASCIIBoardRepresentation(size, stack).toString());
 		}
 	}
 	
