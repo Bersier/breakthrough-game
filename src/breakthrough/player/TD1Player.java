@@ -4,6 +4,17 @@ import breakthrough.WhiteMove;
 import breakthrough.game.Game;
 import breakthrough.heuristic.Heuristic;
 
+// do not store! show old input to network at learn-time!
+// quickprop
+// rprop
+// casper
+// take average of past weight changes;
+//if it's more than what a random walk would give,
+// increase step; otherwise decrease it
+// only update one weight per learning?
+// learn on the symmetric of the board
+// td lambda
+
 /**
  * Uses basic Temporal Difference to learn.
  * <p>
