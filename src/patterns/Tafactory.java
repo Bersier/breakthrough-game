@@ -10,6 +10,8 @@ import java.util.HashMap;
 
 import breakthrough.Color;
 import commons.Pair;
+import patterns.node.LittleNode;
+import patterns.node.Node;
 
 /*
  * The algorithm:

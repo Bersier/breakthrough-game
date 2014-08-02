@@ -1,9 +1,9 @@
-package patterns;
+package patterns.node;
 
 import breakthrough.Color;
-import commons.Hash;
+import commons.Utils;
 
-final class LittleNode implements Node {
+public final class LittleNode implements Node {
 
 	private Node white;
 	private Node black;
@@ -44,9 +44,9 @@ final class LittleNode implements Node {
 		for(Color color : Color.values()) {
 			final Node child = getChild(color); 
 			if(child == null) {
-				ans ^= Hash.rotl(INode.code, i);
+				ans ^= Utils.rotl(INode.code, i);
 			} else {
-				ans ^= Hash.rotl(child.oldHash(), i);
+				ans ^= Utils.rotl(child.oldHash(), i);
 			}
 			i++;
 		}
@@ -58,9 +58,9 @@ final class LittleNode implements Node {
 		Node child = getChild(Color.White);
 		int ans = (child==null) ? INode.code : child.oldHash();
 		child = getChild(Color.Black);
-		ans ^= Hash.rotl((child==null) ? INode.code : child.oldHash(), 1);
+		ans ^= Utils.rotl((child == null) ? INode.code : child.oldHash(), 1);
 		child = getChild(Color.None);
-		ans ^= Hash.rotl((child==null) ? INode.code : child.oldHash(), 2);
+		ans ^= Utils.rotl((child == null) ? INode.code : child.oldHash(), 2);
 		return ans;
 	}
 	

@@ -8,12 +8,20 @@ import java.util.Stack;
 * <p>
 * Created on 8/1/2014.
 */
-public class ASCIIBoardRepresentation {
+public class ASCIIBoardViewer {
 
     private final StringBuilder builder = new StringBuilder();
     private final String string;
 
-    public ASCIIBoardRepresentation(int size, Stack<Color> stack) {//todo remove redundancy
+    public static String viewBoard(Game board) {
+        return new ASCIIBoardViewer(board).toString();
+    }
+
+    public static String viewBoardEnd(int size, Stack<Color> stack) {
+        return new ASCIIBoardViewer(size, stack).toString();
+    }
+
+    private ASCIIBoardViewer(int size, Stack<Color> stack) {//todo remove redundancy
         appendLn("\n");
         leftSpace(); horizontalBorder(size);
         for(int i = 0; i < size; i++) {
@@ -33,7 +41,7 @@ public class ASCIIBoardRepresentation {
         this.string = builder.toString();
     }
 
-    ASCIIBoardRepresentation(Game state) {
+    private ASCIIBoardViewer(Game state) {
         final int size = state.size();
 
         appendLn("\n");

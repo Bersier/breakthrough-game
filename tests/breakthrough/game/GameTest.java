@@ -1,7 +1,7 @@
 package breakthrough.game;
 
 import breakthrough.Color;
-import breakthrough.WhiteMove;
+import breakthrough.Move;
 import commons.Pair;
 import commons.Thunk;
 import org.junit.Test;
@@ -97,7 +97,7 @@ public abstract class GameTest {
                     // add each encountered board to the list
                     toTest.add(new Pair<>(testee, reference));
 
-                    final WhiteMove move = reference.legalMoves().get(0);
+                    final Move move = reference.legalMoves().get(0);
 
                     reference = reference.after(move);
                     testee = testee.after(move);
@@ -115,7 +115,7 @@ public abstract class GameTest {
      * @return a reference starting game of the given size
      */
     private static Game getReference(Integer size) {
-        return Utils.newGame(size);
+        return Breakthrough.newGame(size);
     }
 
     /**
@@ -158,9 +158,9 @@ public abstract class GameTest {
     public void testIsLegal() throws Exception {
         final int i = random.nextInt(size);
         final int j = random.nextInt(size - 1);
-        final WhiteMove.Direction dir = WhiteMove.Direction.values()[random.nextInt(3)];
+        final Move.Direction dir = Move.Direction.values()[random.nextInt(3)];
 
-        final WhiteMove move = new WhiteMove(i, j, dir);
+        final Move move = new Move(i, j, dir);
 
         assertEquals(
                 reference.isLegal(move),
@@ -171,8 +171,8 @@ public abstract class GameTest {
     @Test
     public void testLegalMoves() throws Exception {
         sometimes(() -> assertEquals(
-                new HashSet<WhiteMove>(reference.legalMoves()),
-                new HashSet<WhiteMove>(testee.legalMoves())
+                new HashSet<Move>(reference.legalMoves()),
+                new HashSet<Move>(testee.legalMoves())
         ));
     }
 

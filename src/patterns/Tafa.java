@@ -1,7 +1,11 @@
 package patterns;
 
 import breakthrough.Color;
-import breakthrough.game.ASCIIBoardRepresentation;
+import breakthrough.game.ASCIIBoardViewer;
+import breakthrough.game.Breakthrough;
+import patterns.node.INode;
+import patterns.node.LittleNode;
+import patterns.node.Node;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -597,7 +601,7 @@ public final class Tafa extends INode {// replace ArrayLists by Stacks?
 		final Set<Stack<Color>> patterns = transe(trans(getPatterns()));
 		System.out.println("There are "+patterns.size()+" patterns:");
 		for(Stack<Color> stack : patterns) {
-            System.out.println(new ASCIIBoardRepresentation(size, stack).toString());
+            System.out.println(ASCIIBoardViewer.viewBoardEnd(size, stack));
 		}
 	}
 	

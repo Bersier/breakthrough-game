@@ -1,7 +1,7 @@
 package breakthrough.player;
 
 import breakthrough.Max;
-import breakthrough.WhiteMove;
+import breakthrough.Move;
 import breakthrough.game.Game;
 import breakthrough.heuristic.Heuristic;
 
@@ -32,11 +32,11 @@ public class TD1BPlayer extends HeuristicPlayer {
     }
 
     @Override
-    public WhiteMove play(Game current) {
-        final Max<WhiteMove> bestMove = Utils.usuallyBestMove(current, heuristic);
+    public Move play(Game current) {
+        final Max<Move> bestMove = Utils.usuallyBestMove(current, heuristic);
 
         expectedGain         = bestMove.value;
-        final WhiteMove move = bestMove.argmax;
+        final Move move = bestMove.argmax;
 
         final Game next = current.after(move);
 

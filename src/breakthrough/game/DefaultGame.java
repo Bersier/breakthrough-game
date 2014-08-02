@@ -1,7 +1,7 @@
 package breakthrough.game;
 
 import breakthrough.Color;
-import breakthrough.WhiteMove;
+import breakthrough.Move;
 
 /**
  * The default implementation for {@link Game}. Not optimized, but big-Oh optimal. Simple. Safe.
@@ -29,7 +29,7 @@ class DefaultGame extends TwoDArrayGame {
     }
 
     @Override
-    public Game after(WhiteMove move) {
+    public Game after(Move move) {
 
         // reverse the board
         final Color[][] board = Utils.reverse(this.board);

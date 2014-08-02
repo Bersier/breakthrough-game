@@ -1,6 +1,6 @@
 package breakthrough.player;
 
-import breakthrough.WhiteMove;
+import breakthrough.Move;
 import breakthrough.game.Game;
 import breakthrough.heuristic.Heuristic;
 
@@ -41,8 +41,8 @@ public class TD1Player extends HeuristicPlayer {
     }
 
     @Override
-    public WhiteMove play(Game current) {
-        final WhiteMove move = super.play(current);
+    public Move play(Game current) {
+        final Move move = super.play(current);
         final Game next = current.after(move);
         if (previous != null) {
             learn();

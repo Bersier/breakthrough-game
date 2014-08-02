@@ -1,7 +1,7 @@
 package breakthrough.game;
 
 import breakthrough.Color;
-import breakthrough.WhiteMove;
+import breakthrough.Move;
 
 /**
  * Similar to {@link DefaultGame}, but handles game state inversions lazily.
@@ -47,7 +47,7 @@ class InversionGame extends TwoDArrayGame {
     }
 
     @Override
-    public Game after(WhiteMove move) {
+    public Game after(Move move) {
         final InversionGame nextState = new InversionGame(Utils.copy(board));
         nextState.colorsInverted = colorsInverted;
         nextState.removePawnAt(move.i   , move.j   );

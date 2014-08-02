@@ -1,8 +1,8 @@
 package breakthrough.game;
 
 import breakthrough.Color;
-import breakthrough.WhiteMove;
-import breakthrough.WhiteMove.Direction;
+import breakthrough.Move;
+import breakthrough.Move.Direction;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,7 +19,7 @@ import static breakthrough.game.Utils.*;
 abstract class AbstractGame implements Game {
 
     @Override
-    public boolean isLegal(WhiteMove move) {
+    public boolean isLegal(Move move) {
 
         // check that the initial position of the move is in bounds
         if (! (  move.i >= 0   &&   move.i < size()   &&   move.j >= 0   &&   move.j < size()  )) {
@@ -60,14 +60,14 @@ abstract class AbstractGame implements Game {
     }
 
     @Override
-    public List<WhiteMove> legalMoves() {
+    public List<Move> legalMoves() {
         final int size = size();
-        final List<WhiteMove> list = new ArrayList<WhiteMove>(size * size / 2);
+        final List<Move> list = new ArrayList<Move>(size * size / 2);
 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size - 1; j++) {
                 for (Direction dir : Direction.values()) {
-                    final WhiteMove move = new WhiteMove(i, j, dir);
+                    final Move move = new Move(i, j, dir);
                     if (isLegal(move)) {
                         list.add(move);
                     }
@@ -111,7 +111,7 @@ abstract class AbstractGame implements Game {
 
     @Override
     public Game dual() {
-        return gameState(reverse(getBoard(this)));
+        return Breakthrough.gameState(reverse(getBoard(this)));
     }
 
     @Override
@@ -135,6 +135,6 @@ abstract class AbstractGame implements Game {
 
     @Override
     public String toString() {
-        return new ASCIIBoardRepresentation(this).toString();
+        return ASCIIBoardViewer.viewBoard(this);
     }
 }

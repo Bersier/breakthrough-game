@@ -1,7 +1,7 @@
 package patterns;
 
 import breakthrough.Color;
-import commons.Hash;
+import commons.Utils;
 import commons.Stack;
 
 import java.util.List;
@@ -29,10 +29,10 @@ final class ColorList implements Stack<Color> {
 	
 	public int hashCode() {
 		int ans = next;
-		ans ^= Hash.rotl(white1, 1);
-		ans ^= Hash.rotl(white2, 2);
-		ans ^= Hash.rotl(black1, 3);
-		ans ^= Hash.rotl(black2, 4);
+		ans ^= Utils.rotl(white1, 1);
+		ans ^= Utils.rotl(white2, 2);
+		ans ^= Utils.rotl(black1, 3);
+		ans ^= Utils.rotl(black2, 4);
 		return ans;
 	}
 	

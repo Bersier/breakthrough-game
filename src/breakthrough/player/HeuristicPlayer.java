@@ -1,13 +1,13 @@
 package breakthrough.player;
 
 import breakthrough.Max;
-import breakthrough.WhiteMove;
+import breakthrough.Move;
 import breakthrough.game.Game;
 import breakthrough.heuristic.Heuristic;
 
 import java.text.DecimalFormat;
 
-import static breakthrough.heuristic.Utils.vToP;
+import static commons.Utils.vToP;
 
 /**
  * Simple heuristic player. Always plays a best move of its given {@link Heuristic}.
@@ -37,8 +37,8 @@ public class HeuristicPlayer implements Player {
      * @return one of the moves judged best with uniform probability
      */
     @Override
-    public WhiteMove play(Game current) {
-        final Max<WhiteMove> bestMove = Utils.bestMove(current, heuristic);
+    public Move play(Game current) {
+        final Max<Move> bestMove = Utils.bestMove(current, heuristic);
         expectedGain = bestMove.value;
         return bestMove.argmax;
     }

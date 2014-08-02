@@ -5,7 +5,7 @@ package breakthrough;
  * <p/>
  * Created on 7/23/2014.
  */
-public class WhiteMove {//todo restrict use of constructors? Move class (to game)?
+public class Move {//todo restrict use of constructors? Move class (to game)?
 
     public static enum Direction {
         Left, Straight, Right
@@ -17,11 +17,11 @@ public class WhiteMove {//todo restrict use of constructors? Move class (to game
     /** destination coordinates */
     public final short newi, newj;
 
-    public WhiteMove(int i, int j, Direction direction) {
+    public Move(int i, int j, Direction direction) {
         this(i, j, direction.ordinal()-1);
     }
 
-    private WhiteMove(int i, int j, int direction) {
+    private Move(int i, int j, int direction) {
         this.i    = (short)i;
         this.j    = (short)j;
         this.newi = (short)(this.i + direction);
@@ -69,7 +69,7 @@ public class WhiteMove {//todo restrict use of constructors? Move class (to game
 
     @Override
     public boolean equals(Object other) {
-        final WhiteMove o = (WhiteMove)other;
+        final Move o = (Move)other;
         return (i == o.i) && (j == o.j) && (newi == o.newi);
     }
 

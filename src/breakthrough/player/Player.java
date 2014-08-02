@@ -1,6 +1,6 @@
 package breakthrough.player;
 
-import breakthrough.WhiteMove;
+import breakthrough.Move;
 import breakthrough.game.Game;
 
 /**
@@ -30,7 +30,7 @@ public interface Player {
      * Players always play white.
      * It is the duty of the game controller to make the needed conversions/inversions.
      */
-	WhiteMove play(Game current);
+	Move play(Game current);
 
     /**
      * @return whatever this player wants to say at that point in the game.

@@ -1,4 +1,4 @@
-package patterns;
+package patterns.node;
 
 import breakthrough.Color;
 

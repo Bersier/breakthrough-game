@@ -1,7 +1,7 @@
 package breakthrough.game;
 
 import breakthrough.Color;
-import breakthrough.WhiteMove;
+import breakthrough.Move;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ public interface Game {
      * @param move the move to be executed
      * @return the resulting board.
      */
-    Game after(WhiteMove move);
+    Game after(Move move);
 
     /**
      * The game as seen in a mirror.
@@ -58,7 +58,7 @@ public interface Game {
      * @throws ObviouslyIllegalException when a move is obviously illegal on any board, as this
      * indicates a weakness of the calling code.
      */
-    boolean isLegal(WhiteMove move);
+    boolean isLegal(Move move);
 
     public class ObviouslyIllegalException extends RuntimeException {
 
@@ -70,7 +70,7 @@ public interface Game {
     /**
      * @return all legal moves, shuffled
      */
-    List<WhiteMove> legalMoves();
+    List<Move> legalMoves();
 
     /**
      * @return all possible gameStates resulting from a legal move, shuffled

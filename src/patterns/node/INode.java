@@ -1,16 +1,16 @@
-package patterns;
+package patterns.node;
 
 import breakthrough.Color;
-import commons.Hash;
+import commons.Utils;
 
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Random;
 
-class INode implements Node {
+public class INode implements Node {
 	
 	final static int code = (new Random()).nextInt();
-	final static int cdsCode = (new INode()).hashCode();
+	public final static int cdsCode = (new INode()).hashCode();
 	
 	private boolean visited = false;
 	private final Map<Color, Node> children =
@@ -22,9 +22,9 @@ class INode implements Node {
 		for(Color color : Color.values()) {
 			final Node child = getChild(color); 
 			if(child == null) {
-				ans ^= Hash.rotl(code, i);
+				ans ^= Utils.rotl(code, i);
 			} else {
-				ans ^= Hash.rotl(child.oldHash(), i);
+				ans ^= Utils.rotl(child.oldHash(), i);
 			}
 			i++;
 		}
