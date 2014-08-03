@@ -174,7 +174,7 @@ public final class Tafactory {
 		}
 		//ans.print();
 		ans.minimize();
-		if(ans.size()==1) {
+		if(ans.graphSize()==1) {
 			System.out.println("h");
 		}
 		return ans;
@@ -220,7 +220,7 @@ public final class Tafactory {
 	static Tafa growth(int size, int length) {
 		final Tafa head = new Tafa(size, length);
 		Node current = head;
-		for(int i=0; i<length; i++) {
+		for(int i = 0; i < length; i++) {
 			final Node next = new LittleNode();
 			for(Color color : Color.values()) {
 				current.setChild(color, next);
@@ -295,10 +295,15 @@ public final class Tafactory {
 		}
 		return ans;
 	}
-	
+
+    /**
+     *
+     * @param size
+     * @return
+     */
 	static Tafa baseCase(int size) {
 		Tafa ans = caseTafa(size, 0);
-		for(int i=1; i<size; i++) {
+		for(int i = 1; i < size; i++) {
 			ans = union(ans, caseTafa(size, i));
 		}
 		//ans.print();
@@ -350,7 +355,7 @@ public final class Tafactory {
 			}
 			System.out.println((start-beginning+1));
 		}
-		System.out.println("size of the graph: "+ans.size());
+		System.out.println("size of the graph: "+ans.graphSize());
 		//ans.printPatterns();
 		//ans.print();
 		return ans;
@@ -408,7 +413,7 @@ public final class Tafactory {
 			//tt++;
 			System.out.println((start+1));
 		}
-		System.out.println("size of the graph: "+ans.size());
+		System.out.println("size of the graph: "+ans.graphSize());
 		//ans.printPatterns();
 		//ans.print();
 		return ans;
@@ -438,15 +443,21 @@ public final class Tafactory {
 			throw new RuntimeException("It's nobody's turn");
 		}
 	}
-	
+
+    /**
+     *
+     * @param size
+     * @param N
+     * @return a list of all tafas for a board of the given size for each number of moves up to N
+     */
 	static List<Tafa> tafas(int size, int N) {
-		final Stack<Tafa> ans = new Stack<Tafa>();
+		final Stack<Tafa> ans = new Stack<>();
 		Tafa previous = baseCase(size);
 		previous.getPatterns();
 		ans.push(previous);
 		previous = null;
 		Color color = Color.White;
-		for(int i=1; i<=N; i++) {
+		for(int i = 1; i <= N; i++) {
 			final Tafa next = next(color, ans.peek(), previous);
 			System.out.println(i+" moves ahead ("+color+").\n");
 			previous = ans.peek();
