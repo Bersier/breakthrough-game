@@ -2,19 +2,61 @@ package patterns;
 
 import breakthrough.Color;
 import breakthrough.game.ASCIIBoardViewer;
+import commons.*;
 import patterns.node.INode;
 import patterns.node.LittleNode;
 import patterns.node.Node;
 
 import java.util.*;
+import java.util.Set;
+import java.util.Stack;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public final class Tafa extends INode {// replace ArrayLists by Stacks?
+import static commons.Utils.Set;
+
+/**
+ * Represents a set of winning boards.
+ * To test whether a board belongs to the set, the colors of the last 'length' squares of the board
+ * on the right (ie the last length / size (= depth) columns) are put into a list.
+ * This list is seen as a word, and this Node is seen as the initial state of a finite-state
+ * automaton (which also happens to be a dag).
+ * If the automaton doesn't get stuck before the end of the word (because there is no edge of the
+ * needed color), then the board belongs to the set.
+ *
+ * The dag has additional properties, if constructed properly (and it always should be):
+ * The depth of a node is well-defined. Ie, all paths to a given node have the same length.
+ * From any node, if a word is accepted, a weaker word is accepted too. In particular,
+ * replacing the first color of the word by a lighter one.
+ *
+ * The ordering on words is given by the product of the ordering: Black > None > White
+ */
+public final class Tafa extends INode implements commons.Set<Tafa> {// replace ArrayLists by Stacks?
+
+    @Override
+    public Tafa union(commons.Set<Tafa> set) {
+        return null;
+    }//todo does this actually buy us any abstraction?
+
+    @Override
+    public Tafa intersection(commons.Set<Tafa> set) {
+        return null;
+    }
+
+    @Override
+    public Tafa complement() {
+        return Tafactory.complement(this);
+    }
+
 
     /**
-     * The length of the dag (?)
+     * The length of the dag (number of edges to follow to reach end)
      */
     private int length;
+
+    /**
+     * The size of boards this tafa was made for
+     */
     private final int size;
 
     public Tafa(int size, int length) {
@@ -22,14 +64,23 @@ public final class Tafa extends INode {// replace ArrayLists by Stacks?
         this.size = size;
     }
 
+    /**
+     * @return The number of columns to be fed (as a list) to this tafa
+     */
     int getDepth() {
         return length / size;
     }
 
+    /**
+     * @return the size of boards this tafa was made for
+     */
     int getSize() {
         return size;
     }
 
+    /**
+     * @return the length of the dag (number of edges to follow to reach end)
+     */
     int getLength() {
         return length;
     }
@@ -37,12 +88,11 @@ public final class Tafa extends INode {// replace ArrayLists by Stacks?
     /**
      * @return the number of nodes reachable from this one
      */
-    int graphSize() {
+    int graphSize() {//todo move to Node
         int count = 0;
 
         // keeps the nodes reachable from this node in 0, 1, 2, ... steps
-        Set<Node> current = new HashSet<>(1);
-        {
+        Set<Node> current = new HashSet<>(1); {
             current.add(this);
         }
 
@@ -50,17 +100,15 @@ public final class Tafa extends INode {// replace ArrayLists by Stacks?
         while (!current.isEmpty()) {
             count += current.size();
 
-            // store nodes reachable from current in one step in next
-            final Set<Node> next = new HashSet<>(current.size());
-            for (Node node : current) {
-                next.addAll(node.getChildren());
-            }
-
-            current = next;
+            // update current to contain the next layer
+            current = getChildren(current);
         }
         return count;
     }
 
+    /**
+     * Prints out DOT notation code to represent this graph.
+     */
     public void print() {
         Map<Node, Node> current = new IdentityHashMap<Node, Node>(3);
         for (Color color : Color.values()) {
@@ -88,27 +136,38 @@ public final class Tafa extends INode {// replace ArrayLists by Stacks?
         System.out.println("}");
     }
 
-    List<Node> getLayer(int depth) {
-        Set<Node> current = new HashSet<Node>(1);
-        current.add(this);
+    /**
+     * @return all nodes at the given depth
+     */
+    Collection<Node> getLayer(int depth) {
+
+        // set currentLayer to the zeroth layer
+        Set<Node> currentLayer = Set(this);
+
+        // update currentLayer to next layer until depth is reached
         for (int i = 0; i < depth; i++) {
-            final Set<Node> next =
-                    new HashSet<Node>(current.size());
-            for (Node node : current) {
-                for (Color color : Color.values()) {
-                    final Node child = node.getChild(color);
-                    if (child != null) {
-                        next.add(child);
-                    }
-                }
-            }
-            current = next;
+            currentLayer = getChildren(currentLayer);
         }
-        return new ArrayList<Node>(current);
+
+        return currentLayer;
     }
 
-    void InitRedir(Color color, int depth) {
-        final List<Node> layer = getLayer(depth);
+    /**
+     * We suppose the current tafa represents a set of winning boards.
+     * Now we are only interested in winning boards that are the result of a move
+     * of the given color that started at depth.
+     * Therefore, at that depth, the boards must now have an empty square (Color.None).
+     * This corresponds to cutting the white and black edges at that depth.
+     * Now we want to recognize those boards BEFORE the move.
+     * How can we get these from the boards after the move?
+     * Instead of an empty square, there must be a pawn of the given color.
+     * This corresponds to changing the color of the None-edge to the given color.
+     *
+     * @param color
+     * @param depth
+     */
+    void startRedir(Color color, int depth) {
+        final Collection<Node> layer = getLayer(depth);
         for (Node node : layer) {
             node.setChild(color, node.getChild(Color.None));
             node.setChild(Color.None, null);
@@ -119,7 +178,7 @@ public final class Tafa extends INode {// replace ArrayLists by Stacks?
 
     // check if by using these the graph is more compact
     private void destRedirNaite(Color color, int depth) {
-        final List<Node> layer = getLayer(depth);
+        final Collection<Node> layer = getLayer(depth);
         for (Node node : layer) {
             node.setChild(Color.None, node.getChild(color));
             node.setChild(color.dual(), node.getChild(color));
@@ -129,7 +188,7 @@ public final class Tafa extends INode {// replace ArrayLists by Stacks?
     }
 
     private void destRedirStraite(Color color, int depth) {
-        final List<Node> layer = getLayer(depth);
+        final Collection<Node> layer = getLayer(depth);
         for (Node node : layer) {
             node.setChild(Color.None, node.getChild(color));
             node.setChild(Color.Black, null);
@@ -139,7 +198,7 @@ public final class Tafa extends INode {// replace ArrayLists by Stacks?
     }
 
     void destRedirNaiteBlack(int depth) {
-        final List<Node> layer = getLayer(depth);
+        final Collection<Node> layer = getLayer(depth);
         for (Node node : layer) {
             node.setChild(Color.None, node.getChild(Color.Black));
             node.setChild(Color.White, node.getChild(Color.Black));
@@ -148,8 +207,14 @@ public final class Tafa extends INode {// replace ArrayLists by Stacks?
         minimize();
     }
 
+    /**
+     * Here, the white edge isn't deleted, because it's a weakening of the other boards.
+     * If the stronger boards are winning boards, the weaker ones are too (no Zwangzug).
+     *
+     * @param depth
+     */
     void destRedirNaiteWhite(int depth) {
-        final List<Node> layer = getLayer(depth);
+        final Collection<Node> layer = getLayer(depth);
         for (Node node : layer) {
             node.setChild(Color.None, node.getChild(Color.White));
             node.setChild(Color.Black, node.getChild(Color.White));
@@ -158,7 +223,7 @@ public final class Tafa extends INode {// replace ArrayLists by Stacks?
     }
 
     void destRedirStraiteBlack(int depth) {
-        final List<Node> layer = getLayer(depth);
+        final Collection<Node> layer = getLayer(depth);
         for (Node node : layer) {
             node.setChild(Color.None, node.getChild(Color.Black));
             node.setChild(Color.Black, null);
@@ -168,7 +233,7 @@ public final class Tafa extends INode {// replace ArrayLists by Stacks?
     }
 
     void destRedirStraiteWhite(int depth) {
-        final List<Node> layer = getLayer(depth);
+        final Collection<Node> layer = getLayer(depth);
         for (Node node : layer) {
             node.setChild(Color.None, node.getChild(Color.White));
             node.setChild(Color.Black, null);
@@ -542,6 +607,13 @@ public final class Tafa extends INode {// replace ArrayLists by Stacks?
     private static Set<Node> getChildren(Collection<Node> nodes, Color color) {
         return nodes.stream()
                 .map(node -> node.getChild(color))
+                .filter(child -> child != null)
+                .collect(Collectors.toSet());
+    }
+
+    private static Set<Node> getChildren(Collection<Node> nodes) {
+        return nodes.stream()
+                .flatMap(node -> node.getChildren().stream())
                 .filter(child -> child != null)
                 .collect(Collectors.toSet());
     }

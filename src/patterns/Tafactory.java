@@ -37,7 +37,9 @@ import patterns.node.Node;
  * refactor
  */
 
-
+/**
+ * Contains functions to compose Tafas.
+ */
 public final class Tafactory {
 	
 	public static Tafa union(Tafa node1, Tafa node2) {
@@ -197,23 +199,35 @@ public final class Tafactory {
 	
 	static Tafa blackElse(int size, int depth, int length) {
 		final Tafa ans = growth(size, length);
-		final Node lay = ans.getLayer(depth).get(0);
-		lay.setChild(Color.Black, null);
+
+        // (there is only one node in the layer)
+        for (Node node : ans.getLayer(depth)) {
+            node.setChild(Color.Black, null);
+        }
+
 		return ans;
 	}
 	
 	static Tafa blackElseDestNaite(int size, int depth, int length) {
 		final Tafa ans = growth(size, length);
-		final Node lay = ans.getLayer(depth).get(0);
-		lay.setChild(Color.White, null);
-		lay.setChild(Color.None, null);
+
+        // (there is only one node in the layer)
+        for (Node node : ans.getLayer(depth)) {
+            node.setChild(Color.White, null);
+            node.setChild(Color.None, null);
+        }
+
 		return ans;
 	}
 	
 	static Tafa blackElseDestStraite(int size, int depth, int length) {
 		final Tafa ans = growth(size, length);
-		final Node lay = ans.getLayer(depth).get(0);
-		lay.setChild(Color.None, null);
+
+        // (there is only one node in the layer)
+        for (Node node : ans.getLayer(depth)) {
+            node.setChild(Color.None, null);
+        }
+
 		return ans;
 	}
 	
@@ -272,9 +286,13 @@ public final class Tafactory {
 	
 	private static Tafa caseTafa(int size, int depth) {
 		final Tafa ans = growth(size, size);
-		final Node lay = ans.getLayer(depth).get(0);
-		lay.setChild(Color.Black, null);
-		lay.setChild(Color.None, null);
+
+        // (there is only one node in the layer)
+        for (Node node : ans.getLayer(depth)) {
+            node.setChild(Color.Black, null);
+            node.setChild(Color.None, null);
+        }
+
 		return ans;
 	}
 	
@@ -327,28 +345,33 @@ public final class Tafactory {
 	private static Tafa nextWhite(Tafa tafa, Tafa previous) {
 		final int size = tafa.getSize();
 		Tafa ans = forUse(previous);
-		final int beginning = (ans==null) ? size : 2*size;
-		final int length = (ans==null) ? 2*size : ans.getLength();
-		for(int start=beginning; start<length; start++) {
+
+        /* If this is not the first time we recurse, we don't consider the penultimate
+         * row as an optimization, as
+         */
+		final int beginning = (ans == null) ? size : 2*size;
+
+		final int length = (ans == null) ? 2*size : ans.getLength();
+		for(int start = beginning; start < length; start++) {
 			int dest;
 			if(start%size != 0) {
 				dest = start - size - 1;
 				final Tafa morel = forUse(tafa);
-				morel.InitRedir(Color.White, start);
+				morel.startRedir(Color.White, start);
 				morel.destRedirNaiteWhite(dest);
 				ans = union(ans, morel);
 				System.out.print(".");
 			}
 			dest = start - size;
 			final Tafa mores = forUse(tafa);
-			mores.InitRedir(Color.White, start);
+			mores.startRedir(Color.White, start);
 			mores.destRedirStraiteWhite(dest);
 			ans = union(ans, mores);
 			System.out.print(",");
 			if(start%size != size-1) {
 				dest = start - size + 1;
 				final Tafa morer = forUse(tafa);
-				morer.InitRedir(Color.White, start);
+				morer.startRedir(Color.White, start);
 				morer.destRedirNaiteWhite(dest);
 				ans = union(ans, morer);
 				System.out.print(".");
@@ -383,7 +406,7 @@ public final class Tafactory {
 			if(start%size != 0) {
 				dest = start + size - 1;
 				final Tafa morel = tafa.copy();
-				morel.InitRedir(Color.Black, start);
+				morel.startRedir(Color.Black, start);
 				morel.destRedirNaiteBlack(dest);
 				bedn = blackElseDestNaite(size, dest, length);
 				temp = intersection(temp, union(morel, bedn));	
@@ -392,7 +415,7 @@ public final class Tafactory {
 			dest = start + size;
 			//System.gc();
 			final Tafa mores = tafa.copy();
-			mores.InitRedir(Color.Black, start);
+			mores.startRedir(Color.Black, start);
 			mores.destRedirStraiteBlack(dest);
 			bedn = blackElseDestStraite(size, dest, length);
 			temp = intersection(temp, union(mores, bedn));
@@ -401,7 +424,7 @@ public final class Tafactory {
 				dest = start + size + 1;
 				//System.gc();
 				final Tafa morer = tafa.copy();
-				morer.InitRedir(Color.Black, start);
+				morer.startRedir(Color.Black, start);
 				morer.destRedirNaiteBlack(dest);
 				bedn = blackElseDestNaite(size, dest, length);
 				temp = intersection(temp, union(morer, bedn));
@@ -421,24 +444,26 @@ public final class Tafactory {
 	
 	static Tafa next(Color turn, Tafa tafa, Tafa previous) {
 		switch(turn) {
-		case White:
-			Tafa next1 = nextWhite(tafa, previous);
-			//next1.printPatterns();
-			//next1.printPatterns2();
-			//next1.getPatterns();
-			System.out.println("There are "+next1.getPatterns().size()+" patterns");
-			//next1 = genTafa(next1.getSize(), next1.getPatterns());
-			//System.out.println("size after compactification: "+next1.size());
-			return next1;
-		case Black:
-			Tafa next2 = nextBlack(tafa);
-			//next2.printPatterns();
-			//next2.printPatterns2();
-			//next2.getPatterns();
-			System.out.println("There are "+next2.getPatterns().size()+" patterns");
-			//next2 = genTafa(next2.getSize(), next2.getPatterns());
-			//System.out.println("size after compactification: "+next2.size());
-			return next2;
+		case White: {
+            final Tafa next = nextWhite(tafa, previous);
+            //next.printPatterns();
+            //next.printPatterns2();
+            //next.getPatterns();
+            System.out.println("There are " + next.getPatterns().size() + " patterns");
+            //next = genTafa(next.getSize(), next.getPatterns());
+            //System.out.println("size after compactification: "+next.size());
+            return next;
+        }
+		case Black: {
+            final Tafa next = nextBlack(tafa);
+            //next.printPatterns();
+            //next.printPatterns2();
+            //next.getPatterns();
+            System.out.println("There are " + next.getPatterns().size() + " patterns");
+            //next = genTafa(next.getSize(), next.getPatterns());
+            //System.out.println("size after compactification: "+next.size());
+            return next;
+        }
 		default:
 			throw new RuntimeException("It's nobody's turn");
 		}
@@ -474,6 +499,11 @@ public final class Tafactory {
 		//list.get(3).print();
 		System.out.println("done");
 	}
+
+    private static void foo() {
+        commons.Set<Tafa> x = new Tafa(0,0);
+        commons.Set<Tafa> u = x.union(x);
+    }
 }
 
 

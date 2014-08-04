@@ -12,6 +12,14 @@ import java.util.Collection;
  *
  * Each Node can have at most one edge of each {@link breakthrough.Color}.
  * So each edge is labelled by a color.
+ *
+ * Each node represents a set, which is recursively defined by the sets defined by its
+ * children as follows:
+ * The set represented by its black child is intersected with the set of all boards that
+ * have a black pawn at the depth of this node.
+ * Similarly for none and white children.
+ * This node represents the union of the sets.
+ * Just another way to say that it's a finite-state machine.
  */
 public interface Node {
 

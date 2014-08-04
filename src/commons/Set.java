@@ -1,12 +1,10 @@
 package commons;
 
-public interface Set<A> {
+public interface Set<SetType extends Set<SetType>> {
 	
-	A union(A set);
-	
-	A intersection(A set);
-	
-	A complement();
-	
-	A copy();
+	SetType union(Set<SetType> set);
+
+    SetType intersection(Set<SetType> set);
+
+    SetType complement();
 }
