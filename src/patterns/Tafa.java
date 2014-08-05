@@ -492,9 +492,9 @@ public final class Tafa extends INode implements commons.Set<Tafa> {// replace A
         return getPatterns(child, newElders, height - 1);
     }
 
-    private static void addPatterns(Color black, Set<ColorList> toAdd, Set<ColorList> patterns) {
+    private static void addPatterns(Color color, Set<ColorList> toAdd, Set<ColorList> patterns) {
         for (ColorList list : toAdd) {
-            list.push(black);
+            list.push(color);
             patterns.add(list);
         }
     }
