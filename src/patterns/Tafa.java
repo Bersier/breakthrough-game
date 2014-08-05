@@ -471,59 +471,45 @@ public final class Tafa extends INode implements commons.Set<Tafa> {// replace A
         final Map<Color, Set<ColorList>> childPatterns = new EnumMap<>(Color.class);
 
         final Node blackChild = current.getChild(Color.Black);
-        final Set<ColorList> blackPatterns;
-        if (blackChild != null) {
-            final Set<Node> blackElders = Utils.getChildren(elders, Color.Black);
-            blackPatterns = getPatterns(blackChild, blackElders, height - 1);
-        } else {
-            blackPatterns = Set();
-        }
+        final Set<ColorList> blackPatterns = getPatterns(elders, height, null, Color.Black, blackChild);
 
         final Node noneChild = current.getChild(Color.None);
-        final Set<ColorList> nonePatterns;
-        if (noneChild != null) {
-            final Set<Node> noneElders = Utils.getChildren(elders, Color.None);
-            if (blackChild != null) {
-                noneElders.add(blackChild);
-            }
-            nonePatterns = getPatterns(noneChild, noneElders, height - 1);
-        } else {
-            nonePatterns = Set();
-        }
+        final Set<ColorList> nonePatterns = getPatterns(elders, height, blackChild, Color.None, noneChild);
 
         nonePatterns.removeAll(blackPatterns);
 
         final Node whiteChild = current.getChild(Color.White);
-        final Set<ColorList> whitePatterns;
-        if (whiteChild != null) {
-            final Set<Node> whiteElders = Utils.getChildren(elders, Color.White);
-            if (noneChild != null) {
-                whiteElders.add(noneChild);
-            }
-            whitePatterns = getPatterns(whiteChild, whiteElders, height - 1);
-        } else {
-            whitePatterns = Set();
-        }
+        final Set<ColorList> whitePatterns = getPatterns(elders, height, noneChild, Color.White, whiteChild);
 
         whitePatterns.removeAll(nonePatterns);
         whitePatterns.removeAll(blackPatterns);
 
         final Set<ColorList> patterns = new HashSet<ColorList>();
 
-        for (ColorList list : blackPatterns) {
-            list.push(Color.Black);
-            patterns.add(list);
-        }
-        for (ColorList list : nonePatterns) {
-            list.push(Color.None);
-            patterns.add(list);
-        }
-        for (ColorList list : whitePatterns) {
-            list.push(Color.White);
-            patterns.add(list);
-        }
+        addPatterns(Color.Black, blackPatterns, patterns);
+        addPatterns(Color.None, nonePatterns, patterns);
+        addPatterns(Color.White, whitePatterns, patterns);
 
         return patterns;
+    }
+
+    private static Set<ColorList> getPatterns(Set<Node> elders, int height, Node elder, Color color, Node child) {
+        if (child == null) {
+            return Set();
+        }
+
+        final Set<Node> newElders = Utils.getChildren(elders, color);
+        if (elder != null) {
+            newElders.add(elder);
+        }
+        return getPatterns(child, newElders, height - 1);
+    }
+
+    private static void addPatterns(Color black, Set<ColorList> blackPatterns, Set<ColorList> patterns) {
+        for (ColorList list : blackPatterns) {
+            list.push(black);
+            patterns.add(list);
+        }
     }
 
     // memory hungry
@@ -569,18 +555,9 @@ public final class Tafa extends INode implements commons.Set<Tafa> {// replace A
                     throw new RuntimeException("unexpected shrinking");
                 }
                 nones.removeAll(blacks);
-                for (ColorList stack : whites) {
-                    stack.push(Color.White);
-                    nodeSet.add(stack);
-                }
-                for (ColorList stack : nones) {
-                    stack.push(Color.None);
-                    nodeSet.add(stack);
-                }
-                for (ColorList stack : blacks) {
-                    stack.push(Color.Black);
-                    nodeSet.add(stack);
-                }
+                addPatterns(Color.White, whites, nodeSet);
+                addPatterns(Color.None, nones, nodeSet);
+                addPatterns(Color.Black, blacks, nodeSet);
                 next.put(node, nodeSet);
             }
             listMap = next;
