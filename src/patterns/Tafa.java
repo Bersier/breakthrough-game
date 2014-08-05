@@ -2,7 +2,6 @@ package patterns;
 
 import breakthrough.Color;
 import breakthrough.game.ASCIIBoardViewer;
-import commons.*;
 import patterns.node.INode;
 import patterns.node.LittleNode;
 import patterns.node.Node;
@@ -10,9 +9,8 @@ import patterns.node.Node;
 import java.util.*;
 import java.util.Set;
 import java.util.Stack;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
+import static commons.Utils.List;
 import static commons.Utils.Set;
 
 /**
@@ -101,7 +99,7 @@ public final class Tafa extends INode implements commons.Set<Tafa> {// replace A
             count += current.size();
 
             // update current to contain the next layer
-            current = getChildren(current);
+            current = Utils.getChildren(current);
         }
         return count;
     }
@@ -146,7 +144,7 @@ public final class Tafa extends INode implements commons.Set<Tafa> {// replace A
 
         // update currentLayer to next layer until depth is reached
         for (int i = 0; i < depth; i++) {
-            currentLayer = getChildren(currentLayer);
+            currentLayer = Utils.getChildren(currentLayer);
         }
 
         return currentLayer;
@@ -241,20 +239,10 @@ public final class Tafa extends INode implements commons.Set<Tafa> {// replace A
         minimize();
     }
 
-    private Node getLast() {
-        Set<Node> current = new HashSet<Node>(1);
-        current.add(this);
+    private Node getLast() {//todo if tafa is well-formed, should be able to take just one node at each layer
+        Set<Node> current = Set(this);
         while (true) {
-            final Set<Node> next =
-                    new HashSet<Node>(current.size());
-            for (Node node : current) {
-                for (Color color : Color.values()) {
-                    final Node child = node.getChild(color);
-                    if (child != null) {
-                        next.add(child);
-                    }
-                }
-            }
+            final Set<Node> next = Utils.getChildren(current);
             if (next.isEmpty()) {
                 return current.toArray(new Node[1])[0];
             }
@@ -339,46 +327,24 @@ public final class Tafa extends INode implements commons.Set<Tafa> {// replace A
     }
 
     private Stack<List<Node>> makeLayerStack() {
-        final Stack<List<Node>> layers = new Stack<List<Node>>();
-        List<Node> current = new ArrayList<Node>(1);
-        current.add(this);
+        final Stack<List<Node>> layers = new Stack<>();
+        List<Node> current = List(this);
         while (!current.isEmpty()) {
             layers.push(current);
-            final Map<Node, Node> next =
-                    new IdentityHashMap<Node, Node>(current.size());
-            for (Node node : current) {
-                for (Color color : Color.values()) {
-                    final Node child = node.getChild(color);
-                    if (child != null) {
-                        next.put(child, child);
-                    }
-                }
-            }
-            current = new ArrayList<Node>(next.keySet());
+            final Map<Node, Node> next = new IdentityHashMap<>(current.size());
+            Utils.getChildrenStream(current).forEach(node -> next.put(node, node));
+            current = List(next.keySet());
         }
         return layers;
     }
 
-    private static Map<Node, Node> makeMap(List<Node> list) {
-        final Map<Node, Node> ans = new HashMap<Node, Node>(list.size());
-        for (Node node : list) {
-            if (node == null) {
-                throw new RuntimeException("eeeeeeeeeeeeeeeeeeeeeeeee");
-            }
-            ans.put(node, node);
-        }
-        for (Node node : list) {
-            if (node != null && ans.get(node) == null) {
-                throw new RuntimeException("iiiiiiiiiiiiiiiiiiiiiiiiiiii");
-            }
-        }
-        return ans;
-    }
-
+    /**
+     * Keep ALL nodes in a weak hashmap! This way, minimization happens automatically.
+     */
     void minimize() {
         System.out.print("<");
         final Stack<List<Node>> layers = makeLayerStack();
-        Map<Node, Node> after = makeMap(layers.pop());
+        Map<Node, Node> after = Utils.makeMap(layers.pop());
         boolean flag = false;
         while (!layers.isEmpty()) {
             //System.out.println("new layer");
@@ -412,7 +378,7 @@ public final class Tafa extends INode implements commons.Set<Tafa> {// replace A
             } else {
                 flag = true;
             }
-            after = makeMap(layer);
+            after = Utils.makeMap(layer);
         }
         System.out.print(">");
     }
@@ -479,47 +445,6 @@ public final class Tafa extends INode implements commons.Set<Tafa> {// replace A
         System.out.println("}");
     }
 
-    static <A> Stack<A> copy(Stack<A> stack) {
-        final Stack<A> ans = new Stack<A>();
-        for (A a : stack) {
-            ans.push(a);
-        }
-        return ans;
-    }
-
-    static Set<ColorList> copy(Set<ColorList> set) {
-        final Set<ColorList> ans = new HashSet<ColorList>(set.size());
-        for (ColorList stack : set) {
-            ans.add(new ColorList(stack));
-        }
-        return ans;
-    }
-
-    static Set<List<Color>> trans(Set<ColorList> set) {
-        final Set<List<Color>> ans = new HashSet<List<Color>>(set.size());
-        for (ColorList stack : set) {
-            ans.add(stack.toList());
-        }
-        return ans;
-    }
-
-    static Stack<Color> trans(List<Color> list) {
-        final Stack<Color> ans = new Stack<Color>();
-        final int size = list.size();
-        for (int i = 1; i <= size; i++) {
-            ans.push(list.get(size - i));
-        }
-        return ans;
-    }
-
-    static Set<Stack<Color>> transe(Set<List<Color>> set) {
-        final Set<Stack<Color>> ans = new HashSet<Stack<Color>>(set.size());
-        for (List<Color> list : set) {
-            ans.add(trans(list));
-        }
-        return ans;
-    }
-
     Set<ColorList> getPatterns() {
         return getPatterns(this, new HashSet<Node>(), this.length);
     }
@@ -530,20 +455,17 @@ public final class Tafa extends INode implements commons.Set<Tafa> {// replace A
      * @param height
      * @return a set of all maximal patterns represented by the dag rooted at current, except those
      * represented by the dags rooted in the elders
-     */
+     *///todo refactor
     private static Set<ColorList> getPatterns(Node current, Set<Node> elders, int height) {
 
         // if current is an elder, return an empty set
         if (elders.contains(current)) {
-            return new HashSet<>(0);
+            return Set();
         }
 
         // if we are at the end of the dag, return the pattern of length zero
         if (height == 0) {
-            HashSet<ColorList> ans = new HashSet<>(); {
-                ans.add(new ColorList());
-            }
-            return ans;
+            return Set(new ColorList());
         }
 
         final Map<Color, Set<ColorList>> childPatterns = new EnumMap<>(Color.class);
@@ -551,22 +473,22 @@ public final class Tafa extends INode implements commons.Set<Tafa> {// replace A
         final Node blackChild = current.getChild(Color.Black);
         final Set<ColorList> blackPatterns;
         if (blackChild != null) {
-            final Set<Node> blackElders = getChildren(elders, Color.Black);
+            final Set<Node> blackElders = Utils.getChildren(elders, Color.Black);
             blackPatterns = getPatterns(blackChild, blackElders, height - 1);
         } else {
-            blackPatterns = new HashSet<>(0);
+            blackPatterns = Set();
         }
 
         final Node noneChild = current.getChild(Color.None);
         final Set<ColorList> nonePatterns;
         if (noneChild != null) {
-            final Set<Node> noneElders = getChildren(elders, Color.None);
+            final Set<Node> noneElders = Utils.getChildren(elders, Color.None);
             if (blackChild != null) {
                 noneElders.add(blackChild);
             }
             nonePatterns = getPatterns(noneChild, noneElders, height - 1);
         } else {
-            nonePatterns = new HashSet<>(0);
+            nonePatterns = Set();
         }
 
         nonePatterns.removeAll(blackPatterns);
@@ -574,13 +496,13 @@ public final class Tafa extends INode implements commons.Set<Tafa> {// replace A
         final Node whiteChild = current.getChild(Color.White);
         final Set<ColorList> whitePatterns;
         if (whiteChild != null) {
-            final Set<Node> whiteElders = getChildren(elders, Color.White);
+            final Set<Node> whiteElders = Utils.getChildren(elders, Color.White);
             if (noneChild != null) {
                 whiteElders.add(noneChild);
             }
             whitePatterns = getPatterns(whiteChild, whiteElders, height - 1);
         } else {
-            whitePatterns = new HashSet<ColorList>(0);
+            whitePatterns = Set();
         }
 
         whitePatterns.removeAll(nonePatterns);
@@ -604,20 +526,6 @@ public final class Tafa extends INode implements commons.Set<Tafa> {// replace A
         return patterns;
     }
 
-    private static Set<Node> getChildren(Collection<Node> nodes, Color color) {
-        return nodes.stream()
-                .map(node -> node.getChild(color))
-                .filter(child -> child != null)
-                .collect(Collectors.toSet());
-    }
-
-    private static Set<Node> getChildren(Collection<Node> nodes) {
-        return nodes.stream()
-                .flatMap(node -> node.getChildren().stream())
-                .filter(child -> child != null)
-                .collect(Collectors.toSet());
-    }
-
     // memory hungry
     Set<Stack<Color>> getPatternsOld() {
         final Stack<List<Node>> layers = makeLayerStack();
@@ -635,21 +543,21 @@ public final class Tafa extends INode implements commons.Set<Tafa> {// replace A
                 Node child = node.getChild(Color.White);
                 Set<ColorList> whites;
                 if (child != null) {
-                    whites = copy(listMap.get(child));
+                    whites = Utils.copy(listMap.get(child));
                 } else {
                     whites = new HashSet<ColorList>(0);
                 }
                 child = node.getChild(Color.None);
                 Set<ColorList> nones;
                 if (child != null) {
-                    nones = copy(listMap.get(child));
+                    nones = Utils.copy(listMap.get(child));
                 } else {
                     nones = new HashSet<ColorList>(0);
                 }
                 child = node.getChild(Color.Black);
                 Set<ColorList> blacks;
                 if (child != null) {
-                    blacks = copy(listMap.get(child));
+                    blacks = Utils.copy(listMap.get(child));
                 } else {
                     blacks = new HashSet<ColorList>(0);
                 }
@@ -677,31 +585,16 @@ public final class Tafa extends INode implements commons.Set<Tafa> {// replace A
             }
             listMap = next;
         }
-        final Set<Stack<Color>> ans = transe(trans(listMap.get(this)));
+        final Set<Stack<Color>> ans = Utils.transe(Utils.trans(listMap.get(this)));
         System.out.println("There are " + ans.size() + " patterns:");
         return ans;
     }
 
     void printPatterns() {
-        final Set<Stack<Color>> patterns = transe(trans(getPatterns()));
+        final Set<Stack<Color>> patterns = Utils.transe(Utils.trans(getPatterns()));
         System.out.println("There are " + patterns.size() + " patterns:");
         for (Stack<Color> stack : patterns) {
             System.out.println(ASCIIBoardViewer.viewBoardEnd(size, stack));
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

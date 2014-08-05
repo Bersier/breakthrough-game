@@ -499,11 +499,6 @@ public final class Tafactory {
 		//list.get(3).print();
 		System.out.println("done");
 	}
-
-    private static void foo() {
-        commons.Set<Tafa> x = new Tafa(0,0);
-        commons.Set<Tafa> u = x.union(x);
-    }
 }
 
 

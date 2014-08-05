@@ -1,7 +1,10 @@
 package commons;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Utils {
@@ -31,9 +34,19 @@ public class Utils {
         return 2*p - 1;
     }
 
+    @SafeVarargs
     public static <T> Set<T> Set(T... elements) {
         final Set<T> set = new HashSet<>(elements.length);
         set.addAll(Arrays.asList(elements));
         return set;
+    }
+
+    @SafeVarargs
+    public static <T> List<T> List(T... elements) {
+        return Arrays.asList(elements);
+    }
+
+    public static <T> List<T> List(Collection<T> elements) {
+        return new ArrayList<>(elements);
     }
 }
