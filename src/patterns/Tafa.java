@@ -468,27 +468,14 @@ public final class Tafa extends INode implements commons.Set<Tafa> {// replace A
             return Set(new ColorList());
         }
 
-        final Map<Color, Set<ColorList>> childPatterns = new EnumMap<>(Color.class);
+        final Set<ColorList> patterns = new HashSet<>();
+        Node elder = null;
 
-        final Node blackChild = current.getChild(Color.Black);
-        final Set<ColorList> blackPatterns = getPatterns(elders, height, null, Color.Black, blackChild);
-
-        final Node noneChild = current.getChild(Color.None);
-        final Set<ColorList> nonePatterns = getPatterns(elders, height, blackChild, Color.None, noneChild);
-
-        nonePatterns.removeAll(blackPatterns);
-
-        final Node whiteChild = current.getChild(Color.White);
-        final Set<ColorList> whitePatterns = getPatterns(elders, height, noneChild, Color.White, whiteChild);
-
-        whitePatterns.removeAll(nonePatterns);
-        whitePatterns.removeAll(blackPatterns);
-
-        final Set<ColorList> patterns = new HashSet<ColorList>();
-
-        addPatterns(Color.Black, blackPatterns, patterns);
-        addPatterns(Color.None, nonePatterns, patterns);
-        addPatterns(Color.White, whitePatterns, patterns);
+        for (Color color : Color.values()) {// note: this is color-order-sensitive
+            final Node child = current.getChild(color);
+            addPatterns(color, getPatterns(elders, height, elder, color, child), patterns);
+            elder = child;
+        }
 
         return patterns;
     }
@@ -505,8 +492,8 @@ public final class Tafa extends INode implements commons.Set<Tafa> {// replace A
         return getPatterns(child, newElders, height - 1);
     }
 
-    private static void addPatterns(Color black, Set<ColorList> blackPatterns, Set<ColorList> patterns) {
-        for (ColorList list : blackPatterns) {
+    private static void addPatterns(Color black, Set<ColorList> toAdd, Set<ColorList> patterns) {
+        for (ColorList list : toAdd) {
             list.push(black);
             patterns.add(list);
         }

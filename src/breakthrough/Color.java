@@ -7,9 +7,9 @@ package breakthrough;
 public enum Color {
 
     /**
-     * By default, color of the player who is about to play.
+     * By default, color of the player who just played.
      */
-	White(0),
+    Black(1),
 
     /**
      * Color of an empty square.
@@ -17,9 +17,9 @@ public enum Color {
     None(-1),
 
     /**
-    * By default, color of the player who just played.
-    */
-    Black(1);
+     * By default, color of the player who is about to play.
+     */
+    White(0);
 
 
     @Deprecated
