@@ -16,6 +16,7 @@ import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static commons.Utils.Pair;
 import static org.junit.Assert.*;
 
 /**
@@ -95,7 +96,7 @@ public abstract class GameTest {
                 Game testee = newGame.apply(size);
                 do {
                     // add each encountered board to the list
-                    toTest.add(new Pair<>(testee, reference));
+                    toTest.add(Pair(testee, reference));
 
                     final Move move = reference.legalMoves().get(0);
 
@@ -105,7 +106,7 @@ public abstract class GameTest {
                 } while (! reference.hasWinner());
 
                 // also add the end-game boards
-                toTest.add(new Pair<>(testee, reference));
+                toTest.add(Pair(testee, reference));
             }
         }
         return toTest;

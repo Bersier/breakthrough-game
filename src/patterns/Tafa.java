@@ -9,6 +9,7 @@ import patterns.node.Node;
 import java.util.*;
 import java.util.Set;
 import java.util.Stack;
+import java.util.stream.Stream;
 
 import static commons.Utils.List;
 import static commons.Utils.Set;
@@ -429,7 +430,7 @@ public final class Tafa extends INode implements commons.Set<Tafa> {// replace A
                     }
                 }
             }
-            current = new ArrayList<Node>(next.keySet());
+            current = new ArrayList<>(next.keySet());
         }
     }
 
@@ -446,16 +447,14 @@ public final class Tafa extends INode implements commons.Set<Tafa> {// replace A
     }
 
     Set<ColorList> getPatterns() {
-        return getPatterns(this, new HashSet<Node>(), this.length);
+        return getPatterns(this, Set(), this.length);
     }
 
     /**
-     * @param current
-     * @param elders
-     * @param height
+     * @param height the remaining number of layers after the current one
      * @return a set of all maximal patterns represented by the dag rooted at current, except those
-     * represented by the dags rooted in the elders
-     *///todo refactor
+     * represented by the dags rooted in the elders (as they are supposed to be reached by a path that dominates the one we followed)
+     */
     private static Set<ColorList> getPatterns(Node current, Set<Node> elders, int height) {
 
         // if current is an elder, return an empty set
@@ -468,35 +467,28 @@ public final class Tafa extends INode implements commons.Set<Tafa> {// replace A
             return Set(new ColorList());
         }
 
-        final Set<ColorList> patterns = new HashSet<>();
+        final Set<ColorList> patterns = Set();
         Node elder = null;
 
         for (Color color : Color.values()) {// note: this is color-order-sensitive
             final Node child = current.getChild(color);
-            addPatterns(color, getPatterns(elders, height, elder, color, child), patterns);
+
+            if (child != null) {
+                final Set<Node> newElders = Utils.getChildren(elders, color);
+                if (elder != null) {
+                    newElders.add(elder);
+                }
+
+                for (ColorList list : getPatterns(child, newElders, height - 1)) {
+                    list.push(color);
+                    patterns.add(list);
+                }
+            }
+
             elder = child;
         }
 
         return patterns;
-    }
-
-    private static Set<ColorList> getPatterns(Set<Node> elders, int height, Node elder, Color color, Node child) {
-        if (child == null) {
-            return Set();
-        }
-
-        final Set<Node> newElders = Utils.getChildren(elders, color);
-        if (elder != null) {
-            newElders.add(elder);
-        }
-        return getPatterns(child, newElders, height - 1);
-    }
-
-    private static void addPatterns(Color color, Set<ColorList> toAdd, Set<ColorList> patterns) {
-        for (ColorList list : toAdd) {
-            list.push(color);
-            patterns.add(list);
-        }
     }
 
     // memory hungry
@@ -542,9 +534,9 @@ public final class Tafa extends INode implements commons.Set<Tafa> {// replace A
                     throw new RuntimeException("unexpected shrinking");
                 }
                 nones.removeAll(blacks);
-                addPatterns(Color.White, whites, nodeSet);
-                addPatterns(Color.None, nones, nodeSet);
-                addPatterns(Color.Black, blacks, nodeSet);
+                addPatterns(nodeSet, Color.White, whites);
+                addPatterns(nodeSet, Color.None, nones);
+                addPatterns(nodeSet, Color.Black, blacks);
                 next.put(node, nodeSet);
             }
             listMap = next;
@@ -552,6 +544,13 @@ public final class Tafa extends INode implements commons.Set<Tafa> {// replace A
         final Set<Stack<Color>> ans = Utils.transe(Utils.trans(listMap.get(this)));
         System.out.println("There are " + ans.size() + " patterns:");
         return ans;
+    }
+
+    private static void addPatterns(Set<ColorList> patterns, Color color, Set<ColorList> toAdd) {
+        for (ColorList list : toAdd) {
+            list.push(color);
+            patterns.add(list);
+        }
     }
 
     void printPatterns() {

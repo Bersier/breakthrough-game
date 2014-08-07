@@ -13,6 +13,8 @@ import commons.Pair;
 import patterns.node.LittleNode;
 import patterns.node.Node;
 
+import static commons.Utils.Pair;
+
 /*
  * The algorithm:
  *   construct base graph:
@@ -41,36 +43,47 @@ import patterns.node.Node;
  * Contains functions to compose Tafas.
  */
 public final class Tafactory {
-	
+
+    /**
+     * @return a new tafa that represents the union of the sets represented by the two given tafas
+     */
 	public static Tafa union(Tafa node1, Tafa node2) {
+
+        // base cases //todo node that here we don't make a copy
 		if(node1 == null) {
 			return node2;
 		} else if(node2 == null) {
 			return node1;
 		}
+
 		//System.out.println("node1");
 		//node1.print();
+
 		final Tafa ans = new Tafa(node1.getSize(), node1.getLength());
-		Map<Pair<Node, Node>, Node> layer =
-			new HashMap<Pair<Node, Node>, Node>(1);
-		layer.put(new Pair<Node, Node>(node1, node2), ans);
-		while(!layer.isEmpty()) {
-			final Map<Pair<Node, Node>, Node> next =
-				new HashMap<Pair<Node, Node>, Node>(layer.size());
+
+		Map<Pair<Node, Node>, Node> layer = new HashMap<>(1); {
+            layer.put(new Pair<>(node1, node2), ans);
+        }
+		while(!layer.isEmpty()) {//todo looks like merge()!
+			final Map<Pair<Node, Node>, Node> next = new HashMap<>(layer.size());
+
 			for(Map.Entry<Pair<Node, Node>, Node> entry : layer.entrySet()) {
 				final Node one = entry.getKey().first;
 				final Node two = entry.getKey().second;
 				final Node niu = entry.getValue();
+
 				for(Color color : Color.values()) {
 					final Node childOne = one.getChild(color);
 					final Node childTwo = two.getChild(color);
+
 					if(childOne == null) {
 						niu.setChild(color, childTwo);
+
 					} else if(childTwo == null) {
 						niu.setChild(color, childOne);
+
 					} else {
-						final Pair<Node, Node> pair =
-							new Pair<Node, Node>(childOne, childTwo);
+						final Pair<Node, Node> pair = Pair(childOne, childTwo);
 						Node niuChild = next.get(pair);
 						if(niuChild == null) {
 							niuChild = new LittleNode();
@@ -87,20 +100,22 @@ public final class Tafactory {
 	}
 	
 	static Tafa intersection(Tafa node1, Tafa node2) {
+
+
 		if(node1 == null) {
 			return node2;
 		} else if(node2 == null) {
 			return node1;
 		}
+
 		//System.out.println("node1");
 		//node1.print();
+
 		final Tafa ans = new Tafa(node1.getSize(), node1.getLength());
-		Map<Pair<Node, Node>, Node> layer =
-			new HashMap<Pair<Node, Node>, Node>(1);
-		layer.put(new Pair<Node, Node>(node1, node2), ans);
+		Map<Pair<Node, Node>, Node> layer = new HashMap<>(1);
+		layer.put(Pair(node1, node2), ans);
 		while(!layer.isEmpty()) {
-			final Map<Pair<Node, Node>, Node> next =
-				new HashMap<Pair<Node, Node>, Node>(layer.size());
+			final Map<Pair<Node, Node>, Node> next = new HashMap<>(layer.size());
 			for(Map.Entry<Pair<Node, Node>, Node> entry : layer.entrySet()) {
 				final Node one = entry.getKey().first;
 				final Node two = entry.getKey().second;
@@ -111,8 +126,7 @@ public final class Tafactory {
 					if(childOne == null || childTwo == null) {
 						niu.setChild(color, null);
 					} else {
-						final Pair<Node, Node> pair =
-							new Pair<Node, Node>(childOne, childTwo);
+						final Pair<Node, Node> pair = Pair(childOne, childTwo);
 						Node niuChild = next.get(pair);
 						if(niuChild == null) {
 							niuChild = new LittleNode();
@@ -389,6 +403,11 @@ public final class Tafactory {
 	// though a similar thing could be done..(?)
 	// Using it is correct only if the pattern is not longer than
 	// half (plus possibly one) the width of the board
+    /*
+     * I think this is because of what happens in the following case:
+     * Imagine I see through tafa magic that I can win in 9 moves, but that the opponent can win in 10.
+     * Then it could be that I can only win in 9 moves if I do a specific move which, at the same time, allows the opponent to win in 8 moves!
+     */
 	//static int tt = 0;/////////////////////////
 	//static boolean flag;///////////////////////
 	private static Tafa nextBlack(Tafa tafa) {

@@ -3,9 +3,12 @@ package commons;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 
 public class Utils {
 
@@ -34,11 +37,30 @@ public class Utils {
         return 2*p - 1;
     }
 
+    public static <A, B> Pair<A, B> Pair(A first, B second) {
+        return new Pair<>(first, second);
+    }
+
+    @SafeVarargs
+    public static <K, V> Map<K, V> Map(Pair<? extends K, ? extends V>... pairs) {
+        return Map(Arrays.asList(pairs));
+    }
+
+    public static <K, V> Map<K, V> Map(Collection<Pair<? extends K, ? extends V>> pairs) {
+        final Map<K, V> map = new HashMap<>(pairs.size());
+        for (Pair<? extends K, ? extends V> pair : pairs) {
+            map.put(pair.first, pair.second);
+        }
+        return map;
+    }
+
     @SafeVarargs
     public static <T> Set<T> Set(T... elements) {
-        final Set<T> set = new HashSet<>(elements.length);
-        set.addAll(Arrays.asList(elements));
-        return set;
+        return Set(Arrays.asList(elements));
+    }
+
+    public static <T> Set<T> Set(Collection<T> elements) {
+        return new HashSet<>(elements);
     }
 
     @SafeVarargs

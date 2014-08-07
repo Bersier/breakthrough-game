@@ -13,7 +13,10 @@ public final class Pair<A, B> {
 	public int hashCode() {
 		return first.hashCode() ^ Utils.rotl(second.hashCode(), 1);
 	}
-	
+
+    /**
+     * Assumes its given argument is a pair.
+     */
 	public boolean equals(Object o) {
 		final Pair<A, B> other = (Pair<A, B>)o;
 		return first.equals(other.first) && second.equals(other.second);

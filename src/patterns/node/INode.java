@@ -8,21 +8,21 @@ import java.util.Map;
 import java.util.Random;
 
 public class INode implements Node {
-	
-	final static int code = (new Random()).nextInt();
-	public final static int cdsCode = (new INode()).hashCode();
-	
-	private boolean visited = false;
-	private final Map<Color, Node> children =
-		new EnumMap<Color, Node>(Color.class);
-	
-	public final int hashCode() {//make faster by removing loop
-		int ans = 0;
-		int i = 0;
-		for(Color color : Color.values()) {
-			final Node child = getChild(color); 
-			if(child == null) {
-				ans ^= Utils.rotl(code, i);
+
+    final static        int code    = (new Random()).nextInt();
+    public final static int cdsCode = (new INode()).hashCode();
+
+    private       boolean          visited  = false;
+    private final Map<Color, Node> children = new EnumMap<>(Color.class);
+
+
+    public final int hashCode() {
+        int ans = 0;
+        int i = 0;
+        for (Color color : Color.values()) {
+            final Node child = getChild(color);
+            if (child == null) {
+                ans ^= Utils.rotl(code, i);
 			} else {
 				ans ^= Utils.rotl(child.oldHash(), i);
 			}
@@ -34,7 +34,12 @@ public class INode implements Node {
 	public int oldHash() {
 		return super.hashCode();
 	}
-	
+
+    /**
+     * According to this equality definition, and to the hashCode, two nodes are equal if their
+     * children are identical.
+     * This is the used definition because the current algorithms work layer-wise.
+     */
 	public boolean equals(Object o) {
 		final Node node = (Node)o;
 		for(Color color : Color.values()) {
