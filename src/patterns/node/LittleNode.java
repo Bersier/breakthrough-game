@@ -56,7 +56,7 @@ public final class LittleNode implements Node {
 	@Override
 	public final int hashCode() {
 		Node child = getChild(Color.White);
-		int ans = (child==null) ? INode.code : child.oldHash();
+		int ans = (child == null) ? INode.code : child.oldHash();
 		child = getChild(Color.Black);
 		ans ^= Utils.rotl((child == null) ? INode.code : child.oldHash(), 1);
 		child = getChild(Color.None);
