@@ -207,8 +207,8 @@ public final class Tafactory {
 		//node1.print();
 		//complement(node1).print();
 		return complement(
-				union(complement(node1),
-						complement(node2)));
+                union(complement(node1),
+                      complement(node2)));
 	}
 	
 	static Tafa blackElse(int size, int depth, int length) {

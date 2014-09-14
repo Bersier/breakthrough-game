@@ -3,12 +3,45 @@ package patterns.node;
 import breakthrough.Color;
 import commons.Utils;
 
+import java.util.Objects;
+
 public final class LittleNode implements Node {
 
 	private Node white;
 	private Node black;
 	private Node none;
-	
+
+    private static Object Lock = new Object();
+
+    private volatile static int count;
+    public LittleNode() {
+        synchronized (Lock) {
+            count++;
+            showCount();
+        }
+    }
+
+    @Override
+    public void finalize() {
+        try {
+            super.finalize();
+        } catch (Throwable e) {
+            System.exit(-1);
+        }
+        synchronized (Lock) {
+            count--;
+            showCount();
+        }
+    }
+
+    private volatile static int lastShown;
+    private static void showCount() {
+        if ((count != lastShown) && (count % 100000 == 0)) {
+            System.out.println("\b\t\t\tLittleNode count: " + count);
+            lastShown = count;
+        }
+    }
+
 	@Override
 	public void become(Node node) {
 		throw new UnsupportedOperationException();

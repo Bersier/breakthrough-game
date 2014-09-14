@@ -15,6 +15,25 @@ public class INode implements Node {
     private       boolean          visited  = false;
     private final Map<Color, Node> children = new EnumMap<>(Color.class);
 
+    private static int count = 0;
+    public INode() {
+        count++;
+        showCount();
+    }
+
+    @Override
+    public void finalize() {
+        count--;
+        showCount();
+    }
+
+    private static int lastShown = 0;
+    private void showCount() {
+        if (count != lastShown && count % 1000 == 0) {
+            System.out.println("INode count: " + count);
+            lastShown = count;
+        }
+    }
 
     public final int hashCode() {
         int ans = 0;
